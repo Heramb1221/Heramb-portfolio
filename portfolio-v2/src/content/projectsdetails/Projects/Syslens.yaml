@@ -1,0 +1,103 @@
+title: SysLens
+
+description: >
+  A cross-platform desktop system monitoring application that provides real-time
+  visibility into CPU, RAM, and storage utilization through live analytics,
+  interactive charts, and a custom Electron-based desktop experience.
+
+category: Desktop Application
+
+featured: false
+
+status: Completed
+
+technologies:
+  - Electron 38
+  - React 19
+  - TypeScript 5.8
+  - Recharts 3
+  - Vite 6
+  - electron-builder 26
+  - os-utils
+  - Node.js OS Module
+  - Node.js FS Module
+  - Vitest
+  - Playwright
+
+github: https://github.com/Heramb1221/Syslens
+
+liveDemo:
+
+video:
+
+screenshots:
+  - Application Dashboard: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781115223/927745d0-eb7c-4174-b092-5a5c0fdc29b8.png
+  - RAM Monitoring View: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781115247/eefdd650-5253-491d-9942-a589fab1ba69.png
+  - System Tray Integration: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781115268/608f9723-bf9c-4a20-a1f1-49f85c75afa7.png
+
+metrics:
+  pollingInterval: "500ms"
+  monitoredResources:
+    - CPU Usage
+    - RAM Usage
+    - Storage Usage
+  supportedPlatforms:
+    - Windows
+    - macOS
+    - Linux
+  architecture: "Electron Multi-Process Architecture"
+  realtimeMonitoring: true
+
+overview: >
+  SysLens is a desktop resource monitoring application built to visualize
+  real-time system telemetry including CPU usage, memory consumption, and
+  storage utilization. The application combines Electron, React, and TypeScript
+  to deliver a secure, cross-platform monitoring experience with live charts,
+  system tray integration, and custom window controls. :contentReference[oaicite:0]{index=0}
+
+problem: >
+  Developers and users often need lightweight tools to monitor system resource
+  consumption without relying on complex operating system utilities. Building
+  such a tool also presents challenges related to secure Electron architecture,
+  IPC communication, and real-time data visualization.
+
+solution: >
+  Developed a desktop monitoring application that continuously collects system
+  metrics, securely streams data across Electron process boundaries, and renders
+  live charts through a responsive React interface while maintaining strict
+  context isolation and type-safe IPC communication.
+
+architecture: >
+  Multi-process Electron architecture consisting of Main Process, Preload
+  Process, and Renderer Process. System metrics are collected in the main
+  process, transmitted through validated IPC channels, exposed via
+  contextBridge APIs, and rendered through React components using Recharts for
+  real-time visualization. :contentReference[oaicite:1]{index=1}
+
+challenges:
+  - Implementing secure IPC communication between Electron processes.
+  - Maintaining type-safe contracts across main and renderer processes.
+  - Handling development and production frame validation differences.
+  - Managing real-time telemetry updates without performance degradation.
+  - Supporting platform-specific storage detection mechanisms.
+  - Configuring Electron preload scripts with CommonJS and ESM coexistence.
+
+lessonsLearned:
+  - Electron security best practices.
+  - ContextBridge and IPC communication patterns.
+  - Multi-process desktop application architecture.
+  - Real-time data visualization using Recharts.
+  - Cross-platform desktop packaging and deployment.
+  - Type-safe Electron development with TypeScript.
+  - System resource monitoring using native Node.js APIs.
+  - Performance optimization for frequently updating interfaces.
+
+futureImprovements:
+  - Per-core CPU monitoring.
+  - Network I/O monitoring.
+  - Process-level resource tracking.
+  - Configurable polling intervals.
+  - Theme customization and light mode.
+  - Data export to CSV and JSON.
+  - Auto-launch on system startup.
+  - Historical resource analytics.

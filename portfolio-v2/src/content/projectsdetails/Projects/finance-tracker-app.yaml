@@ -1,0 +1,108 @@
+title: Finance Tracker App
+
+description: >
+  A cross-platform personal finance management application that allows users to
+  track income and expenses, monitor balance summaries, manage transaction
+  history, and securely access financial data through a mobile-first
+  architecture built on React Native and serverless infrastructure.
+
+category: Mobile Application
+
+featured: false
+
+status: Completed
+
+technologies:
+  - React Native 0.81
+  - Expo 54
+  - Expo Router 6
+  - Node.js
+  - Express 4.21
+  - PostgreSQL (Neon Serverless)
+  - Upstash Redis
+  - Clerk Authentication
+  - Expo Secure Store
+  - JavaScript
+  - Render
+  - Cron
+
+github: https://github.com/Heramb1221/finance-tracker-app
+
+liveDemo:
+
+video:
+
+screenshots:
+  - Sign In Screen: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781109487/047a4c3a-97ff-489b-965c-f8f7363bb102.png
+  - Sign Up & OTP Verification: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781109519/0f280a4f-920c-46b0-a849-9bde01d92ead.png
+  - Home Dashboard: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781109555/edda5205-5651-4e78-b8b1-95c6f742e0e0.png
+  - Create Transaction Screen: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781109597/ca18257a-5284-4808-9cf3-54c335115899.png
+
+metrics:
+  supportedPlatforms:
+    - Android
+    - iOS
+    - Web
+  transactionCategories: 7
+  rateLimit: "100 Requests / 60 Seconds"
+  database: "PostgreSQL"
+  authentication: "Clerk OTP + JWT"
+  architecture: "Serverless Mobile Architecture"
+
+overview: >
+  Personal Finance Tracker is a mobile-first finance management application that
+  enables users to record income and expenses, track balances, manage
+  transaction history, and maintain secure financial records. The project
+  explores mobile development, REST API design, authentication, database
+  architecture, and rate limiting within a modern serverless ecosystem. :contentReference[oaicite:0]{index=0}
+
+problem: >
+  Individuals often struggle to monitor spending habits and maintain organized
+  financial records. Building a personal finance solution also requires solving
+  challenges related to authentication, data persistence, mobile navigation,
+  serverless infrastructure, and secure transaction management.
+
+solution: >
+  Developed a cross-platform finance tracker that allows users to securely
+  authenticate, create categorized transactions, view real-time balance
+  summaries, manage financial records, and access data through a scalable
+  serverless backend architecture.
+
+architecture: >
+  Mobile application built using React Native and Expo Router with Clerk-based
+  authentication. The backend is powered by Express and hosted on Render, while
+  PostgreSQL is provided through Neon Serverless. Upstash Redis implements
+  sliding-window rate limiting, and secure session management is handled through
+  Clerk and Expo Secure Store. :contentReference[oaicite:1]{index=1}
+
+challenges:
+  - Understanding serverless database connectivity patterns.
+  - Implementing authentication guards using Expo Router.
+  - Managing React hook dependencies and referential stability.
+  - Integrating Clerk authentication in a native mobile environment.
+  - Implementing sliding-window rate limiting.
+  - Designing REST APIs for mobile-first workflows.
+  - Handling serverless deployment constraints and cold starts.
+
+lessonsLearned:
+  - Serverless-first application architecture.
+  - Mobile authentication and secure token storage.
+  - REST API design and middleware architecture.
+  - PostgreSQL schema design and database interactions.
+  - Expo Router file-based navigation patterns.
+  - Rate limiting algorithms and abuse prevention.
+  - React Native performance optimization techniques.
+  - Security considerations in mobile applications.
+
+futureImprovements:
+  - Backend JWT verification and authorization middleware.
+  - Spending analytics and visual charts.
+  - Monthly budget tracking.
+  - Transaction search and filtering.
+  - CSV export functionality.
+  - Recurring transaction automation.
+  - Push notifications.
+  - Offline-first synchronization.
+  - Multi-currency support.
+  - Dark mode implementation.
+  - Pagination and query optimization.

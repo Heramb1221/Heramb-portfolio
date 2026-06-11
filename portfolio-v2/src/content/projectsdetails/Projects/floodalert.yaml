@@ -1,0 +1,107 @@
+title: FloodAlert India
+
+description: >
+  A multi-role flood monitoring and emergency response platform designed to
+  facilitate disaster communication between citizens, local authorities, and
+  administrators through flood alerts, incident reporting, and emergency
+  coordination workflows.
+
+category: Full-Stack Web Application
+
+featured: false
+
+status: Completed
+
+technologies:
+  - Java 8
+  - Java Servlets
+  - JSP
+  - MySQL
+  - JDBC
+  - Apache Tomcat 7
+  - HTML5
+  - CSS3
+  - JavaScript
+  - Font Awesome
+  - Google Fonts
+
+github: https://github.com/Heramb1221/floodalert-india
+
+liveDemo:
+
+video:
+
+screenshots:
+  - Landing Page: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781114331/cf409649-a6aa-451e-9c07-53b610c52637.png
+  - Login Page: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781114365/803a544e-2347-4dc5-a7aa-ab6db1feba6a.png
+  - Citizen Dashboard: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781114392/9ce13b86-6e4a-48b4-b1ba-62ab18c147a5.png
+  - Authority Dashboard: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781114422/ccb79581-745e-425d-9b0a-2ef5a4cdccd7.png
+  - Admin Dashboard: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781114453/4290afae-6077-4c00-bb08-d12cc3d6d8d4.png
+
+metrics:
+  userRoles:
+    - Citizen
+    - Authority
+    - Admin
+  architecture: "Servlet-Based MVC Architecture"
+  database: "MySQL"
+  deployment: "Apache Tomcat"
+  authentication: "Role-Based Login"
+  reportingSystem: "Flood Incident Reporting"
+
+overview: >
+  FloodAlert India is a disaster management platform that enables citizens to
+  report flood incidents, authorities to issue alerts and manage emergency
+  situations, and administrators to oversee system operations. The application
+  models the key workflows required for flood monitoring, communication, and
+  emergency response coordination.
+
+problem: >
+  Flood disasters often expose communication gaps between citizens, local
+  authorities, and emergency management teams. A centralized platform is needed
+  to facilitate alert dissemination, incident reporting, and coordinated
+  response efforts.
+
+solution: >
+  Built a role-based web application that allows citizens to submit flood
+  reports, authorities to issue alerts and manage emergencies, and
+  administrators to manage users and monitor platform activity through
+  dedicated dashboards.
+
+architecture: >
+  Java EE architecture built using Java Servlets for request handling, JSP for
+  server-side rendering, JDBC for database communication, and MySQL for data
+  storage. Apache Tomcat acts as the servlet container, while individual
+  servlets handle authentication, reporting, alert creation, and emergency
+  management workflows.
+
+challenges:
+  - Implementing multi-role routing and access control.
+  - Understanding the Java Servlet lifecycle.
+  - Managing JDBC database connections safely.
+  - Designing relational schemas for disaster management workflows.
+  - Coordinating flood reporting and alert management processes.
+  - Handling request-response workflows without modern frameworks.
+  - Identifying security flaws during architecture review.
+
+lessonsLearned:
+  - Java Servlet lifecycle mechanics.
+  - JDBC connection management patterns.
+  - Role-based application architecture.
+  - Authentication versus session management concepts.
+  - JSP rendering and server-side architecture tradeoffs.
+  - Relational database schema design.
+  - Security auditing and vulnerability identification.
+  - Multi-threaded server behavior in Java web applications.
+
+futureImprovements:
+  - Proper session-based authentication.
+  - Connection pooling implementation.
+  - Weather API integration.
+  - Secure password storage and hashing.
+  - REST API layer development.
+  - Spring Boot migration.
+  - Role-based authorization middleware.
+  - Real-time alert notifications.
+  - Audit logging system.
+  - Improved security hardening and vulnerability mitigation.

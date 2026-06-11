@@ -1,0 +1,101 @@
+title: YT Title Doctor
+
+description: >
+  An event-driven AI pipeline that analyzes YouTube channels, generates
+  AI-optimized video title suggestions using Gemini, and delivers personalized
+  recommendations via email through a multi-stage asynchronous workflow.
+
+category: Backend Application
+
+featured: false
+
+status: Completed
+
+technologies:
+  - Node.js
+  - TypeScript
+  - Motia
+  - Gemini 2.5 Flash
+  - YouTube Data API v3
+  - Resend
+  - Event-Driven Architecture
+  - Pub/Sub Communication
+  - Workflow Orchestration
+
+github: https://github.com/Heramb1221/yt-title-doctor
+
+liveDemo:
+
+video:
+
+screenshots:
+
+metrics:
+  pipelineStages: 5
+  architecture: "Event-Driven Pipeline"
+  processingMode: "Asynchronous"
+  responsePattern: "202 Accepted"
+  externalApis:
+    - YouTube Data API
+    - Gemini AI
+    - Resend Email
+  estimatedQuota: "~50 Jobs/Day"
+
+overview: >
+  YT Title Doctor is an asynchronous backend service that analyzes a YouTube
+  channel's recent uploads and uses Gemini AI to generate improved, SEO-focused
+  video title suggestions. The project focuses on workflow orchestration,
+  pub/sub communication, event-driven architecture, and multi-API coordination
+  rather than the feature itself.
+
+problem: >
+  Optimizing YouTube video titles requires understanding content context,
+  audience engagement, and discoverability. Building such a system also
+  introduces challenges around orchestrating multiple APIs, handling failures,
+  and coordinating asynchronous processing workflows.
+
+solution: >
+  Built an event-driven processing pipeline that accepts channel submissions,
+  resolves channel information, retrieves recent videos, generates optimized
+  titles using Gemini AI, and delivers results through email while maintaining
+  isolated processing stages and centralized failure handling.
+
+architecture: >
+  Event-driven workflow architecture implemented using Motia. Requests enter
+  through a submission endpoint and flow through five independent processing
+  stages connected through pub/sub communication. Each stage performs a single
+  responsibility and emits events that trigger downstream processing, while
+  dedicated error-handling workflows manage failure propagation and user
+  notifications.
+
+challenges:
+  - Designing event-driven workflows instead of traditional request-response systems.
+  - Coordinating state across asynchronous processing stages.
+  - Handling pipeline-wide error propagation.
+  - Managing structured JSON generation from LLM outputs.
+  - Resolving YouTube channel identity edge cases.
+  - Integrating multiple third-party APIs reliably.
+  - Designing failure recovery strategies for distributed workflows.
+
+lessonsLearned:
+  - Event-driven architecture patterns.
+  - Pub/sub communication models.
+  - Workflow orchestration concepts.
+  - The 202 Accepted asynchronous API pattern.
+  - Structured AI output generation techniques.
+  - Multi-API integration strategies.
+  - Failure-mode-oriented system design.
+  - Differences between prototype and production-grade systems.
+
+futureImprovements:
+  - Persistent job state storage.
+  - Retry mechanisms for failed jobs.
+  - Request timeout handling.
+  - Authentication and authorization.
+  - API rate limiting.
+  - Job status tracking endpoint.
+  - HTML email templates.
+  - OpenTelemetry tracing.
+  - Web dashboard.
+  - Webhook callback support.
+  - Multi-key quota balancing.

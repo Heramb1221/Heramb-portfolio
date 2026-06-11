@@ -1,0 +1,108 @@
+title: Coditor
+
+description: >
+  A full-stack browser-based developer platform that combines Monaco-powered
+  code editing, multi-language code execution, community snippet sharing,
+  execution history, and subscription-based feature access within a reactive
+  real-time architecture.
+
+category: Full-Stack Web Application
+
+featured: false
+
+status: Completed
+
+technologies:
+  - Next.js 15
+  - React 18
+  - TypeScript
+  - Convex
+  - Clerk Authentication
+  - Monaco Editor
+  - Zustand
+  - Tailwind CSS
+  - Framer Motion
+  - Lucide React
+  - Piston API
+  - LemonSqueezy
+  - Svix
+
+github: https://github.com/Heramb1221/coditor
+
+liveDemo: https://coditor-onlinecodeeditor.vercel.app/
+
+video:
+
+screenshots:
+  - Code Editor: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781108794/3e61fdee-ed4e-467f-af07-057deca8c989.png
+  - Snippet Gallery: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781108829/434da988-0584-4b35-952d-c8b3a3e632b1.png
+  - Snippet Detail Page: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781108857/638736d3-7d89-4573-8efa-7a52730c65a5.png
+  - User Profile: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781108888/9c224fa1-3282-446b-8998-082ef15b730d.png
+  - Pricing Page: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781108915/c875b83c-5617-4f49-91e5-6ab2dc9633ba.png
+
+metrics:
+  supportedLanguages: "10+"
+  architecture: "Reactive Full-Stack Platform"
+  authentication: "Clerk"
+  payments: "LemonSqueezy"
+  database: "Convex"
+  realtimeFeatures: true
+  communityFeatures: true
+
+overview: >
+  Coditor is a browser-based coding platform that enables users to write,
+  execute, save, and share code snippets while participating in a developer
+  community. The platform combines code execution, snippet sharing, commenting,
+  starring, execution history tracking, and subscription-based premium features
+  into a unified developer experience. :contentReference[oaicite:0]{index=0}
+
+problem: >
+  Most online code editors either focus only on code execution or lack
+  persistence, collaboration, and community-driven functionality. Developers
+  need a platform that combines coding, sharing, learning, and engagement in a
+  single environment.
+
+solution: >
+  Built a full-stack developer platform that supports multi-language code
+  execution, community snippet publishing, comments, execution history, and
+  premium feature access while leveraging real-time updates and reactive data
+  synchronization.
+
+architecture: >
+  Next.js powers the frontend while Convex serves as both backend and database
+  layer through queries, mutations, and real-time subscriptions. Clerk manages
+  authentication, Piston handles code execution, and LemonSqueezy manages
+  subscription billing and payment workflows. :contentReference[oaicite:1]{index=1}
+
+challenges:
+  - Integrating Monaco Editor into a React application.
+  - Managing state synchronization between editor and backend.
+  - Implementing reactive real-time data updates using Convex.
+  - Handling multi-layer execution error management.
+  - Building secure webhook processing workflows.
+  - Managing subscription-based feature gating.
+  - Designing scalable community snippet interactions.
+
+lessonsLearned:
+  - Reactive database architecture using Convex.
+  - Monaco Editor integration patterns.
+  - Authentication and authorization design.
+  - Webhook verification and payment processing.
+  - State management using Zustand.
+  - Real-time subscription systems.
+  - Developer tooling architecture.
+  - Tradeoffs of third-party execution providers.
+
+futureImprovements:
+  - Snippet pagination.
+  - Execution timeout controls.
+  - API rate limiting.
+  - Error boundaries.
+  - Full-text search.
+  - Snippet forking.
+  - Server-side execution proxy.
+  - Visibility and privacy controls.
+  - Collaborative editing.
+  - CRDT/OT synchronization.
+  - GitHub Gist integration.
+  - Organization workspaces.

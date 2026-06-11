@@ -1,0 +1,102 @@
+title: CombineKit
+
+description: >
+  A freemium PDF merging SaaS platform that enables authenticated users to merge
+  multiple PDF files into a single downloadable document while enforcing
+  monthly usage quotas through MongoDB-backed metering and secure API-based
+  document processing.
+
+category: Full-Stack SaaS Application
+
+featured: false
+
+status: Completed
+
+technologies:
+  - Next.js 15
+  - React 19
+  - TypeScript
+  - MongoDB Atlas
+  - Clerk Authentication
+  - pdf-merger-js
+  - Tailwind CSS v4
+  - Next.js API Routes
+  - Vercel
+  - JWT Authentication
+
+github: https://github.com/Heramb1221/CombineKit
+
+liveDemo: https://combine-kit.vercel.app/
+
+video:
+
+screenshots:
+  - Landing Page: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781109091/9bc3c94a-beb6-4b95-9e3e-31eddada7617.png
+  - Dashboard: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781109122/202aa226-176e-4d44-9152-849c38688c9a.png
+  - Merge Success UI: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781109157/c795bdb9-0f4c-4f33-a161-c44bbdd1e358.png
+  - Pricing Page: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781109187/d9c66bb2-40e5-451b-b1df-57ceb2652a60.png
+
+metrics:
+  freeTierLimit: "5 Merges / Month"
+  architecture: "Full-Stack SaaS"
+  authentication: "Clerk"
+  database: "MongoDB Atlas"
+  deployment: "Vercel"
+  documentProcessing: "Server-Side PDF Merging"
+
+overview: >
+  CombineKit is a PDF processing platform that allows users to merge multiple
+  PDF documents into a single file while enforcing freemium usage restrictions.
+  The project explores SaaS architecture patterns including authentication,
+  quota enforcement, binary file processing, and usage metering through a
+  production-inspired full-stack design.
+
+problem: >
+  Document processing applications often require secure file handling,
+  authenticated access, usage control, and scalable backend processing.
+  Building such a platform involves challenges around binary file management,
+  quota enforcement, authentication workflows, and SaaS business logic.
+
+solution: >
+  Developed a PDF merging platform where authenticated users can upload
+  multiple PDF files, merge them server-side, download the resulting document,
+  and have their monthly usage tracked automatically through MongoDB-based
+  quota enforcement.
+
+architecture: >
+  Full-stack architecture built with Next.js App Router and API Routes. Clerk
+  handles authentication and JWT validation, MongoDB stores user usage data,
+  and pdf-merger-js performs server-side document processing. Usage quotas are
+  enforced through atomic MongoDB operations before merged PDFs are streamed
+  back to authenticated users.
+
+challenges:
+  - Handling binary file uploads and downloads.
+  - Implementing secure PDF processing workflows.
+  - Designing freemium quota enforcement.
+  - Managing MongoDB connection lifecycles.
+  - Tracking usage through atomic database operations.
+  - Handling server-side file processing in a serverless environment.
+  - Managing Blob and Object URL cleanup on the client.
+
+lessonsLearned:
+  - Next.js App Router full-stack architecture.
+  - JWT authentication workflows using Clerk.
+  - MongoDB atomic update operations.
+  - Binary HTTP response handling.
+  - Serverless connection management patterns.
+  - Freemium SaaS quota system design.
+  - Secure file upload and processing techniques.
+  - Event loop implications of CPU-intensive operations.
+
+futureImprovements:
+  - Stripe subscription integration.
+  - Monthly usage reset automation.
+  - File size validation.
+  - Zod request validation.
+  - Redis rate limiting.
+  - Temporary file cleanup automation.
+  - Worker-thread-based PDF processing.
+  - S3-based file storage architecture.
+  - UUID-based temporary filenames.
+  - Enhanced scalability and concurrency support.

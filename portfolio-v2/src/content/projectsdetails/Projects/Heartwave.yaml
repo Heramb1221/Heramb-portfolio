@@ -1,0 +1,110 @@
+title: HeartWave
+
+description: >
+  A real-time collaborative listening platform that enables multiple users to
+  watch and listen to YouTube content together through synchronized playback,
+  shared queues, live chat, and room-based collaboration.
+
+category: Full-Stack Real-Time Application
+
+featured: false
+
+status: Active Development
+
+technologies:
+  - React 19
+  - TypeScript
+  - Vite
+  - Node.js
+  - Express 5
+  - Socket.io
+  - MongoDB
+  - Mongoose
+  - Zustand
+  - Clerk Authentication
+  - Stripe
+  - YouTube Data API v3
+  - YouTube IFrame API
+  - Lucide React
+  - Tailwind CSS
+
+github: https://github.com/Heramb1221/heartwave
+
+liveDemo:
+
+video:
+
+screenshots:
+  - Landing Page: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781114801/fe38559c-b1b1-4487-a325-a040be03067a.png
+  - Room Lobby: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781114830/7ee77d5d-11b3-4167-b864-ff24a2a576ac.png
+  - Active Listening Room: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781114858/18fc34f1-36f8-4a54-9d21-8624e83173f1.png
+  - Queue Management: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781114892/6c88ab62-02e0-4eff-86d1-4917df7a5d10.png
+
+metrics:
+  roomSystem: "6-Character Invite Codes"
+  synchronizationModel: "Server-Authoritative"
+  realtimeFeatures:
+    - Synchronized Playback
+    - Live Chat
+    - Shared Queue
+    - Presence Tracking
+  billing: "Stripe Subscriptions"
+  communication: "Socket.io"
+  authentication: "Clerk"
+
+overview: >
+  HeartWave is a collaborative media platform that allows groups of users to
+  listen to and watch YouTube content together in synchronized rooms. Users can
+  create rooms, invite participants, manage shared queues, chat in real time,
+  and experience synchronized playback regardless of location. :contentReference[oaicite:0]{index=0}
+
+problem: >
+  Traditional media consumption is often isolated, making it difficult for
+  friends and communities to enjoy content together remotely. Building such a
+  platform requires solving complex synchronization challenges caused by network
+  latency and distributed client state.
+
+solution: >
+  Built a server-authoritative real-time platform that synchronizes playback
+  across multiple users using dead-reckoning, drift correction algorithms,
+  shared queues, and WebSocket-based communication to deliver a collaborative
+  listening experience.
+
+architecture: >
+  Client-server architecture powered by React, Socket.io, Express, and MongoDB.
+  Playback state is maintained on the server, synchronized through WebSocket
+  events, and corrected using drift-detection logic. Authentication is managed
+  by Clerk, while Stripe handles subscription billing and lifecycle events. :contentReference[oaicite:1]{index=1}
+
+challenges:
+  - Designing synchronized playback without constant seeking.
+  - Managing server-authoritative room state.
+  - Implementing drift correction algorithms.
+  - Handling Socket.io reconnection and user recovery.
+  - Integrating Stripe webhook verification.
+  - Managing YouTube IFrame lifecycle events.
+  - Coordinating authentication between Clerk and Express.
+
+lessonsLearned:
+  - Distributed state synchronization.
+  - Real-time application architecture.
+  - WebSocket communication patterns.
+  - Server-authoritative system design.
+  - Stripe billing workflows.
+  - Authentication and authorization using Clerk.
+  - Webhook verification and raw-body handling.
+  - Scalability tradeoffs in real-time systems.
+
+futureImprovements:
+  - Backend YouTube search proxy.
+  - Redis-based room state management.
+  - Zod schema validation.
+  - API rate limiting.
+  - Enhanced host security controls.
+  - Real WebRTC voice communication.
+  - Host migration support.
+  - Docker deployment.
+  - CI/CD pipelines.
+  - Mobile PWA support.
+  - Spotify playlist integration.
+  - Analytics dashboard.

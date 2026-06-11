@@ -1,0 +1,102 @@
+title: Markowl
+
+description: >
+  A local-first cross-platform Markdown note-taking desktop application built
+  with Electron, React, and TypeScript, featuring a rich MDX editor, typed IPC
+  communication, atomic state management, and automatic note persistence.
+
+category: Desktop Application
+
+featured: true
+
+status: Active Development
+
+technologies:
+  - Electron 39
+  - React 19
+  - TypeScript 5
+  - Jotai
+  - MDXEditor
+  - Tailwind CSS
+  - electron-vite
+  - electron-builder
+  - fs-extra
+  - Lodash
+  - React Icons
+  - ESLint
+  - Prettier
+
+github: https://github.com/Heramb1221/Markowl
+
+liveDemo:
+
+video:
+
+screenshots:
+  - Main Note Management Interface: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1780645149/4f90ad37-80f0-49e8-9913-332e087aa7b3.png
+  - MDX Markdown Editor: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1780645208/a014ba96-335d-402c-af51-51ffc147eab4.png
+  - Native Delete Confirmation Dialog: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1780645245/42f0185b-04df-44e0-9d37-d08e59b71fac.png
+
+metrics:
+  storageType: "Local Markdown Files"
+  supportedPlatforms:
+    - Windows
+    - macOS
+    - Linux
+  architecture: "Electron Multi-Process Architecture"
+  autoSaveInterval: "3 Seconds"
+  offlineSupport: true
+  localFirst: true
+
+overview: >
+  Markowl is a desktop note-taking application focused on local-first data
+  ownership. Notes are stored as plain Markdown files on the user's filesystem,
+  providing complete offline functionality, portability, and compatibility with
+  version control systems and external editors. :contentReference[oaicite:0]{index=0}
+
+problem: >
+  Many note-taking applications rely on proprietary storage formats, cloud
+  infrastructure, or vendor lock-in, limiting user ownership and portability of
+  personal notes and documents.
+
+solution: >
+  Built a local-first desktop application that stores notes as plain Markdown
+  files while providing a modern editing experience, automatic saving,
+  cross-platform support, and a secure Electron architecture with strict process
+  isolation.
+
+architecture: >
+  Electron-based three-layer architecture consisting of Main Process, Preload
+  Process, and Renderer Process. The renderer communicates through typed IPC
+  contracts exposed via contextBridge, while file operations are handled securely
+  in the main process using the local filesystem. State management is handled
+  through Jotai atoms and the editor is powered by MDXEditor. :contentReference[oaicite:1]{index=1}
+
+challenges:
+  - Implementing type-safe IPC communication across Electron processes.
+  - Managing asynchronous state with Jotai atoms.
+  - Designing a secure context-isolated Electron architecture.
+  - Building custom frameless window controls across operating systems.
+  - Maintaining shared TypeScript contracts between Node and browser environments.
+  - Implementing efficient auto-save behavior without excessive disk writes.
+
+lessonsLearned:
+  - Electron multi-process architecture.
+  - Context isolation and secure IPC communication.
+  - Atomic state management using Jotai.
+  - Cross-platform desktop application development.
+  - File system operations and local data persistence.
+  - Electron packaging and distribution workflows.
+  - Type-safe communication between application layers.
+  - Performance optimization for local desktop applications.
+
+futureImprovements:
+  - Note renaming support.
+  - Full-text search functionality.
+  - Folder and tag organization.
+  - Multiple themes and customization options.
+  - PDF and HTML export support.
+  - Cloud synchronization options.
+  - Command palette for productivity workflows.
+  - Image attachment support.
+  - Complete maximize window functionality.

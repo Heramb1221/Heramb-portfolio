@@ -1,0 +1,104 @@
+title: FoodSave
+
+description: >
+  A full-stack food waste reduction marketplace that connects food businesses
+  with customers by allowing surplus and near-expiry food items to be sold at
+  discounted prices through a role-based platform with administrative oversight.
+
+category: Full-Stack Web Application
+
+featured: false
+
+status: Completed
+
+technologies:
+  - Java 8
+  - Spring MVC 5.2
+  - Hibernate 5.4
+  - Spring ORM
+  - MySQL 8
+  - Maven
+  - Apache Tomcat 9
+  - JSP
+  - CSS
+  - Font Awesome
+
+github: https://github.com/Heramb1221/foodsave-platform
+
+liveDemo:
+
+video:
+
+screenshots:
+  - Landing Page: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781114600/093089c4-2e08-45b6-8148-e6136429aa99.png
+  - Admin Dashboard: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781114632/e9fd5886-21ce-4553-b85b-a1fa75a4c356.png
+  - Business Dashboard: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781114669/2ff8aba2-55cb-40bc-96cf-a0b08f31b820.png
+  - Inventory Management: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781114701/667ff3d4-8583-458f-8160-cae5e0e68f04.png
+  - Business Orders View: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781114730/d5c5260c-4866-498b-b47e-34ed255ac672.png
+
+metrics:
+  userRoles:
+    - Admin
+    - Business
+    - Customer
+  architecture: "Monolithic MVC Application"
+  database: "MySQL"
+  deployment: "Apache Tomcat"
+  authentication: "Session-Based"
+  orm: "Hibernate"
+
+overview: >
+  FoodSave is a multi-role marketplace platform designed to reduce food waste by
+  enabling businesses to sell surplus food at discounted prices before expiry.
+  Customers can browse listings and place pickup orders, while administrators
+  manage business approvals and platform governance.
+
+problem: >
+  Food waste remains a major issue for restaurants, bakeries, and food vendors
+  who often discard surplus inventory. At the same time, customers may seek
+  affordable food options. A system was needed to connect these groups while
+  managing inventory, approvals, and ordering workflows.
+
+solution: >
+  Built a role-based marketplace where businesses can list surplus food items,
+  customers can purchase discounted inventory, and administrators can control
+  business onboarding and platform moderation through structured approval
+  workflows.
+
+architecture: >
+  Traditional Java enterprise architecture using Spring MVC for request
+  handling, Hibernate ORM for persistence, MySQL as the relational database,
+  JSP for server-side rendering, and Apache Tomcat for deployment. The system
+  follows a layered MVC architecture with Controllers, DAO layer, Hibernate ORM,
+  and relational database storage.
+
+challenges:
+  - Designing a multi-role access control system.
+  - Managing inventory lifecycle transitions.
+  - Implementing order state management workflows.
+  - Configuring Spring MVC without Spring Boot.
+  - Integrating Hibernate with Spring ORM.
+  - Designing normalized relational database schemas.
+  - Managing session-based authentication flows.
+
+lessonsLearned:
+  - Spring MVC internals and DispatcherServlet lifecycle.
+  - Hibernate SessionFactory configuration and ORM patterns.
+  - Relational database design and normalization.
+  - DAO pattern implementation.
+  - Enterprise Java application architecture.
+  - Session-based authentication mechanisms.
+  - Domain-driven state machine modeling.
+  - Traditional Java web deployment workflows.
+
+futureImprovements:
+  - Spring Boot migration.
+  - Spring Security integration.
+  - Dedicated service layer implementation.
+  - Bean validation.
+  - Analytics dashboard.
+  - Thymeleaf migration.
+  - Docker containerization.
+  - JUnit and Mockito testing.
+  - REST API development.
+  - React or Vue frontend modernization.

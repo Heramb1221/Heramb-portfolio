@@ -1,0 +1,120 @@
+title: Reverie
+
+description: >
+  A cross-platform emotional journaling platform that combines mood tracking,
+  AI-powered reflections, memory capsules, analytics, and mindful journaling
+  across web and mobile applications backed by a unified API and database.
+
+category: Full-Stack Web & Mobile Development
+
+featured: true
+
+status: Active Development
+
+technologies:
+  - Next.js 14
+  - React 18
+  - React Native
+  - Expo SDK 56
+  - Node.js
+  - Express
+  - TypeScript
+  - MongoDB Atlas
+  - Mongoose
+  - Zod
+  - JWT Authentication
+  - Cloudinary
+  - Google Gemini 1.5 Flash
+  - Nodemailer
+  - Node Cron
+  - TanStack Query
+  - Zustand
+  - Axios
+  - Tailwind CSS
+  - TipTap
+  - Framer Motion
+  - Helmet
+  - bcryptjs
+
+github: https://github.com/Heramb1221/reverie
+
+liveDemo:
+
+video:
+
+screenshots:
+  - Onboarding: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781080912/9c4f9205-db23-4b61-bb64-0a3cce34bb0f.png
+  - Home Dashboard: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781080948/49a54d82-22cb-4de7-bf05-2ccefc55b5cb.png
+  - Journal Editor: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781080999/e2c492bc-2464-4264-a702-2d1e5ef372d7.png
+  - AI Reflection: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781081036/bfc570ac-bb54-4f8e-a25b-50a25770a991.png
+
+metrics:
+  platforms:
+    - Web
+    - Android
+    - iOS
+  architecture: "Monorepo (Backend + Web + Mobile)"
+  authentication:
+    - JWT Access Tokens
+    - Refresh Token Rotation
+  aiFeatures:
+    - Weekly AI Reflections
+  offlineSupport: true
+  moodStates: 4
+
+overview: >
+  Reverie is a private emotional archive that allows users to journal their
+  thoughts, track moods, receive AI-generated weekly reflections, analyze
+  emotional trends, and create time-locked memory capsules. The platform
+  provides a consistent experience across web and mobile devices while
+  maintaining secure authentication and offline capabilities.
+
+problem: >
+  Most journaling applications focus solely on writing entries and fail to
+  provide meaningful reflection, emotional pattern analysis, or long-term
+  engagement mechanisms. Users often lack tools that help them understand and
+  revisit their emotional journey.
+
+solution: >
+  Built a cross-platform journaling ecosystem that combines mood-based entries,
+  AI-generated reflections, analytics dashboards, mood calendars, memory
+  capsules, and offline-first mobile support to create a more meaningful and
+  reflective journaling experience.
+
+architecture: >
+  Three-tier architecture consisting of a TypeScript Express API, a Next.js web
+  application, and an Expo React Native mobile application. MongoDB Atlas serves
+  as the primary database, Cloudinary manages media storage, and Gemini powers
+  AI reflections. Authentication uses JWT access and refresh token rotation with
+  different storage strategies for web and mobile clients. :contentReference[oaicite:0]{index=0}
+
+challenges:
+  - Maintaining consistent authentication across web and mobile platforms.
+  - Implementing secure refresh token rotation and device tracking.
+  - Building reliable offline synchronization for mobile journaling.
+  - Creating graceful AI fallback mechanisms when Gemini is unavailable.
+  - Managing shared data contracts across three separate application surfaces.
+  - Handling state hydration between Zustand and React Query.
+
+lessonsLearned:
+  - Cross-platform application architecture.
+  - Secure authentication and token lifecycle management.
+  - Environment validation using Zod.
+  - Offline-first mobile development patterns.
+  - AI integration and fallback design strategies.
+  - Rate limiting and API security practices.
+  - Managing shared contracts across web, mobile, and backend systems.
+  - Building production-inspired TypeScript applications.
+
+futureImprovements:
+  - End-to-end encrypted journal entries.
+  - Semantic and vector-based journal search.
+  - Gamified streak and achievement systems.
+  - Reflection history timeline visualization.
+  - Shared memory capsules for multiple recipients.
+  - Conversational AI reflection assistant.
+  - Apple Health and Google Fit integration.
+  - Redis caching layer.
+  - Automated testing suite.
+  - CI/CD pipelines.
+  - Docker containerization.

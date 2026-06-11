@@ -1,0 +1,79 @@
+title: Mumble Chat
+
+description: >
+  A real-time chat application inspired by modern communication platforms,
+  designed to provide seamless messaging, user interaction, and community
+  communication through an intuitive and responsive interface.
+
+category: Web Development
+
+featured: true
+
+status: Completed
+
+technologies:
+  - React
+  - JavaScript
+  - CSS
+  - Real-Time Communication
+  - WebSockets (if implemented)
+  - Responsive Design
+
+github: https://github.com/Heramb1221/mumble-chat
+
+liveDemo: https://mumble-xi.vercel.app/
+
+video:
+
+screenshots:
+- Landing: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781080431/523d0ae3-37ad-4b5f-92f8-8c99b7b006fb.png
+- Chat ui: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781080671/459b1547-bef2-4c51-8862-65ce8e5a43bd.png
+- Main page with sidebar: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781080609/6ecd4976-1f7d-4bbd-b3d9-13c1e40c6f0b.png
+
+metrics:
+  communicationType: "Real-Time Messaging"
+  responsiveDesign: true
+  multiUserSupport: true
+
+overview: >
+  Mumble Chat is a communication platform built to enable real-time messaging
+  between users through a clean and user-friendly interface. The application
+  focuses on providing fast communication and an engaging user experience.
+
+problem: >
+  Traditional messaging solutions can be overly complex or include unnecessary
+  features. There was a need for a lightweight platform focused on fast,
+  reliable, and user-friendly communication.
+
+solution: >
+  Developed a chat application that allows users to communicate in real time,
+  providing an intuitive interface and responsive design for seamless
+  conversations across devices.
+
+architecture: >
+  Client-side application built using modern frontend technologies with
+  real-time communication capabilities. The architecture focuses on responsive
+  UI components, message handling, and efficient user interactions.
+
+challenges:
+  - Managing real-time message synchronization.
+  - Designing a responsive and intuitive chat interface.
+  - Handling user interactions smoothly.
+  - Maintaining low latency communication.
+
+lessonsLearned:
+  - Real-time application development concepts.
+  - State management for live data updates.
+  - User experience design for messaging platforms.
+  - Responsive frontend architecture.
+  - Event-driven application design.
+
+futureImprovements:
+  - User authentication and authorization.
+  - Group chats and channels.
+  - Voice and video communication.
+  - File and media sharing.
+  - Message reactions and replies.
+  - Read receipts and typing indicators.
+  - Push notifications.
+  - End-to-end encryption.

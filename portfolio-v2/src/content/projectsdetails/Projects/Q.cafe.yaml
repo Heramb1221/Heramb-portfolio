@@ -1,0 +1,101 @@
+title: Q.Cafe — Coffee Shop Landing Page
+
+description: >
+  A fully responsive coffee shop marketing website built using vanilla HTML,
+  CSS, and JavaScript, focused on mastering frontend fundamentals, responsive
+  layouts, animation systems, and modern browser APIs without relying on
+  frameworks or build tools.
+
+category: Frontend Web Development
+
+featured: false
+
+status: Archived Learning Project
+
+technologies:
+  - HTML5
+  - CSS3
+  - JavaScript (ES6)
+  - CSS Grid
+  - CSS Flexbox
+  - CSS Custom Properties
+  - ScrollReveal.js
+  - Swiper.js
+  - Boxicons
+  - Google Fonts
+
+github: https://github.com/Heramb1221/qcafe-frontend
+
+liveDemo: https://coffee-website-lovat-omega.vercel.app/
+
+video:
+
+screenshots:
+  - Home Page: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781114973/4bc2537c-247a-4bee-a116-4688d505cfd8.png
+  - Product Catalog: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781115004/33806b20-56be-4fbd-ab8c-098bf42aef24.png
+
+metrics:
+  applicationType: "Marketing Landing Page"
+  architecture: "Static Frontend Website"
+  breakpoints: 5
+  backend: false
+  database: false
+  authentication: false
+  responsiveDesign: true
+
+overview: >
+  Q.Cafe is a multi-section coffee shop landing page designed to explore core
+  frontend development concepts including responsive layouts, design systems,
+  browser APIs, animations, and UI composition. The project intentionally avoids
+  frameworks to strengthen understanding of HTML, CSS, and JavaScript
+  fundamentals.
+
+problem: >
+  Modern frontend development often relies heavily on frameworks, making it easy
+  to overlook the browser primitives that power responsive layouts,
+  animations, and interactive user experiences. Building a polished marketing
+  website without abstractions provides a deeper understanding of these
+  foundations.
+
+solution: >
+  Developed a responsive single-page marketing website using CSS Grid, Flexbox,
+  custom design tokens, ScrollReveal animations, and Swiper-powered carousels
+  while maintaining a lightweight architecture with no framework dependencies.
+
+architecture: >
+  Static frontend architecture built with semantic HTML, CSS custom properties,
+  CSS Grid layouts, and vanilla JavaScript interactions. ScrollReveal handles
+  viewport-based animations using IntersectionObserver, while Swiper provides
+  touch-enabled carousel functionality. The application is optimized for static
+  hosting environments such as Netlify, GitHub Pages, and Vercel.
+
+challenges:
+  - Building fluid CSS Grid layouts using auto-fit and minmax().
+  - Creating responsive designs across multiple breakpoints.
+  - Implementing clip-path based mobile navigation animations.
+  - Customizing Swiper pagination components.
+  - Managing ScrollReveal staggered animations.
+  - Maintaining visual consistency through design tokens.
+  - Achieving smooth animations without framework abstractions.
+
+lessonsLearned:
+  - CSS Grid and Flexbox layout systems.
+  - CSS custom properties as runtime design tokens.
+  - IntersectionObserver versus scroll event listeners.
+  - Compositor-thread animation optimization.
+  - Responsive design architecture.
+  - Event-driven JavaScript interactions.
+  - Third-party library integration patterns.
+  - Frontend performance optimization techniques.
+
+futureImprovements:
+  - Backend-powered booking form.
+  - CMS-driven content management.
+  - React or Next.js migration.
+  - WebP image optimization.
+  - Responsive srcset implementation.
+  - Lazy image loading.
+  - Accessibility enhancements.
+  - SRI protection for CDN assets.
+  - Font loading optimization.
+  - Advanced SEO improvements.

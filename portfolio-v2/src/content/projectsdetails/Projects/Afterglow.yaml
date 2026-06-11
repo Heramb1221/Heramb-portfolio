@@ -1,0 +1,98 @@
+title: Afterglow
+
+description: >
+  A cinematic frontend experience focused on immersive animations, premium UI
+  design, responsive architecture, and motion-driven interactions using GSAP,
+  modern CSS techniques, and vanilla JavaScript.
+
+category: Frontend Web Development
+
+featured: false
+
+status: Active Development
+
+technologies:
+  - HTML5
+  - CSS3
+  - JavaScript
+  - GSAP
+  - Google Fonts
+  - CSS Variables
+  - Vercel
+  - Netlify
+
+github: https://github.com/Heramb1221/Afterglow
+
+liveDemo: https://afterglow-beryl.vercel.app/
+
+video:
+
+screenshots:
+  - Hero Section: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781081151/03ebd219-ab60-443c-9cff-e1e9d2335727.png
+  - Theme Switching: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781081187/7f5760e4-ec85-483c-85ae-6a32d6fe3583.png
+  - Mobile Responsiveness: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781081216/d10b3ff1-3c08-4863-ab79-67f471f39aa3.png
+
+metrics:
+  applicationType: "Frontend Experience"
+  renderingModel: "Static Client-Side Website"
+  animationEngine: "GSAP"
+  themeModes:
+    - Dark
+    - Light
+  backend: false
+  database: false
+
+overview: >
+  Afterglow is a cinematic frontend project designed to explore immersive
+  interaction design, animation systems, visual storytelling, and premium user
+  interface architecture. The project focuses on delivering an engaging digital
+  experience through motion, typography, layering effects, and responsive
+  layouts.
+
+problem: >
+  Creating visually immersive web experiences requires balancing animation,
+  responsiveness, performance, and maintainability. Building rich interactions
+  without relying on frontend frameworks also presents architectural and design
+  challenges.
+
+solution: >
+  Developed a motion-driven frontend experience using GSAP, modular
+  HTML/CSS/JavaScript architecture, responsive layouts, theme switching, and
+  modern UI techniques such as glassmorphism and layered visual effects to
+  create a cinematic browsing experience.
+
+architecture: >
+  Static frontend architecture consisting of separated HTML, CSS, and
+  JavaScript layers. GSAP manages animation orchestration, CSS variables power
+  the design system and theme switching, while responsive layouts ensure
+  compatibility across devices and screen sizes.
+
+challenges:
+  - Coordinating multiple animation timelines.
+  - Maintaining smooth rendering performance.
+  - Balancing visual aesthetics with responsiveness.
+  - Implementing premium UI effects without excessive complexity.
+  - Managing blur and glassmorphism rendering costs.
+  - Designing scalable frontend architecture without frameworks.
+
+lessonsLearned:
+  - Frontend interaction engineering.
+  - Animation orchestration using GSAP.
+  - Responsive UI architecture principles.
+  - Visual hierarchy and storytelling techniques.
+  - CSS variable-based design systems.
+  - Premium user experience design patterns.
+  - Performance considerations for animation-heavy interfaces.
+  - Structuring scalable frontend projects without framework abstractions.
+
+futureImprovements:
+  - React or Next.js migration.
+  - Component-based architecture.
+  - Dynamic content management.
+  - Accessibility improvements.
+  - Mobile interaction enhancements.
+  - Page transition system.
+  - Audio-reactive experiences.
+  - Advanced theme customization.
+  - Backend integration.
+  - CMS support.

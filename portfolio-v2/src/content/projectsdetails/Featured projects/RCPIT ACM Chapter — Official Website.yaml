@@ -1,0 +1,83 @@
+title: RCPIT ACM Chapter — Official Website
+
+description: >
+  Official website for the RCPIT ACM Student Chapter, built to serve as the
+  chapter's digital presence by showcasing events, leadership, activities,
+  membership opportunities, and community initiatives through a modern,
+  responsive, and high-performance web platform.
+
+category: Web Development
+
+featured: true
+
+status: Completed
+
+technologies:
+  - Next.js 15.5
+  - React 19
+  - Tailwind CSS v4
+  - React Icons
+  - Geist Font
+  - ESLint 9
+  - Turbopack
+  - Static Export Deployment
+
+github: https://github.com/Heramb1221/rcpit-acm-chapter
+
+liveDemo: https://rcpitshirpur.acm.org/
+
+video:
+
+screenshots:
+- Landing: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781080806/f20ceb38-b3d6-4948-8279-17e1569b65fd.png
+
+metrics:
+  targetAudience: "400+ Students"
+  deploymentType: "Static Export"
+  responsiveDesign: true
+  seoOptimized: true
+  hostingCost: "Near Zero"
+
+overview: >
+  Developed the official website for the RCPIT ACM Student Chapter to act as a
+  centralized hub for chapter information, event announcements, leadership
+  details, and student engagement. The platform provides a professional online
+  presence while maintaining excellent performance and maintainability.
+
+problem: >
+  The ACM chapter lacked a dedicated online platform to effectively communicate
+  its mission, showcase events, present leadership information, and engage with
+  students in a centralized and professional manner.
+
+solution: >
+  Built a modern, responsive website using Next.js and React that consolidates
+  chapter information, event details, team profiles, contact information, and
+  membership outreach into a single accessible platform.
+
+architecture: >
+  Static-exported Next.js application using the App Router architecture. The
+  frontend is built with React 19 and Tailwind CSS v4, with no backend or
+  database dependency. The generated static assets are deployed to a web host
+  for fast and cost-effective delivery.
+
+challenges:
+  - Designing a professional and modern interface suitable for an academic organization.
+  - Structuring chapter information for easy navigation and accessibility.
+  - Ensuring responsiveness across desktop, tablet, and mobile devices.
+  - Maintaining high performance without relying on backend infrastructure.
+
+lessonsLearned:
+  - Building production-ready applications using Next.js App Router.
+  - Creating reusable React components for scalable development.
+  - Implementing responsive UI design with Tailwind CSS.
+  - Optimizing static websites for performance and maintainability.
+  - Managing real-world project requirements for an organizational client.
+
+futureImprovements:
+  - Event registration and management system.
+  - Admin dashboard for content updates.
+  - Member authentication and profiles.
+  - Blog and technical article publishing.
+  - Newsletter subscription functionality.
+  - Analytics and engagement tracking.
+  - Automated event notifications and announcements.

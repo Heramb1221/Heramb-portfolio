@@ -1,0 +1,111 @@
+title: LoomCV
+
+description: >
+  An AI-powered resume builder SaaS that enables users to create professional
+  resumes through a guided multi-step editor with real-time preview, AI-assisted
+  content generation, subscription-based plans, and cloud-based resume management.
+
+category: Full-Stack SaaS Application
+
+featured: true
+
+status: Completed
+
+technologies:
+  - Next.js 15
+  - React 19
+  - TypeScript
+  - PostgreSQL
+  - Prisma ORM
+  - Clerk Authentication
+  - Stripe
+  - Google Gemini AI
+  - Vercel Blob Storage
+  - Tailwind CSS
+  - shadcn/ui
+  - React Hook Form
+  - Zustand
+  - Framer Motion
+  - Fuse.js
+  - Zod
+
+github: https://github.com/Heramb1221/LoomCV
+
+liveDemo: https://loom-cv.vercel.app/
+
+video:
+
+screenshots:
+  - Landing Page: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1780631098/b2396b18-9319-4035-82ea-3295b574551a.png
+  - Resume Dashboard: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1780631123/98524989-5172-4572-a0c9-9ae097ec4412.png
+  - Resume Editor: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1780631184/59727558-c27e-45c4-bbdc-0ebf2a9f561f.png
+  - AI Generation Workflow: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1780631206/f48c3ce5-f9b1-4f1e-af53-22f5dc7c2d96.png
+  - Upgrade Modal: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1780631270/68a8d62e-2c82-4587-bd96-34b7a576d26a.png
+  - Billing Dashboard: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1780631302/bc5511a5-9c73-4b74-bda6-c07edce1ddda.png
+
+metrics:
+  subscriptionTiers: 3
+  aiFeatures:
+    - Resume Summary Generation
+    - ATS Bullet Point Generation
+  storage: "Cloud File Uploads"
+  architecture: "Full-Stack SaaS"
+  authentication: "Clerk"
+  billing: "Stripe"
+  deployment: "Vercel"
+
+overview: >
+  LoomCV is a production-inspired resume builder platform that combines resume
+  creation, AI-assisted content generation, subscription management, cloud file
+  storage, and real-time preview functionality into a complete SaaS experience.
+  The application explores real-world patterns such as authentication, billing,
+  permissions, persistence, and AI integration. :contentReference[oaicite:0]{index=0}
+
+problem: >
+  Many resume builders either lack intelligent content assistance or do not
+  expose developers to the architectural challenges involved in building a real
+  SaaS product. Users need a platform that simplifies resume creation while
+  improving content quality through AI assistance.
+
+solution: >
+  Built a full-stack SaaS platform that allows users to create, edit, preview,
+  and download resumes while leveraging Gemini AI for professional summaries and
+  ATS-optimized work experience generation. Subscription tiers unlock advanced
+  features and higher resume limits.
+
+architecture: >
+  Next.js App Router serves as the full application layer using React Server
+  Components, Client Components, Server Actions, and API routes. Clerk handles
+  authentication, Prisma manages PostgreSQL access, Stripe manages billing,
+  Gemini powers AI generation, and Vercel Blob provides file storage. :contentReference[oaicite:1]{index=1}
+
+challenges:
+  - Implementing reliable auto-save workflows.
+  - Managing Stripe subscription lifecycle events.
+  - Handling Prisma database connections during development.
+  - Building AI-assisted resume generation workflows.
+  - Managing file uploads within Server Actions.
+  - Designing permission systems for subscription tiers.
+  - Understanding App Router and Server Actions architecture.
+
+lessonsLearned:
+  - SaaS architecture and subscription systems.
+  - Stripe billing and webhook integrations.
+  - Authentication and authorization patterns.
+  - App Router and React Server Components.
+  - Server Actions as an API layer.
+  - Prisma ORM and database modeling.
+  - AI integration within production-style applications.
+  - End-to-end type-safe development using TypeScript and Zod.
+
+futureImprovements:
+  - ATS resume scoring and analysis.
+  - Cover letter generation.
+  - Multiple resume templates.
+  - Resume version history.
+  - Collaborative resume sharing.
+  - Redis-based rate limiting.
+  - Content Security Policy implementation.
+  - Improved AI structured output.
+  - Automated testing coverage.
+  - Upsert-based persistence optimizations.

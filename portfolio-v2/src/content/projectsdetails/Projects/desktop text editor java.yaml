@@ -1,0 +1,105 @@
+title: Desktop Text Editor Java
+
+description: >
+  A lightweight desktop text editor built with Java Swing that supports file
+  editing, font customization, color selection, and real-time document
+  statistics while exploring Swing's event-driven architecture, EDT threading
+  model, and Java Platform Module System concepts. :contentReference[oaicite:0]{index=0}
+
+category: Desktop Application
+
+featured: false
+
+status: Experimental Prototype
+
+technologies:
+  - Java 11+
+  - Java Swing
+  - Java AWT
+  - Java I/O
+  - JPMS (Java Platform Module System)
+  - JTextArea
+  - PlainDocument
+  - JFileChooser
+  - JColorChooser
+
+github: https://github.com/Heramb1221/desktop-text-editor-java
+
+liveDemo:
+
+video:
+
+screenshots:
+  - Main Editor Interface: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781109328/c5a7ffd7-8aa4-43b3-bdd2-dfe43a5f4418.png
+  - Font Customization: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781109368/9b76bd02-05a6-48ae-898f-2a875e2a8473.png
+  - File Open and Save Workflow: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781109402/02eb1b5f-d2a3-4e5f-bde1-214e4cea5a6e.png
+
+metrics:
+  supportedFiles:
+    - TXT
+  architecture: "Desktop GUI Application"
+  dependencies: "JDK Only"
+  moduleSystem: "JPMS"
+  realtimeFeatures:
+    - Word Count
+    - Line Count
+  platformSupport:
+    - Windows
+    - macOS
+    - Linux
+
+overview: >
+  Desktop Text Editor Java is a Swing-based text editing application created to
+  explore desktop GUI development, event-driven programming, Java I/O, and the
+  Event Dispatch Thread architecture. The application provides text editing,
+  font customization, color selection, and live document statistics while
+  maintaining zero external dependencies. :contentReference[oaicite:1]{index=1}
+
+problem: >
+  Many Java projects focus primarily on console applications and overlook GUI
+  development concepts such as event-driven architecture, UI thread safety,
+  document models, and desktop software design. Building a text editor provides
+  practical exposure to these areas.
+
+solution: >
+  Developed a desktop text editor using Java Swing and AWT that supports text
+  file editing, customizable fonts and colors, live word and line counting,
+  safe file I/O operations, and modular Java architecture through JPMS.
+
+architecture: >
+  Single-process desktop application built around Swing's event-driven model.
+  User actions are processed through the AWT Event Queue and Event Dispatch
+  Thread, while JTextArea and PlainDocument manage document storage. File I/O,
+  font management, color customization, and status updates are coordinated
+  through Swing event listeners and UI components. :contentReference[oaicite:2]{index=2}
+
+challenges:
+  - Understanding Swing's Event Dispatch Thread requirements.
+  - Implementing real-time document statistics.
+  - Managing file I/O safely using try-with-resources.
+  - Working with JPMS module declarations.
+  - Handling dynamic font enumeration from the operating system.
+  - Designing responsive UI interactions using event listeners.
+  - Understanding gap-buffer-based text storage concepts.
+
+lessonsLearned:
+  - Swing event-driven architecture.
+  - Event Dispatch Thread concurrency rules.
+  - Observer pattern implementation through listeners.
+  - Java file I/O and resource management.
+  - JPMS module system fundamentals.
+  - Desktop application architecture patterns.
+  - Gap buffer data structures and text editor internals.
+  - GUI state management and event handling.
+
+futureImprovements:
+  - Undo and redo functionality.
+  - MVC architecture refactoring.
+  - Background file loading using SwingWorker.
+  - Maven or Gradle build integration.
+  - Improved error handling and user feedback.
+  - Debounced word-count calculations.
+  - Native application packaging with jpackage.
+  - Syntax highlighting support.
+  - Better layout management using BorderLayout.
+  - Large-file performance optimization.

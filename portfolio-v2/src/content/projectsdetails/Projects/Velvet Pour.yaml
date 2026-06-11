@@ -1,0 +1,95 @@
+title: Velvet Pour
+
+description: >
+  A scroll-driven animated landing page for a premium cocktail bar, built as an
+  engineering study of high-performance frontend animations using GSAP,
+  ScrollTrigger, video scrubbing, CSS mask effects, and React lifecycle
+  integration.
+
+category: Frontend Web Development
+
+featured: false
+
+status: Completed
+
+technologies:
+  - React 19
+  - GSAP 3.14
+  - gsap/react
+  - Tailwind CSS 4
+  - Vite 7
+  - react-responsive
+  - JavaScript
+
+github: https://github.com/Heramb1221/velvet-pour
+
+liveDemo: https://mojito-website-alpha.vercel.app/
+
+video:
+
+screenshots:
+  - Hero Section: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781115410/ebf2469f-06d4-48ff-aedd-4c097f5bf2ce.png
+  - CSS Mask Reveal: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781115441/3b8d62b7-f22e-435e-b6ba-32e7b1ded483.png
+  - Cocktail Carousel: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781115472/5a7657a4-e437-40f4-9bf3-6e52562c7200.png
+  - Contact Section: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781115532/ccf3fd6f-50a9-44e0-96e5-12f4fe23a968.png
+
+metrics:
+  applicationType: "Single Page Application"
+  animationEngine: "GSAP ScrollTrigger"
+  renderingModel: "Client-Side Rendering"
+  backend: false
+  database: false
+  authentication: false
+
+overview: >
+  Velvet Pour is an immersive marketing website designed around advanced
+  scroll-driven interactions and cinematic animations. The project explores
+  animation engineering concepts including video scrubbing, SplitText effects,
+  CSS masking, pinned sections, parallax effects, and high-performance DOM
+  animation patterns within a React application.
+
+problem: >
+  Building highly interactive scroll-driven experiences requires careful
+  coordination between React's rendering lifecycle and animation libraries that
+  directly manipulate the DOM. Without proper architecture, complex animations
+  can introduce performance issues, memory leaks, and inconsistent behavior.
+
+solution: >
+  Developed a single-page animated experience using GSAP and ScrollTrigger,
+  leveraging lifecycle-aware animation management through useGSAP(), context
+  cleanup, responsive animation configurations, and optimized scroll-based
+  interactions.
+
+architecture: >
+  Client-side React application built with Vite. React components render the UI
+  while GSAP ScrollTrigger manages animation timelines, video scrubbing, pinned
+  sections, and DOM mutations. Animations are isolated using GSAP contexts to
+  ensure proper cleanup and prevent lifecycle-related issues.
+
+challenges:
+  - Synchronizing video scrubbing with metadata loading.
+  - Managing GSAP cleanup within React StrictMode.
+  - Supporting different ScrollTrigger behaviors on mobile devices.
+  - Implementing performant CSS mask animations.
+  - Coordinating multiple concurrent animation systems.
+  - Preventing animation state leakage across component re-renders.
+
+lessonsLearned:
+  - GSAP context and cleanup patterns.
+  - ScrollTrigger internals and optimization techniques.
+  - Video scrubbing implementation strategies.
+  - React lifecycle integration with DOM-mutating libraries.
+  - CSS masking animation techniques.
+  - Tailwind CSS v4 architecture.
+  - Performance optimization for animation-heavy interfaces.
+  - Responsive animation design patterns.
+
+futureImprovements:
+  - TypeScript migration.
+  - Improved CSS architecture and modularization.
+  - Shared animation abstraction utilities.
+  - Font loading optimization.
+  - Image optimization pipeline.
+  - Automated testing coverage.
+  - Error boundaries.
+  - Additional animation customization options.

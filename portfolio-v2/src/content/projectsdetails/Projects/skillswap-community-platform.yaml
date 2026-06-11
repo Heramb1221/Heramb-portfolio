@@ -1,0 +1,105 @@
+title: SkillSwap — Community Skill Exchange Platform
+
+description: >
+  A community-driven skill exchange platform where users trade knowledge and
+  expertise through a virtual credit economy instead of monetary transactions,
+  enabling people to teach, learn, and collaborate within a structured
+  peer-to-peer ecosystem.
+
+category: Full-Stack Web Application
+
+featured: false
+
+status: Completed
+
+technologies:
+  - Java 8
+  - Spring MVC 5.2.4
+  - Spring ORM 5.2.3
+  - Spring Context 5.2.3
+  - Hibernate 5.4.2
+  - MySQL 8.0
+  - Maven
+  - Apache Tomcat
+  - JSP
+  - HTML5
+  - CSS3
+  - JavaScript
+  - Font Awesome
+
+github: https://github.com/Heramb1221/skillswap-community-platform
+
+liveDemo:
+
+video:
+
+screenshots:
+  - Home Page: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781115100/0877e6b1-d463-4887-9c2c-3c6ccfd31b7a.png
+  - User Dashboard: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781115130/cd734c24-74b2-457d-99a9-155eebe013d5.png
+  - Admin Dashboard: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1781115159/253c4c88-4afe-4f37-ac10-89f054710891.png
+
+metrics:
+  userRoles:
+    - Admin
+    - User
+  starterCredits: 50
+  rewardPerTeaching: 25
+  rejectionPenalty: 5
+  architecture: "Monolithic MVC Application"
+  database: "MySQL"
+  authentication: "Session-Based"
+
+overview: >
+  SkillSwap is a peer-to-peer learning platform that enables users to exchange
+  skills through a virtual credit economy. Users earn credits by teaching
+  others, spend credits to learn new skills, submit exchange requests, leave
+  ratings, and participate in a self-sustaining community without relying on
+  direct monetary transactions.
+
+problem: >
+  Many people possess valuable skills they can teach and valuable skills they
+  want to learn, but there is no structured system that enables flexible skill
+  exchange without requiring direct barter arrangements or financial payments.
+
+solution: >
+  Built a platform that introduces a virtual credit-based economy where users
+  earn credits by sharing expertise and spend credits to access learning
+  opportunities, creating a scalable and flexible skill exchange ecosystem.
+
+architecture: >
+  Traditional Java enterprise architecture using Spring MVC for request routing,
+  Hibernate ORM for persistence, MySQL for relational data storage, JSP for
+  server-side rendering, and Apache Tomcat deployment. The application follows
+  an MVC pattern with Controllers, DAO Layer, Hibernate ORM, and relational
+  database integration.
+
+challenges:
+  - Designing a virtual credit economy system.
+  - Modeling exchange lifecycle state transitions.
+  - Implementing multi-role authentication and authorization.
+  - Managing Hibernate session lifecycle and persistence.
+  - Designing normalized relational database schemas.
+  - Handling exchange requests and credit transactions.
+  - Building administrative moderation workflows.
+
+lessonsLearned:
+  - Spring MVC request lifecycle and DispatcherServlet internals.
+  - Hibernate ORM and session management.
+  - DAO architecture patterns.
+  - State machine modeling using enums.
+  - Relational database design and normalization.
+  - Transaction management concepts.
+  - Session-based authentication workflows.
+  - Enterprise Java application architecture.
+
+futureImprovements:
+  - Service layer implementation.
+  - Spring Security integration.
+  - Real-time messaging system.
+  - Credit transaction auditing enhancements.
+  - Analytics dashboard improvements.
+  - REST API development.
+  - Docker containerization.
+  - Automated testing with JUnit and Mockito.
+  - React or Vue frontend migration.
+  - Improved exchange recommendation algorithms.

@@ -1,0 +1,113 @@
+title: ConverseCloud
+
+description: >
+  A full-stack language exchange platform that connects users with native
+  speakers for real-time language practice through messaging and video calls.
+  The platform includes user onboarding, friend discovery, chat, video
+  communication, and extensive theme customization.
+
+category: Full-Stack Web Development
+
+featured: true
+
+status: Active Development
+
+technologies:
+  - React 19
+  - Vite 7
+  - Node.js
+  - Express.js
+  - MongoDB Atlas
+  - Mongoose
+  - TanStack Query
+  - React Router v7
+  - Zustand
+  - Axios
+  - Stream Chat API
+  - Stream Video API
+  - Tailwind CSS
+  - DaisyUI
+  - JWT Authentication
+  - bcryptjs
+  - Cookie-Based Authentication
+
+github: https://github.com/Heramb1221/ConverseCloud
+
+liveDemo: https://conversecloud.onrender.com/
+
+video:
+
+screenshots:
+  - Landing / Login Page: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1780629540/922a4383-e3f0-4c27-8dd4-e1a346634f4d.png
+  - User Onboarding: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1780629592/64c3b0f4-e9e2-4d86-b4b6-c9ba01ffa4e4.png
+  - Home / Discover Users: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1780629631/adc0e491-6a9e-4639-aaad-1b7b99d5eb45.png
+  - Real-Time Chat Interface: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1780629662/a50fbae2-3f4c-4ca8-b7fe-9556bfdf0eb6.png
+  - Video Calling Interface: https://res.cloudinary.com/dof6n5t7s/image/upload/q_auto/f_auto/v1780629698/eb3ad6bf-03d6-4338-b5ad-0eb5b97032cd.png
+
+metrics:
+  themesAvailable: "30+"
+  communicationModes:
+    - Real-Time Messaging
+    - Video Calling
+  authentication: "JWT + httpOnly Cookies"
+  architecture: "MERN Stack"
+  deployment: "Render"
+  realtimeServices:
+    - Stream Chat
+    - Stream Video
+
+overview: >
+  ConverseCloud is a language-learning social platform that helps users connect
+  with native speakers around the world. Users create profiles, discover
+  compatible language partners, send friend requests, chat in real time, and
+  conduct video calls. The project was built to explore real-world challenges in
+  authentication, WebSocket management, real-time communication systems, and
+  scalable full-stack architecture.
+
+problem: >
+  Most language-learning platforms focus heavily on vocabulary and grammar but
+  provide limited opportunities for real conversational practice with native
+  speakers. Users often struggle to find language partners and maintain
+  meaningful language exchange interactions.
+
+solution: >
+  Built a language exchange platform that matches users based on native and
+  learning languages, enabling them to form connections, communicate through
+  real-time messaging, and practice speaking through integrated video calls.
+
+architecture: >
+  MERN-based architecture with a React frontend and Express backend. User data,
+  profiles, and friend requests are stored in MongoDB Atlas through Mongoose.
+  Authentication is handled using JWT tokens stored in httpOnly cookies. Real-time
+  chat and WebRTC video communication are powered through Stream Chat and Stream
+  Video APIs, while TanStack Query manages server state and caching.
+
+challenges:
+  - Managing WebSocket lifecycle and preventing duplicate connections.
+  - Implementing deterministic channel IDs for consistent chat creation.
+  - Coordinating authentication between frontend, backend, and Stream services.
+  - Handling authentication state propagation without Redux.
+  - Balancing build-vs-buy decisions when integrating managed communication infrastructure.
+
+lessonsLearned:
+  - Real-time communication architecture.
+  - WebSocket lifecycle management in React applications.
+  - Authentication using JWT and httpOnly cookies.
+  - Server state management with TanStack Query.
+  - Backend token generation and secure API design.
+  - Tradeoffs of managed infrastructure services.
+  - MongoDB data modeling and query optimization.
+  - Full-stack application deployment and integration.
+
+futureImprovements:
+  - Refresh token rotation.
+  - Redis caching.
+  - Recommendation pagination.
+  - MongoDB transactions.
+  - API rate limiting.
+  - Zod validation.
+  - Helmet.js security hardening.
+  - Automated testing.
+  - CI/CD pipelines.
+  - Lazy loading and bundle optimization.
+  - Docker containerization.

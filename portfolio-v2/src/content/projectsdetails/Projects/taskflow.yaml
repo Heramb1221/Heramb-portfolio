@@ -1,0 +1,97 @@
+title: TaskFlow — Real-Time Cross-Platform Task Manager
+
+description: >
+  A cross-platform task management application built with React Native and
+  Convex that enables users to create, update, complete, and manage tasks with
+  real-time synchronization through a reactive subscription-based architecture.
+
+category: Mobile Application
+
+featured: false
+
+status: Active Development
+
+technologies:
+  - React Native 0.81.5
+  - Expo 54
+  - Expo Router 6
+  - TypeScript 5.9
+  - Convex
+  - React Navigation 7
+  - React Context
+  - AsyncStorage
+  - Expo Linear Gradient
+
+github: https://github.com/Heramb1221/taskflow
+
+liveDemo:
+
+video:
+
+screenshots:
+
+metrics:
+  supportedPlatforms:
+    - Android
+    - iOS
+    - Web
+  architecture: "Reactive BaaS Architecture"
+  synchronization: "Real-Time"
+  database: "Convex"
+  routing: "Expo Router"
+  offlineSupport: false
+
+overview: >
+  TaskFlow is a real-time task management application designed to explore
+  reactive backend architectures using Convex. Instead of relying on traditional
+  REST polling, the application uses subscription-based data synchronization,
+  allowing task updates to be automatically pushed to connected clients in
+  real time. :contentReference[oaicite:0]{index=0}
+
+problem: >
+  Traditional task management applications often rely on periodic polling and
+  manual cache invalidation, resulting in stale data, unnecessary network
+  requests, and increased client-side complexity when supporting multi-device
+  synchronization.
+
+solution: >
+  Built a reactive task management platform using Convex's subscription model,
+  enabling automatic real-time synchronization of tasks, progress tracking,
+  theme persistence, and cross-platform support from a single codebase.
+
+architecture: >
+  Cross-platform React Native application built with Expo Router and Convex.
+  The frontend subscribes to reactive queries through WebSocket connections,
+  while Convex manages database operations, query invalidation, and automatic
+  synchronization. Theme preferences are handled using React Context and
+  AsyncStorage. :contentReference[oaicite:1]{index=1}
+
+challenges:
+  - Adapting to a reactive data-fetching mental model.
+  - Understanding Convex subscription architecture.
+  - Implementing nested Expo Router layouts.
+  - Managing theme hydration and persistence timing.
+  - Supporting consistent UI behavior across Android, iOS, and Web.
+  - Optimizing performance for real-time updates and virtualized lists.
+
+lessonsLearned:
+  - Reactive versus request-driven architectures.
+  - Real-time synchronization patterns.
+  - Optimistic concurrency control concepts.
+  - Expo Router file-based navigation architecture.
+  - React Native New Architecture and JSI concepts.
+  - Cross-platform mobile development workflows.
+  - State persistence using AsyncStorage.
+  - Subscription-driven UI rendering techniques.
+
+futureImprovements:
+  - Authentication and user accounts.
+  - Persistent user settings.
+  - Enhanced validation.
+  - Task categories and tags.
+  - Push notifications.
+  - Drag-and-drop task reordering.
+  - Search and filtering.
+  - Pagination support.
+  - Offline-first capabilities.
+  - Shared collaborative task lists.
