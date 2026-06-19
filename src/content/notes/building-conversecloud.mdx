@@ -1,0 +1,39 @@
+---
+title: Building ConverseCloud — Real-Time Language Exchange Platform
+description: A technical deep dive into building a full-stack language exchange platform with React, Node.js, Stream SDK, and WebRTC video calling.
+date: 2024-11-15
+category: Project Notes
+tags: [React, Node.js, MongoDB, WebRTC, Socket.IO, Stream SDK, Full Stack]
+---
+
+## Overview
+
+ConverseCloud is a full-stack language exchange platform that connects users with native speakers for real-time practice. This note documents the key technical decisions and engineering challenges I encountered during development.
+
+## Architecture
+
+The platform uses a MERN stack with Stream Chat and Stream Video APIs for real-time communication. The backend is a Node.js/Express REST API connected to MongoDB Atlas.
+
+## Key Engineering Decisions
+
+### Authentication Strategy
+
+I chose JWT tokens stored in httpOnly cookies over localStorage to mitigate XSS risks. The token is set by the server and inaccessible to client-side JavaScript.
+
+### Real-Time Communication
+
+Rather than building WebSocket infrastructure from scratch, I used Stream Chat SDK for messaging and Stream Video for WebRTC calls. This reduced infrastructure complexity while providing production-grade reliability.
+
+### State Management
+
+TanStack Query manages all server state — caching, invalidation, and background refetching. Zustand handles lightweight client-side UI state.
+
+## Challenges
+
+The most complex challenge was managing WebSocket lifecycle in React. Stream SDK connections need to be initialized after authentication and torn down on logout. I solved this with a dedicated `useStreamUser` hook that coordinates auth state with Stream initialization.
+
+## Lessons Learned
+
+- Managed infrastructure services (Stream) save weeks of engineering time for communication features
+- httpOnly cookies are the correct choice for JWT storage in full-stack apps
+- TanStack Query's devtools are invaluable for debugging cache behavior

@@ -1,0 +1,38 @@
+---
+title: Learning .NET — A JavaScript Developer's Perspective
+description: Notes from my journey learning ASP.NET Core, C#, and the .NET ecosystem coming from a JavaScript/Node.js background.
+date: 2025-01-10
+category: Learning Notes
+tags: [.NET, C#, ASP.NET Core, Backend, Learning]
+---
+
+## Why .NET
+
+After building several Node.js APIs, I wanted to understand how enterprise-grade backend frameworks approach the same problems. .NET Core's performance benchmarks and C#'s type system made it a compelling choice.
+
+## C# vs TypeScript
+
+Both are statically typed, but C# is compiled and stricter. Key differences:
+
+- **Generics**: More powerful in C# — constrained generics, variance
+- **Null safety**: C# nullable reference types require explicit opt-in per project
+- **Async/await**: Similar model, but `Task<T>` is more explicit than Promises
+- **LINQ**: Incredibly powerful — equivalent to JavaScript's `.filter().map().reduce()` chained fluently
+
+## ASP.NET Core
+
+The dependency injection system is built in and central to how ASP.NET Core works. Every service is registered in `Program.cs` and injected into controllers/services via constructor injection.
+
+```csharp
+builder.Services.AddScoped<IEmailService, EmailService>();
+```
+
+## Entity Framework Core
+
+EF Core is the ORM of choice. Migrations generate SQL from C# model classes — similar to Prisma but more verbose and powerful.
+
+## Current Progress
+
+- Completed basic CRUD API with EF Core and PostgreSQL
+- Working through authentication with ASP.NET Core Identity
+- Next: learning Minimal APIs vs Controller-based routing
