@@ -2,10 +2,6 @@ import { NextResponse } from "next/server";
 import fs   from "fs";
 import path from "path";
 
-/**
- * GET /api/resume — streams the resume PDF for download.
- * Internal file path is never exposed to the client.
- */
 export function GET() {
   try {
     const filePath = path.join(process.cwd(), "src/content/resume/resume.pdf");

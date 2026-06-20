@@ -1,7 +1,5 @@
 import { cn } from "@/lib/utils";
 
-// ─── StatBox ──────────────────────────────────────────────────────────────────
-
 function StatBox({
   value,
   label,
@@ -24,8 +22,6 @@ function StatBox({
   );
 }
 
-// ─── GitHubStatsRow ───────────────────────────────────────────────────────────
-
 interface GitHubStatsRowProps {
   publicRepos: number;
   totalStars: number;
@@ -33,10 +29,6 @@ interface GitHubStatsRowProps {
   following: number;
 }
 
-/**
- * Horizontal stats row for the GitHub Activity section.
- * Server-compatible — no hooks or client-only APIs.
- */
 export function GitHubStatsRow({
   publicRepos,
   totalStars,

@@ -10,8 +10,6 @@ import type { LucideIcon } from "lucide-react";
 import type { TimelineCategory } from "@/config/timeline";
 import { cn } from "@/lib/utils";
 
-// ─── Icon registry ────────────────────────────────────────────────────────────
-
 const iconMap: Record<TimelineCategory, LucideIcon> = {
   Education:     GraduationCap,
   Project:       Code2,
@@ -20,8 +18,6 @@ const iconMap: Record<TimelineCategory, LucideIcon> = {
   Learning:      BookOpen,
   Experience:    Briefcase,
 };
-
-// ─── Colour registry ──────────────────────────────────────────────────────────
 
 const colourMap: Record<TimelineCategory, string> = {
   Education:     "bg-primary/10 text-primary border-primary/20",
@@ -32,17 +28,11 @@ const colourMap: Record<TimelineCategory, string> = {
   Experience:    "bg-rose-500/10 text-rose-500 border-rose-500/20",
 };
 
-// ─── TimelineIcon ─────────────────────────────────────────────────────────────
-
 interface TimelineIconProps {
   category: TimelineCategory;
   className?: string;
 }
 
-/**
- * Coloured icon badge for a timeline entry.
- * Sits on the vertical connector line as a visual marker.
- */
 export function TimelineIcon({ category, className }: TimelineIconProps) {
   const Icon = iconMap[category];
   return (
@@ -60,7 +50,6 @@ export function TimelineIcon({ category, className }: TimelineIconProps) {
   );
 }
 
-/** Returns the colourMap entry for a given category (used by TimelineCard). */
 export function getCategoryColour(category: TimelineCategory): string {
   return colourMap[category];
 }

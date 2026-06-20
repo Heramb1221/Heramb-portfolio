@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
-
-// ─── TechChip ─────────────────────────────────────────────────────────────────
+import Image from "next/image";
 
 function TechChip({
   children,
@@ -22,13 +21,6 @@ function TechChip({
   );
 }
 
-// ─── HeroVisual ───────────────────────────────────────────────────────────────
-
-/**
- * Right-column profile placeholder.
- * Uses HC monogram, floating tech chips, and a status badge.
- * Replace inner content with <Image> once a profile photo is added.
- */
 export function HeroVisual() {
   return (
     <div className="flex items-center justify-center">
@@ -41,27 +33,24 @@ export function HeroVisual() {
             "xl:h-[340px] xl:w-[340px]",
           )}
         >
-          {/* Directional gradient — subtle, no glow */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-primary/5" />
+          {/* Background profile image */}
+          <Image
+            src="/profile.jpg"
+            alt="Heramb Chaudhari"
+            fill
+            sizes="(max-width: 1280px) 300px, 340px"
+            className="object-cover opacity-80 transition-opacity duration-300 hover:opacity-95"
+            priority
+          />
 
-          {/* HC monogram */}
-          <div
-            className={cn(
-              "relative z-10 flex h-28 w-28 items-center justify-center",
-              "rounded-2xl border border-primary/20 bg-primary/10",
-            )}
-            aria-hidden="true"
-          >
-            <span className="select-none font-mono text-4xl font-bold tracking-tight text-primary">
-              HC
-            </span>
-          </div>
+          {/* Subtle gradient overlay to blend photo with theme & improve text contrast */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-background/10 z-10" />
 
           {/* Floating tech chips */}
-          <TechChip className="absolute left-5 top-5">TypeScript</TechChip>
-          <TechChip className="absolute right-5 top-5">React</TechChip>
-          <TechChip className="absolute bottom-5 left-5">Node.js</TechChip>
-          <TechChip className="absolute bottom-5 right-5">Next.js</TechChip>
+          <TechChip className="absolute left-5 top-5 z-20">TypeScript</TechChip>
+          <TechChip className="absolute right-5 top-5 z-20">React</TechChip>
+          <TechChip className="absolute bottom-5 left-5 z-20">Node.js</TechChip>
+          <TechChip className="absolute bottom-5 right-5 z-20">Next.js</TechChip>
         </div>
 
         {/* Status indicator */}

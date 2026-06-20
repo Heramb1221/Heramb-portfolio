@@ -9,8 +9,6 @@ import { Container, Section, SectionHeading } from "@/components/shared/Containe
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import type { Project } from "@/types/project";
 
-// ─── Empty state ──────────────────────────────────────────────────────────────
-
 function EmptyState() {
   return (
     <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-border py-20 text-center">
@@ -26,8 +24,6 @@ function EmptyState() {
     </div>
   );
 }
-
-// ─── FeaturedProject ──────────────────────────────────────────────────────────
 
 interface FeaturedProjectProps {
   projects: Project[];

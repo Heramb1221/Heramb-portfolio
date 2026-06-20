@@ -6,10 +6,6 @@ interface ProjectGalleryProps {
   projectTitle: string;
 }
 
-/**
- * Responsive screenshot gallery for project detail pages.
- * Screenshots are stored as { "Caption": "https://..." } objects.
- */
 export function ProjectGallery({ screenshots, projectTitle }: ProjectGalleryProps) {
   if (!screenshots.length) return null;
 

@@ -27,11 +27,11 @@ function parseNote(filename: string, raw: string, includeContent = false): Note 
     tags:        Array.isArray(data.tags) ? (data.tags as string[]) : [],
     category:    String(data.category    ?? ""),
     readingTime: rt.text,
+    relatedProjects: Array.isArray(data.relatedProjects) ? (data.relatedProjects as string[]) : [],
     ...(includeContent ? { content } : {}),
   };
 }
 
-/** All notes sorted by date descending. Server-side only. */
 export function getNotes(): Note[] {
   try {
     if (!fs.existsSync(notesDir)) return [];
@@ -48,7 +48,6 @@ export function getNotes(): Note[] {
   }
 }
 
-/** Single note by slug including full markdown content. Server-side only. */
 export function getNoteBySlug(slug: string): Note | null {
   try {
     if (!fs.existsSync(notesDir)) return null;

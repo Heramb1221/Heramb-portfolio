@@ -4,24 +4,10 @@ import { cn } from "@/lib/utils";
 interface ContentCardProps {
   children: ReactNode;
   className?: string;
-  /** Passed to the underlying <article> for accessibility */
   "aria-label"?: string;
-  /** Optional: removes default padding so inner sections can set their own */
   noPadding?: boolean;
 }
 
-/**
- * Shared base card wrapper.
- * Used by: RecommendationCard, AchievementCard, CertificationCard, NoteCard.
- *
- * Provides:
- *  - rounded-xl border
- *  - bg-card
- *  - soft shadow
- *  - CSS hover lift (no JS listener)
- *  - consistent p-5 padding (override with noPadding + custom className)
- *  - responsive behaviour via standard block layout
- */
 export function ContentCard({
   children,
   className,
@@ -32,8 +18,8 @@ export function ContentCard({
     <article
       aria-label={ariaLabel}
       className={cn(
-        "flex flex-col rounded-xl border border-border bg-card",
-        "shadow-sm transition-transform duration-200 ease-out hover:-translate-y-1",
+        "group flex flex-col rounded-xl border border-border bg-card",
+        "transition-all duration-300 ease-out hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_8px_30px_rgba(245,158,11,0.06)]",
         !noPadding && "p-5",
         className,
       )}

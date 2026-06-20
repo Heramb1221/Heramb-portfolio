@@ -10,14 +10,11 @@ import {
 import { Tag } from "@/components/shared/Tag";
 import { CTAButton } from "@/components/shared/CTAButton";
 
-// ─── TechnologyBadge ──────────────────────────────────────────────────────────
-
 interface TechnologyBadgeProps {
   label: string;
   className?: string;
 }
 
-/** Individual tech-stack pill on a project card. */
 export function TechnologyBadge({ label, className }: TechnologyBadgeProps) {
   return (
     <span
@@ -32,13 +29,10 @@ export function TechnologyBadge({ label, className }: TechnologyBadgeProps) {
   );
 }
 
-// ─── ProjectMetric ────────────────────────────────────────────────────────────
-
 interface ProjectMetricProps {
   value: string;
 }
 
-/** A single key metric displayed inside a project card. */
 export function ProjectMetric({ value }: ProjectMetricProps) {
   return (
     <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -51,8 +45,6 @@ export function ProjectMetric({ value }: ProjectMetricProps) {
   );
 }
 
-// ─── ProjectActions ───────────────────────────────────────────────────────────
-
 interface ProjectActionsProps {
   github: string | null;
   liveDemo: string | null;
@@ -60,7 +52,6 @@ interface ProjectActionsProps {
   title: string;
 }
 
-/** Action buttons row at the bottom of every project card. */
 export function ProjectActions({
   github,
   liveDemo,
@@ -109,8 +100,6 @@ export function ProjectActions({
   );
 }
 
-// ─── ProjectCard ──────────────────────────────────────────────────────────────
-
 const MAX_TECH_BADGES  = 5;
 const MAX_METRICS      = 3;
 
@@ -118,7 +107,6 @@ interface ProjectCardProps {
   project: Project;
 }
 
-/** Full project card — thumbnail, metadata, badges, metrics, actions. */
 export function ProjectCard({ project }: ProjectCardProps) {
   const {
     slug, title, description, category, status,
@@ -135,7 +123,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     <article
       className={cn(
         "group flex flex-col overflow-hidden rounded-xl border border-border bg-card",
-        "shadow-sm transition-transform duration-200 ease-out hover:-translate-y-1",
+        "transition-all duration-300 ease-out hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_8px_30px_rgba(245,158,11,0.08)]",
       )}
       aria-label={title}
     >
@@ -151,7 +139,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
             loading="lazy"
           />
         ) : (
-          /* Graceful placeholder when no screenshot is available */
           <div className="flex h-full w-full items-center justify-center bg-muted">
             <span className="select-none font-mono text-3xl font-bold text-muted-foreground/40">
               {title.charAt(0)}

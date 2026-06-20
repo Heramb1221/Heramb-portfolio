@@ -6,8 +6,6 @@ import { Container, Section, SectionHeading } from "@/components/shared/Containe
 import { GitHubStatsRow } from "@/components/github/GithubStats";
 import { GitHubRepoCard } from "@/components/github/GitHubRepoCard";
 
-// ─── Fallback ─────────────────────────────────────────────────────────────────
-
 function GitHubFallback() {
   return (
     <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-border py-16 text-center">
@@ -32,13 +30,6 @@ function GitHubFallback() {
   );
 }
 
-// ─── GitHubActivity ───────────────────────────────────────────────────────────
-
-/**
- * Async Server Component — fetches GitHub data at render time.
- * Cache: next.revalidate: 3600 (1 hour, set inside lib/github.ts fetchers).
- * Never throws — renders GitHubFallback on any API failure.
- */
 export async function GitHubActivity() {
   const { user, repos, totalStars } = await getGitHubData();
 

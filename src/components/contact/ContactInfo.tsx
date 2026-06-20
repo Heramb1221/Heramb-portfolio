@@ -3,8 +3,6 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 
-// ─── ContactLinkCard ──────────────────────────────────────────────────────────
-
 interface ContactLinkCardProps {
   icon: React.ReactNode;
   label: string;
@@ -45,8 +43,6 @@ function ContactLinkCard({
     </Link>
   );
 }
-
-// ─── ContactInfo ──────────────────────────────────────────────────────────────
 
 export function ContactInfo() {
   return (

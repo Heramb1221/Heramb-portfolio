@@ -1,16 +1,11 @@
-// ─── Status ───────────────────────────────────────────────────────────────────
-
 export type ProjectStatus =
   | "Completed"
   | "Active Development"
   | "Archived Learning Project"
   | "Experimental Prototype"
-  | (string & Record<never, never>); // allow arbitrary strings while keeping autocomplete
-
-// ─── Project ──────────────────────────────────────────────────────────────────
+  | (string & Record<never, never>);
 
 export interface Project {
-  /** URL-friendly slug derived from the YAML filename. */
   slug: string;
   title: string;
   description: string;
@@ -21,9 +16,7 @@ export interface Project {
   github: string | null;
   liveDemo: string | null;
   video: string | null;
-  /** Each element is a single-key object: { "Label": "https://..." } */
   screenshots: Array<Record<string, string>>;
-  /** Free-form YAML map — values may be string | number | boolean | string[] */
   metrics: Record<string, unknown>;
   overview: string;
   problem: string;
@@ -32,11 +25,9 @@ export interface Project {
   challenges: string[];
   lessonsLearned: string[];
   futureImprovements: string[];
+  relatedNotes?: string[];
 }
 
-// ─── Utility functions (tied to Project shape) ────────────────────────────────
-
-/** Returns the URL of the first screenshot, or null if none exists. */
 export function getThumbnailUrl(
   screenshots: Array<Record<string, string>>,
 ): string | null {
@@ -47,10 +38,6 @@ export function getThumbnailUrl(
   return typeof url === "string" && url.trim() ? url.trim() : null;
 }
 
-/**
- * Extracts up to `max` human-readable metric strings from the free-form
- * metrics object. Skips booleans; joins arrays with " · ".
- */
 export function extractDisplayMetrics(
   metrics: Record<string, unknown>,
   max = 3,
@@ -72,7 +59,6 @@ export function extractDisplayMetrics(
   return result;
 }
 
-/** Maps a project status string to a Tag variant. */
 export function getStatusVariant(
   status: string,
 ): "success" | "warning" | "default" {

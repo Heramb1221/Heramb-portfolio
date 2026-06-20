@@ -1,13 +1,10 @@
 export interface Achievement {
-  /** Derived from YAML filename — used as React key */
   id: string;
   title: string;
   organization: string;
   date: string;
   description: string;
-  /** Optional category added to YAMLs (may be absent on older entries) */
   category?: string;
-  /** Cloudinary URL, external link, or empty string — null-normalised */
   link: string | null;
 }
 
@@ -19,7 +16,6 @@ export type AchievementCategory =
   | "Arts"
   | string;
 
-/** Category → Tailwind colour classes for the badge */
 export const achievementCategoryColours: Record<string, string> = {
   Competition:  "bg-violet-500/10 text-violet-500 border-violet-500/20",
   "Open Source":"bg-emerald-500/10 text-emerald-500 border-emerald-500/20",

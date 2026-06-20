@@ -6,11 +6,6 @@ interface BadgeProps {
   className?: string;
 }
 
-/**
- * Tech-stack badge.
- * Blue tinted pill used on project cards to list languages / frameworks.
- * Design system: rounded-full, primary/10 background.
- */
 export function Badge({ children, className }: BadgeProps) {
   return (
     <span

@@ -4,8 +4,6 @@ import yaml  from "js-yaml";
 import type { Recommendation } from "@/types/recommendation";
 import type { Achievement }    from "@/types/achievement";
 
-// ─── Shared helper ────────────────────────────────────────────────────────────
-
 function filenameToId(filename: string): string {
   return filename
     .replace(/\.yaml$/, "")
@@ -31,17 +29,11 @@ function readYamlDir(dir: string): Array<Record<string, unknown>> {
   }
 }
 
-// ─── Recommendations ──────────────────────────────────────────────────────────
-
 const recommendationsDir = path.join(
   process.cwd(),
   "src/content/recommendations",
 );
 
-/**
- * Reads all recommendation YAML files and returns typed Recommendation[].
- * Server-side only. Returns [] if directory is missing or parse fails.
- */
 export function getRecommendations(): Recommendation[] {
   return readYamlDir(recommendationsDir).map((data) => ({
     id:           String(data._id          ?? ""),
@@ -53,17 +45,11 @@ export function getRecommendations(): Recommendation[] {
   }));
 }
 
-// ─── Achievements ─────────────────────────────────────────────────────────────
-
 const achievementsDir = path.join(
   process.cwd(),
   "src/content/achievements",
 );
 
-/**
- * Reads all achievement YAML files and returns typed Achievement[].
- * Server-side only. Returns [] if directory is missing or parse fails.
- */
 export function getAchievements(): Achievement[] {
   return readYamlDir(achievementsDir).map((data) => ({
     id:           String(data._id          ?? ""),
@@ -76,8 +62,6 @@ export function getAchievements(): Achievement[] {
   }));
 }
 
-// ─── Certifications ───────────────────────────────────────────────────────────
-
 import type { Certification } from "@/types/certificate";
 
 const certificationsDir = path.join(
@@ -85,11 +69,6 @@ const certificationsDir = path.join(
   "src/content/certifications",
 );
 
-/**
- * Reads all certification YAML files and returns typed Certification[].
- * Server-side only. Returns [] if directory is missing or parse fails.
- * YAMLs are sorted by filename (alphabetical), which roughly matches issuer order.
- */
 export function getCertifications(): Certification[] {
   return readYamlDir(certificationsDir).map((data) => ({
     id:            String(data._id           ?? ""),
@@ -97,5 +76,6 @@ export function getCertifications(): Certification[] {
     issuer:        String(data.issuer        ?? ""),
     issueDate:     String(data.issueDate     ?? ""),
     credentialUrl: data.credentialUrl ? String(data.credentialUrl) : null,
+    imageUrl:      data.imageUrl ? String(data.imageUrl) : null,
   }));
 }

@@ -58,31 +58,31 @@ Never:
 
 The website should look:
 
-* Professional
-* Modern
-* Minimal
-* SaaS-inspired
-* Recruiter-friendly
+* Cinematic
+* Intentional
+* Atmospheric
+* "The Explorer's Atlas" - An interconnected journey.
 
 Avoid:
 
-* Cyberpunk
-* Gaming aesthetics
-* Neon effects
-* Holographic effects
-* Glitch animations
+* Generic SaaS templates
+* Cold blacks and electric blues
+* Excessive visual noise
+* Heavy parallax that slows down navigation
 
 ---
 
 # Animations
 
+The "Soft Impactful Rule": Every animation must be additive, rhythmically consistent, and respectful.
+
 Allowed:
 
-* Fade
-* Slide
-* Smooth reveal
-* Hover lift
-* Page transition
+* Smooth reveals on scroll
+* Staggered lists
+* Subtle amber hovers
+* Cinematic page transitions (< 800ms)
+* Intentional state changes
 
 Not Allowed:
 
@@ -90,7 +90,7 @@ Not Allowed:
 * Flash
 * Shake
 * Heavy parallax
-* Infinite floating objects
+* Continuous floating elements
 
 Animations should enhance UX, never distract.
 
@@ -98,13 +98,10 @@ Animations should enhance UX, never distract.
 
 # Typography
 
-Primary:
+Primary (Display/Body):
 Inter
 
-Secondary:
-Geist
-
-Code:
+Code and Technical Labels (Dates, coordinates, tags):
 JetBrains Mono
 
 ---

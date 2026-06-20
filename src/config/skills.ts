@@ -8,18 +8,13 @@ import {
   BookOpen,
 } from "lucide-react";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 export interface SkillCategory {
   id: string;
   title: string;
   icon: LucideIcon;
-  /** aria-label describing the category icon */
   iconLabel: string;
   skills: string[];
 }
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
 
 export const skillCategories: SkillCategory[] = [
   {

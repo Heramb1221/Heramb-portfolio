@@ -1,13 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { stagger, staggerItem, defaultViewport } from "@/lib/animations";
 import { Container, Section, SectionHeading } from "@/components/shared/Container";
 import { TimelineCard } from "@/components/timeline/TimelineCard";
 import { TimelineIcon } from "@/components/timeline/TimelineIcon";
 import { timelineEntries } from "@/config/timeline";
-
-// ─── Desktop centre-line item ─────────────────────────────────────────────────
 
 function DesktopTimelineItem({
   entry,
@@ -38,9 +37,20 @@ function DesktopTimelineItem({
   );
 }
 
-// ─── Timeline ─────────────────────────────────────────────────────────────────
-
 export function Timeline() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 75%", "end 75%"]
+  });
+
+  const scaleY = useSpring(scrollYProgress, {
+    damping: 20,
+    stiffness: 90,
+    restDelta: 0.001
+  });
+
   return (
     <Section id="timeline">
       <Container>
@@ -60,11 +70,18 @@ export function Timeline() {
           </motion.div>
 
           {/* Timeline body */}
-          <div className="relative mt-10">
+          <div ref={containerRef} className="relative mt-10">
 
-            {/* Vertical connector line — desktop only */}
+            {/* Background line — static dimmed */}
             <div
-              className="absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-border lg:block"
+              className="absolute inset-y-0 left-1/2 hidden w-[2px] -translate-x-1/2 bg-border/40 lg:block"
+              aria-hidden="true"
+            />
+
+            {/* Glowing active path line — scroll linked */}
+            <motion.div
+              style={{ scaleY, originY: 0 }}
+              className="absolute inset-y-0 left-1/2 hidden w-[2px] -translate-x-1/2 bg-accent origin-top lg:block shadow-[0_0_8px_rgba(245,158,11,0.3)]"
               aria-hidden="true"
             />
 

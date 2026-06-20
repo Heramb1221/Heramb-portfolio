@@ -15,7 +15,6 @@ export const metadata: Metadata = {
   openGraph: { title: "Resume — Heramb Chaudhari", images: ["/api/og"] },
 };
 
-// ─── Section wrapper ──────────────────────────────────────────────────────────
 function RS({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="flex flex-col gap-4">

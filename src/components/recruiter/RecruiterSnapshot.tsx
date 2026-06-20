@@ -14,16 +14,12 @@ import { cn } from "@/lib/utils";
 import { stagger, staggerItem, defaultViewport } from "@/lib/animations";
 import { Container, Section, SectionHeading } from "@/components/shared/Container";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 interface CardData {
   icon: LucideIcon;
   label: string;
   sublabel: string;
   iconClass: string;
 }
-
-// ─── Card data ────────────────────────────────────────────────────────────────
 
 function buildCards(projectCount: number): CardData[] {
   return [
@@ -66,8 +62,6 @@ function buildCards(projectCount: number): CardData[] {
   ];
 }
 
-// ─── SnapshotCard ─────────────────────────────────────────────────────────────
-
 function SnapshotCard({ icon: Icon, label, sublabel, iconClass }: CardData) {
   return (
     <motion.article
@@ -97,8 +91,6 @@ function SnapshotCard({ icon: Icon, label, sublabel, iconClass }: CardData) {
     </motion.article>
   );
 }
-
-// ─── RecruiterSnapshot ────────────────────────────────────────────────────────
 
 interface RecruiterSnapshotProps {
   projectCount: number;

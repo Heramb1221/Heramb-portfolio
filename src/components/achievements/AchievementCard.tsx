@@ -4,8 +4,6 @@ import type { Achievement } from "@/types/achievement";
 import { getCategoryColour } from "@/types/achievement";
 import { cn } from "@/lib/utils";
 
-// ─── Category badge ───────────────────────────────────────────────────────────
-
 function CategoryBadge({ category }: { category?: string }) {
   if (!category) return null;
   return (
@@ -20,8 +18,6 @@ function CategoryBadge({ category }: { category?: string }) {
     </span>
   );
 }
-
-// ─── AchievementCard ─────────────────────────────────────────────────────────
 
 interface AchievementCardProps {
   achievement: Achievement;

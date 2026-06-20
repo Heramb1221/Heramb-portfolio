@@ -1,329 +1,108 @@
 # DESIGN_SYSTEM.md
 
-# Portfolio Design System
+# Portfolio Design System: "The Explorer's Atlas"
 
 ## Design Philosophy
 
-Professional.
+The portfolio is an atlas of explored territories. It is a living record of an engineer who crosses boundaries between systems, languages, platforms, and ideas—and documents what he finds.
 
-Minimal.
+- The loader is a map being drawn before the world appears.
+- The hero is the central territory—where the explorer stands today.
+- Each project is its own world with different terrain and visual language.
+- The skills section is the equipment/tools carried through expeditions.
+- The notes are the expedition diary, capturing raw engineering thinking.
 
-Modern.
-
-Content-first.
-
-Projects should be the hero of the portfolio.
+The site should feel like a "soft impactful song" - atmospheric, cumulative, and memorable.
 
 ---
 
 # Visual Style
 
-Inspired by:
-
-* Modern SaaS Landing Pages
-* Developer Portfolios
-* Documentation Sites
-
-Avoid decorative elements.
+Premium, intentional, and cinematic.
+Focus on crafting an interconnected experience that shows deep care for details.
 
 ---
 
 # Typography
 
-Heading:
-Inter
+The portfolio strictly uses a two-typeface system to bridge editorial elegance and engineering precision.
 
-Subheading:
-Inter Medium
+### Display & Body
+**Inter**
+Timeless, engineered readability.
+Used for headings and paragraphs.
 
-Body:
-Inter Regular
-
-Code:
-JetBrains Mono
-
----
-
-# Spacing Scale
-
-8
-
-16
-
-24
-
-32
-
-48
-
-64
-
-120
-
-Use only these values.
+### Code & Technical Labels
+**JetBrains Mono**
+Personality bleeds into the UI.
+Used for code blocks, section numbers, timestamps, coordinate labels, technology tags, dates, and file paths. 
 
 ---
 
-# Container
+# Color System: Warm Dark & Amber
 
-max-width:
+We use a premium "Warm Dark" base with "Amber" as the color of discovery (the explorer's lantern). Avoid cold blacks or generic electric blues.
 
-1280px
+### Surfaces
+- Base: `#0A0A0F` (Near-black, violet undertone)
+- Surface: `#111118` (Card backgrounds, elevated surfaces)
+- Border: `#1E1E2E` (Subtle separation)
 
-Always:
+### Typography
+- Primary Text: `#F1F5F9` (Off-white, soft)
+- Secondary: `#94A3B8` (Muted information)
+- Tertiary: `#4A5568` (Ghost labels)
 
-mx-auto
-
-px-6
-
-lg:px-8
-
----
-
-# Border Radius
-
-Cards:
-xl
-
-Buttons:
-xl
-
-Inputs:
-lg
-
-Badges:
-full
+### Accents
+- Accent: `#F59E0B` (Amber - the explorer's lantern)
+- Accent Soft: `#FCD34D` (Amber highlights)
+- Code: `#6366F1` (Indigo for technical labels)
+- Success: `#10B981` (Emerald for active/live)
 
 ---
 
-# Shadow
+# Card Style (Bento / Editorial)
 
-Use subtle shadows only.
-
-Avoid heavy shadows.
-
----
-
-# Card Style
-
-Rounded
-
-Border
-
-Soft Shadow
-
-Hover Lift
-
-No Glow
-
----
-
-# Buttons
-
-Primary
-
-Blue Filled
-
-Rounded XL
-
-Medium Weight
-
-Secondary
-
-Outline
-
-Rounded XL
-
-Ghost
-
-Transparent
-
-Hover Background
-
----
-
-# Links
-
-Underline on hover.
-
-Use primary color.
-
----
-
-# Icons
-
-Lucide Icons only.
-
-Consistent sizing.
-
----
-
-# Images
-
-Rounded XL
-
-Responsive
-
-Optimized
-
-Use next/image
-
----
-
-# Videos
-
-Responsive
-
-Rounded
-
-Autoplay disabled
-
-Muted preview optional
+- Surfaces use `#111118` with subtle `#1E1E2E` borders.
+- Hover effects trigger soft amber glows or slight elevation.
+- NO hard shadows.
+- Clean typography hierarchy.
 
 ---
 
 # Animations
 
-Use Framer Motion.
+The "Soft Impactful Rule": Every animation must pass this test: *"If this animation were removed, would the content still communicate clearly?"*
 
 Allowed:
+- Cinematic Page Transitions (Max 800ms)
+- Smooth Reveals (Elements drift up slightly as they enter the viewport)
+- Staggered Entrances
+- Subtle Hover glows
 
-Fade
+Easing system (Framer Motion):
+- Reveal: `cubic-bezier(0.16, 1, 0.3, 1)`
+- State change: `cubic-bezier(0.4, 0, 0.2, 1)`
+- Exit: `cubic-bezier(0.4, 0, 1, 1)`
 
-Slide Up
-
-Hover Lift
-
-Reveal
-
-Stagger
-
-Forbidden:
-
-Bounce
-
-Shake
-
-Rotate
-
-Flash
-
-Glitch
-
-Heavy Parallax
+Animations play with scrolling, never forcing the visitor to wait or lose control.
 
 ---
 
-# Grid
+# Homepage Layout
 
-Desktop:
-
-3 columns
-
-Tablet:
-
-2 columns
-
-Mobile:
-
-1 column
+Hero -> Featured Projects -> Skills (Interactive Equipment) -> About -> Timeline -> Notes -> Achievements -> Footer
 
 ---
 
-# Section Layout
+# Knowledge Graph integration
 
-Section
-
-Heading
-
-Subtitle
-
-Content
-
-CTA
-
-Every section follows same structure.
+Projects and notes are intrinsically linked.
+- Projects feature "Related Notes" (engineering decisions, architecture notes).
+- Notes feature "Related Projects".
 
 ---
 
-# Homepage Priority
+# Resume
 
-Projects > Skills > About
-
-Content first.
-
----
-
-# Project Cards
-
-Thumbnail
-
-Title
-
-Summary
-
-Technology Badges
-
-Metrics
-
-Buttons
-
-Never overcrowd cards.
-
----
-
-# Sidebar
-
-Fixed on Desktop.
-
-Bottom Bar on Mobile.
-
-Contains:
-
-GitHub
-
-LinkedIn
-
-LeetCode
-
-Email
-
-Resume
-
----
-
-# Loader
-
-Duration:
-
-Maximum 1 second.
-
-Uses:
-
-<HC />
-
-branding.
-
----
-
-# Contact
-
-Minimal form.
-
-Simple.
-
-Professional.
-
----
-
-# Footer
-
-Simple.
-
-Copyright
-
-Quick Links
-
-Social Links
-
-No heavy animations.
+Treat it as an interactive technical document. Monospace for dates and roles.

@@ -8,10 +8,6 @@ interface HighlightCardProps {
   description: string;
 }
 
-/**
- * Small highlight card used in the About section right column.
- * Icon + title + one-liner description. CSS hover lift only.
- */
 export function HighlightCard({
   icon: Icon,
   iconLabel,

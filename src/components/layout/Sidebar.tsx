@@ -12,10 +12,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-// ─── Icon registry ────────────────────────────────────────────────────────────
-// lucide-react v1 removed Github/Linkedin brand icons;
-// using semantic equivalents that remain recognisable in context.
-
 const iconMap: Record<SocialIconName, LucideIcon> = {
   "git-fork":   GitFork,
   briefcase:    Briefcase,
@@ -23,8 +19,6 @@ const iconMap: Record<SocialIconName, LucideIcon> = {
   mail:         Mail,
   "file-text":  FileText,
 };
-
-// ─── Desktop sidebar link ─────────────────────────────────────────────────────
 
 interface DesktopLinkProps {
   href: string;
@@ -64,11 +58,8 @@ function DesktopLink({ href, label, icon, external }: DesktopLinkProps) {
   );
 }
 
-// ─── Sidebar ──────────────────────────────────────────────────────────────────
-
 export function Sidebar() {
   return (
-    // delay prop is the correct base-ui prop (not delayDuration)
     <TooltipProvider delay={200}>
 
       {/* Desktop — fixed left column, starts below the navbar (top-16) */}

@@ -1,8 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { LearningItem, LearningStatus } from "@/config/learning";
 
-// ─── Status badge ─────────────────────────────────────────────────────────────
-
 const statusStyles: Record<LearningStatus, string> = {
   Learning:      "bg-primary/10 text-primary border-primary/20",
   Exploring:     "bg-amber-500/10 text-amber-500 border-amber-500/20",
@@ -25,8 +23,6 @@ function StatusBadge({ status }: { status: LearningStatus }) {
   );
 }
 
-// ─── CategoryChip ─────────────────────────────────────────────────────────────
-
 function CategoryChip({ label }: { label: string }) {
   return (
     <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
@@ -35,17 +31,10 @@ function CategoryChip({ label }: { label: string }) {
   );
 }
 
-// ─── LearningCard ─────────────────────────────────────────────────────────────
-
 interface LearningCardProps {
   item: LearningItem;
 }
 
-/**
- * Card for the Currently Learning section.
- * Shows technology name, category, description, and status badge.
- * CSS hover lift only — no per-card JS listeners.
- */
 export function LearningCard({ item }: LearningCardProps) {
   const { name, category, description, status } = item;
 

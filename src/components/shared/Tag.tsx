@@ -16,11 +16,6 @@ const variantMap: Record<TagVariant, string> = {
   warning: "bg-amber-500/10 text-amber-500",
 };
 
-/**
- * Category / status tag.
- * Used for project categories, completion status, skill groups.
- * Design system: rounded-full, muted background by default.
- */
 export function Tag({ children, variant = "default", className }: TagProps) {
   return (
     <span

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Geist } from "next/font/google";
+import { Inter, JetBrains_Mono, Outfit } from "next/font/google";
 import "./globals.css";
 import { cn }         from "@/lib/utils";
 import { siteConfig } from "@/config/site";
@@ -9,14 +9,11 @@ import { Navbar }     from "@/components/layout/Navbar";
 import { Sidebar }    from "@/components/layout/Sidebar";
 import { Footer }     from "@/components/layout/Footer";
 import { Loader }     from "@/components/shared/Loader";
-
-// ─── Fonts ────────────────────────────────────────────────────────────────────
+import { CustomCursor } from "@/components/layout/CustomCursor";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
 const jetbrainsMono = JetBrains_Mono({ variable: "--font-mono", subsets: ["latin"], display: "swap" });
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"], display: "swap" });
-
-// ─── JSON-LD — Person schema ──────────────────────────────────────────────────
+const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], display: "swap" });
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -32,8 +29,6 @@ const jsonLd = {
     siteConfig.links.leetcode,
   ],
 };
-
-// ─── Metadata ─────────────────────────────────────────────────────────────────
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -69,9 +64,9 @@ export const metadata: Metadata = {
     creator:     "@heramb1221",
   },
   icons: {
-    icon:    "/favicon.ico",
-    shortcut:"/favicon-16x16.png",
-    apple:   "/apple-touch-icon.png",
+    icon:    "/favicon.svg",
+    shortcut:"/favicon.svg",
+    apple:   "/favicon.svg",
   },
 };
 
@@ -84,8 +79,6 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-// ─── Root Layout ──────────────────────────────────────────────────────────────
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -93,7 +86,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("h-full antialiased", inter.variable, jetbrainsMono.variable, geistSans.variable)}
+      className={cn("h-full antialiased", inter.variable, jetbrainsMono.variable, outfit.variable)}
     >
       <head>
         <script
@@ -103,6 +96,7 @@ export default function RootLayout({
       </head>
       <body className="flex min-h-screen flex-col bg-background text-foreground">
         <Providers>
+          <CustomCursor />
           <Loader />
           <Navbar />
           <Sidebar />

@@ -206,49 +206,37 @@ Do not reorder sections.
 
 # Design Philosophy
 
-Professional
-
-Minimal
-
-Modern
-
-Readable
-
-Content First
-
-Avoid unnecessary decoration.
+"The Explorer's Atlas" - An interconnected journey.
+Cinematic.
+Intentional.
+Atmospheric.
+Content First but beautifully presented.
+The craft is the message.
 
 ---
 
 # Animations
 
+The "Soft Impactful Rule": Every animation must be additive, rhythmically consistent, and respectful.
+
 Allowed:
 
-Fade
-
-Slide
-
-Reveal
-
-Hover Lift
-
-Stagger
+Smooth reveals on scroll
+Staggered lists
+Subtle amber hovers
+Cinematic page transitions (< 800ms)
+Intentional state changes
 
 Forbidden:
 
 Bounce
-
 Flash
-
 Glitch
-
 Heavy Parallax
-
 Continuous Floating Elements
 
-Animations should improve UX.
-
-Never distract from content.
+Animations should improve UX and atmosphere.
+Never distract from content or force visitors to wait.
 
 ---
 

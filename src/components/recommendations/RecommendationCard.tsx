@@ -4,14 +4,11 @@ import type { Recommendation } from "@/types/recommendation";
 import { getInitials } from "@/types/recommendation";
 import { cn } from "@/lib/utils";
 
-// ─── Avatar ───────────────────────────────────────────────────────────────────
-
 function Avatar({ name, avatar }: { name: string; avatar: string | null }) {
   const initials = getInitials(name);
 
   if (avatar) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={avatar}
         alt={`${name} avatar`}
@@ -34,8 +31,6 @@ function Avatar({ name, avatar }: { name: string; avatar: string | null }) {
     </div>
   );
 }
-
-// ─── RecommendationCard ───────────────────────────────────────────────────────
 
 interface RecommendationCardProps {
   recommendation: Recommendation;

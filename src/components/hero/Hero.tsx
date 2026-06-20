@@ -11,8 +11,6 @@ import { CTAButton } from "@/components/shared/CTAButton";
 import { Tag } from "@/components/shared/Tag";
 import { HeroVisual } from "@/components/hero/HeroVisual";
 
-// ─── HeroSocialLink ───────────────────────────────────────────────────────────
-
 interface HeroSocialLinkProps {
   href: string;
   label: string;
@@ -38,8 +36,6 @@ function HeroSocialLink({ href, label, icon, external }: HeroSocialLinkProps) {
     </Link>
   );
 }
-
-// ─── Socials data (module-level — constant, no re-creation per render) ────────
 
 const heroSocials: HeroSocialLinkProps[] = [
   {
@@ -68,8 +64,6 @@ const heroSocials: HeroSocialLinkProps[] = [
   },
 ];
 
-// ─── Hero ─────────────────────────────────────────────────────────────────────
-
 export function Hero() {
   return (
     <section
@@ -95,33 +89,20 @@ export function Hero() {
             </motion.div>
 
             {/* Greeting + Name */}
-            <motion.div variants={staggerItem} className="flex flex-col gap-1">
-              <p className="text-sm text-muted-foreground sm:text-base">
-                Hello, I&apos;m
-              </p>
-              <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-                Heramb Chaudhari
+            <motion.div variants={staggerItem} className="flex flex-col gap-2">
+              <h1 className="text-5xl font-extrabold tracking-tighter text-foreground sm:text-7xl lg:text-[5.5rem] leading-[1.1]">
+                The Explorer&apos;s<br />
+                <span className="text-accent">Atlas.</span>
               </h1>
+              <p className="font-mono text-sm uppercase tracking-widest text-muted-foreground mt-2">
+                Heramb Chaudhari // Full Stack Engineer
+              </p>
             </motion.div>
-
-            {/* Role tags */}
-            <motion.div variants={staggerItem} className="flex flex-wrap gap-2">
-              <Tag>Computer Engineering Student</Tag>
-              <Tag>Full Stack Developer</Tag>
-            </motion.div>
-
-            {/* Tagline */}
-            <motion.p
-              variants={staggerItem}
-              className="text-sm italic text-muted-foreground sm:text-base"
-            >
-              {siteConfig.tagline}
-            </motion.p>
 
             {/* Description — 3 lines max */}
             <motion.p
               variants={staggerItem}
-              className="max-w-lg text-sm leading-relaxed text-muted-foreground sm:text-base"
+              className="max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg mt-2"
             >
               I build scalable full-stack applications — from real-time platforms
               and mobile apps to SaaS products. Focused on clean architecture,
@@ -129,13 +110,13 @@ export function Hero() {
             </motion.p>
 
             {/* CTA buttons */}
-            <motion.div variants={staggerItem} className="flex flex-wrap gap-3">
-              <CTAButton href="#featured-projects" size="lg">
-                View Projects
+            <motion.div variants={staggerItem} className="flex flex-col sm:flex-row flex-wrap gap-3 mt-4">
+              <CTAButton href="https://herambchaudhari.vercel.app/" external size="lg" className="shadow-[0_0_20px_rgba(245,158,11,0.2)]">
+                Take full experience of my portfolio
                 <ArrowRight className="size-4" aria-hidden />
               </CTAButton>
-              <CTAButton href="/resume" variant="secondary" size="lg">
-                Download Resume
+              <CTAButton href="#featured-projects" variant="secondary" size="lg">
+                View Projects
               </CTAButton>
             </motion.div>
 

@@ -28,11 +28,6 @@ const sizeMap = {
   lg: "h-11 px-6 text-sm",
 };
 
-/**
- * Primary CTA button.
- * Design system: rounded-xl, blue filled (primary) or outline (secondary).
- * Always renders as <a> / Link — not a <button> — for navigation actions.
- */
 export function CTAButton({
   href,
   children,

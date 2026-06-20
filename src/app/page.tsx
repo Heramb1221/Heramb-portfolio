@@ -1,6 +1,9 @@
 import { Suspense } from "react";
 import { getProjectCount, getFeaturedProjects } from "@/lib/projects";
-import { getRecommendations, getAchievements, getCertifications } from "@/lib/content";
+import { getAchievements, getCertifications } from "@/lib/content";
+import { getApprovedRecommendations } from "@/app/actions/recommendations";
+import { getGitHubData } from "@/lib/github";
+import { getLeetCodeData } from "@/lib/leetcode";
 import { Hero } from "@/components/hero/Hero";
 import { RecruiterSnapshot } from "@/components/recruiter/RecruiterSnapshot";
 import { FeaturedProject } from "@/components/projects/FeaturedProject";
@@ -14,17 +17,14 @@ import { CertificationsSection } from "@/components/certifications/Certification
 import { GitHubActivity } from "@/components/github/GitHubActivity";
 import { ContactSection } from "@/components/contact/ContactSection";
 
-// Homepage — all sections implemented per roadmap:
-// ✓ Hero  ✓ Recruiter Snapshot  ✓ Featured Projects  ✓ Skills  ✓ About
-// ✓ Currently Learning  ✓ Timeline  ✓ Recommendations  ✓ Achievements
-// ✓ Certifications  ✓ GitHub Activity  ✓ Contact
-
-export default function Home() {
+export default async function Home() {
   const projectCount     = getProjectCount();
   const featuredProjects = getFeaturedProjects();
-  const recommendations  = getRecommendations();
+  const recommendations  = await getApprovedRecommendations();
   const achievements     = getAchievements();
   const certifications   = getCertifications();
+  const githubData       = await getGitHubData();
+  const leetcodeData     = await getLeetCodeData();
 
   return (
     <>
@@ -36,7 +36,11 @@ export default function Home() {
       <CurrentlyLearning />
       <Timeline />
       <RecommendationsSection recommendations={recommendations} />
-      <AchievementsSection achievements={achievements} />
+      <AchievementsSection 
+        achievements={achievements} 
+        githubData={githubData}
+        leetcodeData={leetcodeData}
+      />
       <CertificationsSection certifications={certifications} />
       <Suspense fallback={null}>
         <GitHubActivity />

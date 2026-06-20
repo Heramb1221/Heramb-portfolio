@@ -8,8 +8,6 @@ import { Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { sendContactMessage } from "@/app/actions/contact";
 
-// ─── Schema ───────────────────────────────────────────────────────────────────
-
 const contactSchema = z.object({
   name:    z.string().min(2, "Name must be at least 2 characters"),
   email:   z.email("Please enter a valid email address"),
@@ -18,8 +16,6 @@ const contactSchema = z.object({
 });
 
 type ContactFormValues = z.infer<typeof contactSchema>;
-
-// ─── FieldError ───────────────────────────────────────────────────────────────
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
@@ -31,8 +27,6 @@ function FieldError({ message }: { message?: string }) {
   );
 }
 
-// ─── Input classes ────────────────────────────────────────────────────────────
-
 const inputBase = cn(
   "w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm",
   "text-foreground placeholder:text-muted-foreground",
@@ -40,8 +34,6 @@ const inputBase = cn(
   "focus:border-primary focus:ring-1 focus:ring-primary/20",
   "aria-invalid:border-destructive",
 );
-
-// ─── ContactForm ──────────────────────────────────────────────────────────────
 
 export function ContactForm() {
   const [serverError, setServerError] = useState<string | null>(null);
@@ -67,7 +59,6 @@ export function ContactForm() {
     }
   }
 
-  // ── Success state ──
   if (submitted) {
     return (
       <div className="flex flex-col items-center justify-center gap-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 py-16 text-center">

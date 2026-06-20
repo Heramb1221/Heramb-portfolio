@@ -6,14 +6,11 @@ import { ArrowLeft, Clock, Calendar, Tag as TagIcon } from "lucide-react";
 import { cn }            from "@/lib/utils";
 import { siteUrl }       from "@/lib/url";
 import { getNoteBySlug, getNotes } from "@/lib/notes";
-
-// ─── Static params ────────────────────────────────────────────────────────────
+import { getAllProjectsSorted } from "@/lib/projects";
 
 export function generateStaticParams() {
   return getNotes().map((n) => ({ slug: n.slug }));
 }
-
-// ─── Metadata ─────────────────────────────────────────────────────────────────
 
 export async function generateMetadata({
   params,
@@ -35,8 +32,6 @@ export async function generateMetadata({
     },
   };
 }
-
-// ─── MDX components ───────────────────────────────────────────────────────────
 
 const mdxComponents = {
   h1: (p: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -71,8 +66,6 @@ const mdxComponents = {
   ),
 };
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
-
 export default async function NotePage({
   params,
 }: {
@@ -82,6 +75,11 @@ export default async function NotePage({
   const note     = getNoteBySlug(slug);
 
   if (!note || !note.content) notFound();
+
+  const allProjects = getAllProjectsSorted();
+  const relatedProjects = allProjects.filter(
+    (p) => p.relatedNotes?.includes(slug) || note.relatedProjects?.includes(p.slug)
+  );
 
   const displayDate = note.date
     ? new Date(note.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
@@ -114,6 +112,25 @@ export default async function NotePage({
                 <TagIcon className="size-2.5" aria-hidden />{tag}
               </span>
             ))}
+          </div>
+        )}
+
+        {relatedProjects.length > 0 && (
+          <div className="mt-4 flex flex-col gap-2 rounded-xl border border-border bg-card/25 p-4" aria-label="Related Engineering Projects">
+            <span className="text-[10px] font-mono tracking-wider text-muted-foreground uppercase">[SYSTEM.ASSOCIATED_PROJECTS]</span>
+            <div className="flex flex-wrap gap-2">
+              {relatedProjects.map((project) => (
+                <Link 
+                  key={project.slug} 
+                  href={`/projects/${project.slug}`} 
+                  className="inline-flex items-center gap-2 rounded-lg border border-border/80 bg-muted/40 px-3 py-1.5 text-xs font-medium text-foreground transition-all duration-300 hover:border-accent-creative/30 hover:bg-accent-creative/5 hover:text-accent-creative"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent-creative" />
+                  <span className="font-heading font-semibold">{project.title}</span>
+                  <span className="text-[10px] text-muted-foreground">({project.category})</span>
+                </Link>
+              ))}
+            </div>
           </div>
         )}
 

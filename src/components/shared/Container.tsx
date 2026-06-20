@@ -1,14 +1,11 @@
 import type { ElementType, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-// ─── Container ────────────────────────────────────────────────────────────────
-
 interface ContainerProps {
   children: ReactNode;
   className?: string;
 }
 
-/** Max-width 1280 px, centred, horizontal padding per design system. */
 export function Container({ children, className }: ContainerProps) {
   return (
     <div className={cn("mx-auto w-full max-w-[1280px] px-6 lg:px-8", className)}>
@@ -17,8 +14,6 @@ export function Container({ children, className }: ContainerProps) {
   );
 }
 
-// ─── Section ──────────────────────────────────────────────────────────────────
-
 interface SectionProps {
   children: ReactNode;
   className?: string;
@@ -26,7 +21,6 @@ interface SectionProps {
   as?: ElementType;
 }
 
-/** Standard vertical rhythm for every page section. */
 export function Section({
   children,
   className,
@@ -40,8 +34,6 @@ export function Section({
   );
 }
 
-// ─── SectionHeading ───────────────────────────────────────────────────────────
-
 interface SectionHeadingProps {
   title: string;
   subtitle?: string;
@@ -49,7 +41,6 @@ interface SectionHeadingProps {
   align?: "left" | "center";
 }
 
-/** Consistent heading block for every section. */
 export function SectionHeading({
   title,
   subtitle,

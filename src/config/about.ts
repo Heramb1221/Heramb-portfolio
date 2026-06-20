@@ -1,8 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import { Layers, Lightbulb, BookOpen, GitFork, Users, Zap } from "lucide-react";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 export interface Highlight {
   id: string;
   icon: LucideIcon;
@@ -15,8 +13,6 @@ export interface AboutContent {
   paragraphs: string[];
   highlights: Highlight[];
 }
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
 
 export const aboutContent: AboutContent = {
   paragraphs: [

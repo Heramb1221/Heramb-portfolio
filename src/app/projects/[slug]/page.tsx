@@ -3,12 +3,10 @@ import { notFound } from "next/navigation";
 import { getProjectBySlug, getAllProjectsSorted } from "@/lib/projects";
 import { ProjectDetail } from "@/components/projects/ProjectDetail";
 
-// ─── Static params ────────────────────────────────────────────────────────────
 export function generateStaticParams() {
   return getAllProjectsSorted().map((p) => ({ slug: p.slug }));
 }
 
-// ─── Metadata ─────────────────────────────────────────────────────────────────
 export async function generateMetadata({
   params,
 }: {
@@ -23,7 +21,6 @@ export async function generateMetadata({
   };
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
 export default async function ProjectPage({
   params,
 }: {

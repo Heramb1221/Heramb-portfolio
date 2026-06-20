@@ -1,5 +1,3 @@
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 export interface GitHubUser {
   login: string;
   name: string | null;
@@ -23,16 +21,12 @@ export interface GitHubRepo {
 export interface GitHubData {
   user: GitHubUser | null;
   repos: GitHubRepo[];
-  /** Sum of stargazers_count across all fetched repos */
   totalStars: number;
 }
-
-// ─── Config ───────────────────────────────────────────────────────────────────
 
 const GITHUB_USERNAME = "Heramb1221";
 const GITHUB_API      = "https://api.github.com";
 
-/** Build auth headers — works without token (60 req/hr) or with (5000 req/hr). */
 function buildHeaders(): HeadersInit {
   const token = process.env.GITHUB_TOKEN;
   return {
@@ -41,8 +35,6 @@ function buildHeaders(): HeadersInit {
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
 }
-
-// ─── Fetchers ─────────────────────────────────────────────────────────────────
 
 async function fetchGitHubUser(): Promise<GitHubUser | null> {
   try {
@@ -68,21 +60,12 @@ async function fetchGitHubRepos(): Promise<GitHubRepo[]> {
     );
     if (!res.ok) return [];
     const repos = (await res.json()) as GitHubRepo[];
-    // Return top 4 repos that have a description (better UX)
     return repos.filter((r) => r.description?.trim()).slice(0, 4);
   } catch {
     return [];
   }
 }
 
-// ─── Public API ───────────────────────────────────────────────────────────────
-
-/**
- * Fetches GitHub user stats + top repos.
- * Uses next.revalidate: 3600 — refreshes cache every hour.
- * Never throws — returns null user + empty repos on any error.
- * Server-side only (async Server Component).
- */
 export async function getGitHubData(): Promise<GitHubData> {
   const [user, repos] = await Promise.all([
     fetchGitHubUser(),
@@ -94,7 +77,6 @@ export async function getGitHubData(): Promise<GitHubData> {
   return { user, repos, totalStars };
 }
 
-/** Language → colour dot mapping for common languages. */
 export const languageColours: Record<string, string> = {
   TypeScript:  "#3178c6",
   JavaScript:  "#f1e05a",

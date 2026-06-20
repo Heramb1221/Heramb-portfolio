@@ -1,5 +1,3 @@
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 export type LearningStatus =
   | "Learning"
   | "Exploring"
@@ -22,8 +20,6 @@ export interface LearningItem {
   description: string;
   status: LearningStatus;
 }
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
 
 export const learningItems: LearningItem[] = [
   {

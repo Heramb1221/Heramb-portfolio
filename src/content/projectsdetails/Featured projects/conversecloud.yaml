@@ -111,3 +111,6 @@ futureImprovements:
   - CI/CD pipelines.
   - Lazy loading and bundle optimization.
   - Docker containerization.
+
+relatedNotes:
+  - building-conversecloud
