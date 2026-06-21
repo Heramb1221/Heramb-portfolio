@@ -26,25 +26,25 @@ function buildCards(projectCount: number): CardData[] {
     {
       icon: GraduationCap,
       label: "Computer Engineering",
-      sublabel: "RCPIT Shirpur · 8.93 CGPA",
+      sublabel: "R. C. Patel Institute of Technology · 8.93 CGPA",
       iconClass: "text-primary bg-primary/10",
     },
     {
       icon: Code2,
-      label: "Full Stack Developer",
-      sublabel: "MERN · Next.js · React Native",
+      label: "Software Engineer",
+      sublabel: "Full Stack · Mobile · Real-Time Systems",
       iconClass: "text-primary bg-primary/10",
     },
     {
       icon: Briefcase,
-      label: "Open To Internships",
-      sublabel: "Internship · Job · Freelance",
+      label: "Open To Opportunities",
+      sublabel: "Internships · SDE Roles · Collaborations",
       iconClass: "text-emerald-500 bg-emerald-500/10",
     },
     {
       icon: Layers,
-      label: "Currently Learning",
-      sublabel: ".NET · Docker · Azure",
+      label: "Currently Exploring",
+      sublabel: ".NET · AWS · System Design",
       iconClass: "text-amber-500 bg-amber-500/10",
     },
     {
@@ -56,7 +56,7 @@ function buildCards(projectCount: number): CardData[] {
     {
       icon: FolderOpen,
       label: `${projectCount}+ Projects Built`,
-      sublabel: "Web · Mobile · Desktop",
+      sublabel: "Web · Mobile · Developer Tools",
       iconClass: "text-primary bg-primary/10",
     },
   ];

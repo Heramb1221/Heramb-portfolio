@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { stagger, staggerItem, defaultViewport } from "@/lib/animations";
 import { Container, Section, SectionHeading } from "@/components/shared/Container";
 import type { Certification } from "@/types/certificate";
-import { ExternalLink, ShieldCheck, Terminal, Award, FileText, CheckCircle2, Eye } from "lucide-react";
+import { ExternalLink, ShieldCheck, Terminal, CheckCircle2, Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CertificationsSectionProps {

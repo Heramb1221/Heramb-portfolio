@@ -26,7 +26,6 @@ export function getSkillNodeId(skillLabel: string): string | null {
   if (norm === "mongodb" || norm === "mongodbatlas") return "mongodb";
   if (norm === "prismaorm" || norm === "prisma") return "prisma";
   if (norm === "convex") return "convex";
-  if (norm === "firebase") return "firebase";
   
   if (norm === "vercel") return "vercel";
   if (norm === "github" || norm === "git") return "github";
@@ -64,7 +63,6 @@ export function SkillBadge({
     nodeId === "socketio" ||
     nodeId === "webrtc" ||
     nodeId === "convex" ||
-    nodeId === "firebase" ||
     nodeId === "java" ||
     nodeId === "c" ||
     nodeId === "github";

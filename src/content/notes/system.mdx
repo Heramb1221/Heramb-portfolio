@@ -1,0 +1,60 @@
+---
+title: System Design Notes — From Building Real Apps to Thinking in Systems
+description: Notes on system design fundamentals, written while connecting concepts back to real architectural decisions made in personal full-stack projects.
+date: 2025-04-22
+category: Learning Notes
+tags: [System Design, Architecture, Scalability, Backend]
+---
+
+## Why This Note Exists
+
+Most system design content is abstract — "design Twitter," "design a URL shortener." It's more useful to map these concepts onto decisions actually made while building real apps, even small ones. This note is a running log of system design concepts tied to the projects they came up in.
+
+## Core Concepts
+
+### Vertical vs Horizontal Scaling
+
+Vertical scaling (bigger server) is what every side project starts with by default — it's free in the sense that no architecture changes are required. Horizontal scaling (more servers) only becomes necessary once a single instance can't handle load, but it forces statelessness in the application layer, which has downstream effects on session handling and WebSocket connections.
+
+### Stateless vs Stateful Services
+
+A REST API can usually be made stateless trivially — auth via JWT instead of server-side sessions, no in-memory state. Real-time features break this assumption immediately. A Socket.IO server holding active room state in memory cannot be scaled horizontally without either:
+
+1. Sticky sessions (route the same client back to the same server instance), or
+2. A shared state layer (Redis pub/sub) so any instance can broadcast to any connected client
+
+This came up directly while scoping multi-instance support for a real-time collaborative app — single-instance in-memory state works fine until a second server is added, at which point clients connected to different instances stop seeing each other's events.
+
+### Database: SQL vs NoSQL
+
+Relational databases enforce structure and relationships (foreign keys, joins) at the cost of rigid schema migrations. Document stores like MongoDB trade that structure for flexibility — useful when the shape of data is still evolving (early-stage projects) but a real cost once relationships between documents get complex and start requiring application-level joins.
+
+### Caching Layers
+
+Three places caching typically gets added, roughly in order of when they become necessary:
+
+- **Client-side cache** (React Query, SWR) — avoids redundant network requests, first thing to add
+- **CDN / edge cache** — static assets, doesn't touch the origin server at all
+- **Server-side cache** (Redis) — expensive computations or frequently-read, rarely-changed data
+
+### Load Balancing
+
+A load balancer's job is distributing requests across multiple server instances, but the algorithm matters: round-robin is simplest but ignores server load; least-connections is better for long-lived connections (like WebSockets); IP-hash gives session affinity without needing sticky session config at the app layer.
+
+### CAP Theorem (in practice, not just theory)
+
+Consistency, Availability, Partition tolerance — pick two. In practice this shows up as: should a write be confirmed immediately to all clients (consistency) or should the system stay available and resolve conflicts later (availability)? Real-time sync features (e.g. shared playback position across clients) lean toward eventual consistency with a tie-breaking authority (server-authoritative state) rather than trying to keep every client perfectly synchronized at all times.
+
+### Message Queues
+
+Decoupling a slow operation (sending an email, processing an image) from the request/response cycle by pushing it onto a queue (BullMQ, RabbitMQ, SQS) keeps API response times fast and makes the slow operation retryable independently of the original request.
+
+## Applying This to Side Projects
+
+The temptation with side projects is to skip system design entirely since the user count is near zero. The more useful approach has been to ask "what would break first if this had 1,000 concurrent users?" for every feature — not to over-engineer for that scale, but to know where the actual bottleneck would be and make that an explicit, documented tradeoff rather than an accident.
+
+## Current Progress
+
+- Worked through scaling considerations for a real-time multi-user feature (single in-memory state vs Redis pub/sub)
+- Mapped caching strategy across client/server boundary for a couple of current projects
+- Next: reading into event-driven architecture and CQRS, specifically where they'd actually help vs add unnecessary complexity

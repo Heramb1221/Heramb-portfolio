@@ -83,15 +83,12 @@ architecture: >
   Video APIs, while TanStack Query manages server state and caching.
 
 challenges:
-  - Managing WebSocket lifecycle and preventing duplicate connections.
-  - Implementing deterministic channel IDs for consistent chat creation.
   - Coordinating authentication between frontend, backend, and Stream services.
   - Handling authentication state propagation without Redux.
   - Balancing build-vs-buy decisions when integrating managed communication infrastructure.
 
 lessonsLearned:
   - Real-time communication architecture.
-  - WebSocket lifecycle management in React applications.
   - Authentication using JWT and httpOnly cookies.
   - Server state management with TanStack Query.
   - Backend token generation and secure API design.

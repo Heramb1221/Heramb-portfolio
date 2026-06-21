@@ -1,0 +1,50 @@
+---
+title: Building a Java Audio Player — Working with the Java Sound API
+description: A technical look at integrating Java's native Sound API for desktop audio playback, covering Clip-based buffering, EDT-safe UI updates, and native resource management.
+date: 2024-11-15
+category: Project Notes
+tags: [Java, Swing, Java Sound API, Desktop Development, Concurrency]
+relatedProjects: [java-audio-player]
+---
+
+## Overview
+
+Java Audio Player is a desktop application that plays local audio files using nothing but the Java standard library — no third-party audio engine, no Maven dependency for playback. This note documents how the **Java Sound API** (`javax.sound.sampled`) was integrated, why it was chosen over alternatives, and the threading challenges that came with wiring it into a Swing UI.
+
+## Architecture
+
+The app is a single Swing `JFrame` backed entirely by JDK APIs: `javax.swing` for the interface and `javax.sound.sampled` for audio. There's no external audio library — every playback, buffering, and seeking operation goes through the JDK's built-in `AudioSystem`.
+
+## Key Engineering Decisions
+
+### Choosing the Java Sound API over a third-party library
+
+I deliberately avoided libraries like JLayer or VLCJ for the first version. `javax.sound.sampled` ships with the JDK, supports WAV/AIFF/AU natively via PCM decoding, and requires zero dependency management. The tradeoff is real: no MP3/FLAC support out of the box. But for a project meant to explore Java's own audio architecture rather than wrap someone else's library, this was the right call.
+
+### Clip vs. SourceDataLine
+
+The Sound API offers two playback models, and picking the right one mattered:
+
+- **`Clip`** — loads the entire audio file into memory as raw PCM. Seeking is instant (`setMicrosecondPosition`), but memory cost scales with file size.
+- **`SourceDataLine`** — streams audio in small chunks at constant memory, but seeking requires re-reading from the start.
+
+I went with `Clip`. For short local audio files where instant scrubbing matters more than memory footprint, the O(n) memory tradeoff is acceptable. `SourceDataLine` is the right call for streaming or large files — something I'm scoping for a future iteration.
+
+### Integrating playback with Swing's threading model
+
+This was the harder problem. Swing has a strict rule: all UI mutations must happen on the **Event Dispatch Thread (EDT)**. Audio playback itself runs on a JVM-managed daemon thread outside Swing's control, but the progress bar and position label still need to update live.
+
+I used `javax.swing.Timer` instead of `java.util.Timer` specifically because Swing's Timer fires its callback *on the EDT*. `java.util.Timer` runs on a background thread, and mutating a `JProgressBar` from there is a silent thread-safety violation — it might work most of the time and then corrupt the UI under load. A 100ms `javax.swing.Timer` polls `clip.getMicrosecondPosition()` and pushes formatted values to the label and progress bar, fully EDT-safe by construction.
+
+## Challenges
+
+The trickiest part wasn't playback — it was resource lifecycle. `Clip` and `AudioInputStream` both hold native OS resources (an audio line and a file descriptor, respectively) that the garbage collector doesn't know how to clean up. Closing a `Clip` before opening a new one was straightforward; what I underestimated was that the `AudioInputStream` itself also needs an explicit close after `clip.open()` consumes it — otherwise the file descriptor stays open and, on Windows, locks the file from being renamed or deleted while the app is running. Wrapping that stream in try-with-resources fixed it.
+
+The other subtlety was that `clip.open()` is a blocking call, and on the EDT, a large file means a frozen window. The fix — moving the load into a `SwingWorker` so `doInBackground()` handles the I/O off the EDT while `done()` safely updates the UI — is on the roadmap.
+
+## Lessons Learned
+
+* The Java Sound API is genuinely capable for PCM playback without any external dependency, but the format ceiling (no native MP3/FLAC) is a real constraint worth knowing upfront
+* `javax.swing.Timer` vs `java.util.Timer` looks like a trivial choice but is actually a thread-safety decision — picking wrong doesn't crash immediately, it corrupts state intermittently
+* Native resources (audio lines, file descriptors) need explicit lifecycle management in Java — the GC only knows about heap memory, not OS handles
+* `Clip`'s full-buffer model is the right tool for short files and wrong for anything approaching streaming-scale, which is a useful API-selection lesson beyond just audio

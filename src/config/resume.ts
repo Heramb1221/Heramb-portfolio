@@ -20,7 +20,7 @@ export const education: Education[] = [
     degree: "B.E. Computer Engineering",
     institution: "R.C. Patel Institute of Technology",
     location: "Shirpur, Maharashtra",
-    period: "2022 – 2026",
+    period: "20223 – 2027",
     cgpa: "8.93",
     highlights: [
       "Relevant coursework: Data Structures & Algorithms, DBMS, Operating Systems, Computer Networks, OOP",
@@ -34,7 +34,7 @@ export const experience: Experience[] = [
   {
     title: "Treasurer",
     organization: "ACM Student Chapter, RCPIT",
-    period: "2024 – Present",
+    period: "2025 – Present",
     type: "Leadership",
     highlights: [
       "Managing annual chapter budget and event finances",

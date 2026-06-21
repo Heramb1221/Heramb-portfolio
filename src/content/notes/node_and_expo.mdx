@@ -1,0 +1,67 @@
+---
+title: The node_modules Problem — Debugging Expo APK Builds
+description: Notes on dependency resolution failures, native module conflicts, and EAS build errors encountered while shipping React Native apps with Expo.
+date: 2025-03-18
+category: Learning Notes
+tags: [Expo, React Native, EAS Build, Node.js, Debugging]
+---
+
+## The Problem
+
+Building locally with `expo start` almost never fails. Building a production APK with `eas build` is a different story — dependency issues that silently work in dev mode surface hard during the actual build step, usually deep inside `node_modules` resolution or native autolinking.
+
+## Common Failure Modes
+
+### 1. Version mismatches between Expo SDK and dependencies
+
+Expo pins specific versions of React Native, React, and core libraries per SDK release. Installing a package that assumes a different RN version (very common with older or loosely maintained libraries) causes silent type errors in dev but hard native build failures in EAS.
+
+```bash
+npx expo install --check
+```
+
+This command compares installed versions against what the current SDK expects and flags mismatches — should be the first thing run before any build, not after a failure.
+
+### 2. Duplicate native dependencies
+
+Two packages depending on different versions of the same native module (e.g. two libraries both pulling in different versions of `react-native-reanimated` transitively) produces duplicate symbol errors or `autolinking` conflicts that only show up at the native compile step.
+
+Fix pattern that worked:
+
+```bash
+rm -rf node_modules package-lock.json
+npx expo install --fix
+```
+
+`expo install --fix` rewrites the dependency tree to match SDK-compatible versions rather than just installing whatever `npm` resolves to.
+
+### 3. Metro cache poisoning
+
+Stale Metro bundler cache after switching branches or major dependency upgrades causes builds that succeed locally but produce broken bundles in the APK. The fix is almost always:
+
+```bash
+npx expo start -c
+```
+
+For EAS builds specifically, clearing the remote build cache helps when local fixes don't reproduce the issue:
+
+```bash
+eas build --clear-cache
+```
+
+### 4. Peer dependency conflicts with npm 7+
+
+Strict peer dependency resolution in newer npm versions throws `ERESOLVE` errors that block install entirely, especially with Expo's frequent SDK bumps. `--legacy-peer-deps` works as a stopgap but masks real incompatibilities — better to actually resolve the conflicting package versions before relying on it.
+
+## What Actually Helped Long-Term
+
+- Pinning exact versions in `package.json` instead of `^` ranges for anything native-module related (camera, audio, notifications)
+- Running `expo-doctor` before every build to catch config/dependency drift early
+- Keeping a clean `eas.json` build profile per environment (development, preview, production) so cache and env var issues don't bleed across builds
+- Treating SDK upgrades as their own isolated task — never bundling an SDK bump with unrelated feature work, since it's nearly impossible to tell which change broke the build otherwise
+
+## Current Progress
+
+- Documented a repeatable pre-build checklist (`expo-doctor` → `expo install --check` → clear Metro cache → build)
+- Migrated native-sensitive dependencies to pinned versions
+- Next: setting up EAS build profiles with proper environment variable isolation between dev/staging/prod

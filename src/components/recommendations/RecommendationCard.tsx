@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Quote } from "lucide-react";
 import { ContentCard } from "@/components/shared/ContentCard";
 import type { Recommendation } from "@/types/recommendation";

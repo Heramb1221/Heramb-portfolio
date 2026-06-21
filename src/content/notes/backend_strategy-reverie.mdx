@@ -1,0 +1,202 @@
+---
+title: One Backend, Two Token Strategies — Dual-Surface Auth in Reverie
+description: How I designed a single Express authentication service to serve HttpOnly cookies to a Next.js web app and body-delivered tokens to an Expo mobile app, without duplicating auth logic.
+date: 2025-02-03
+category: Project Notes
+tags: [Authentication, JWT, React Native, Expo, Next.js, Node.js, Security, Full Stack]
+relatedProjects: [reverie]
+---
+ 
+## Overview
+ 
+Reverie is the same product on two surfaces — a Next.js web app and an Expo React Native mobile app. Both need to authenticate users, maintain sessions, and transparently refresh expired tokens. The backend is a single Express API serving both.
+ 
+The challenge: the correct way to store a JWT refresh token on web (an HttpOnly cookie) is completely inaccessible on React Native. Cookies in an HttpOnly format are a browser security primitive — they don't exist in the mobile context. The mobile equivalent is `expo-secure-store`, which writes to iOS Keychain or Android Keystore, and is accessed via async JavaScript calls.
+ 
+So the same auth service needs to produce two different token delivery behaviors depending on who's calling it.
+ 
+## The Wrong Approaches I Considered
+ 
+**Option 1: Separate auth endpoints for web and mobile.**
+`/auth/login/web` and `/auth/login/mobile`. Simple to understand, immediately doubles the surface area for bugs. Any change to auth logic has to be made in two places.
+ 
+**Option 2: Separate backend services.**
+A web API and a mobile API. Even worse — now you have two services to deploy, two places to update secrets, and two databases to keep in sync (or one database with two connections).
+ 
+**Option 3: Let the mobile app use cookies.**
+React Native's `fetch` can handle cookies with the right configuration, but HttpOnly cookies are explicitly inaccessible to JavaScript — that's the entire point of them. The mobile app would receive the cookie but couldn't read the refresh token from it to include in the refresh request manually.
+ 
+None of these were acceptable. I wanted one auth service, one set of endpoints, one middleware, with behavioral branching for the token delivery mechanism.
+ 
+## The Solution: A Single Header, One Branch
+ 
+The approach I landed on: a custom header `X-Mobile-Client: true`, sent by the Expo app on every request. The auth service reads this header and changes only the token delivery strategy — not the verification logic, not the business logic, nothing else.
+ 
+```typescript
+// auth.controller.ts
+const isMobile = req.headers['x-mobile-client'] === 'true';
+ 
+// After generating tokens...
+if (isMobile) {
+  // Mobile: deliver both tokens in the response body
+  // The app stores them in expo-secure-store
+  return sendSuccess(res, {
+    user,
+    accessToken,
+    refreshToken,   // Raw token in body — app stores in SecureStore
+  }, 'Login successful');
+} else {
+  // Web: access token in body, refresh token in HttpOnly cookie
+  // The cookie is inaccessible to JavaScript — XSS cannot steal it
+  res.cookie('reverie_refresh', refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    path: '/',
+  });
+  return sendSuccess(res, { user, accessToken }, 'Login successful');
+}
+```
+ 
+The `authenticate` middleware — which runs on every protected route — is identical for both surfaces:
+ 
+```typescript
+// middleware/auth.ts
+export const authenticate = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith('Bearer ')) {
+    throw new AppError('No token provided', 401);
+  }
+  const token = authHeader.split(' ')[1];
+  const payload = verifyAccessToken(token);  // Same for both surfaces
+  const user = await User.findById(payload.userId).select('_id email');
+  if (!user) throw new AppError('User not found', 401);
+  req.user = { userId: user._id.toString(), email: user.email };
+  next();
+};
+```
+ 
+Both the web app and mobile app send the access token in the `Authorization: Bearer` header. The difference is only in how they got that token and where the refresh token lives.
+ 
+## The Refresh Flow — Where It Gets Interesting
+ 
+The refresh endpoint is where the branching is most visible:
+ 
+```typescript
+// auth.controller.ts — refresh
+const isMobile = req.headers['x-mobile-client'] === 'true';
+ 
+// Extract the raw refresh token from wherever it lives
+const rawRefreshToken = isMobile
+  ? req.body.refreshToken           // Mobile sends it in the request body
+  : req.cookies['reverie_refresh']; // Web browser sends it automatically via cookie
+ 
+if (!rawRefreshToken) {
+  throw new AppError('No refresh token', 401);
+}
+ 
+const { user, accessToken, refreshToken: newRefreshToken } =
+  await authService.refreshTokens(rawRefreshToken, deviceInfo, ipAddress);
+ 
+// Deliver the new tokens using the appropriate strategy
+if (isMobile) {
+  return sendSuccess(res, { user, accessToken, refreshToken: newRefreshToken });
+} else {
+  res.cookie('reverie_refresh', newRefreshToken, cookieOptions);
+  return sendSuccess(res, { user, accessToken });
+}
+```
+ 
+The `authService.refreshTokens()` call is identical — it doesn't know or care whether it's being called from a mobile client or a browser. It hashes the incoming token, looks up the hash in the database, rotates it (deletes old, creates new), and returns fresh tokens. All of that logic is surface-agnostic.
+ 
+## Token Storage on Each Surface
+ 
+**Web (Next.js):**
+- Access token: Zustand store, persisted to `localStorage`
+- Refresh token: HttpOnly cookie set by the server, never accessible to JavaScript
+The access token in `localStorage` is a known tradeoff — it's readable by any JavaScript running on the page, which makes it vulnerable to XSS. The refresh token in an HttpOnly cookie is safe from XSS. The design accepts that a successful XSS attack gets the short-lived access token (15 minutes) but not the long-lived refresh token (30 days).
+ 
+**Mobile (Expo):**
+- Access token: Zustand store, backed by `expo-secure-store`
+- Refresh token: `expo-secure-store` (iOS Keychain / Android Keystore)
+`expo-secure-store` provides hardware-backed encryption on both platforms. It's the mobile equivalent of an HttpOnly cookie from a security perspective — the tokens are isolated from other apps and from JavaScript running in a web view context.
+ 
+```typescript
+// mobile/lib/storage.ts
+export const storage = {
+  setItem: async (key: string, value: string) => {
+    await SecureStore.setItemAsync(key, value);
+  },
+  getItem: async (key: string): Promise<string | null> => {
+    return await SecureStore.getItemAsync(key);
+  },
+  removeItem: async (key: string) => {
+    await SecureStore.deleteItemAsync(key);
+  },
+};
+```
+ 
+The Zustand auth store on mobile calls `storage.getItem('access_token')` during hydration. Because `expo-secure-store` operations are async, the store has a `hydrated` flag that gates rendering until the read completes.
+ 
+## The Silent Refresh — Both Platforms
+ 
+Both the web Axios instance and the mobile Axios instance implement the same silent refresh pattern, with minor differences in where they read and write the refresh token:
+ 
+```typescript
+// The core pattern is identical
+api.interceptors.response.use(
+  res => res,
+  async (error) => {
+    const original = error.config;
+    
+    if (error.response?.status === 401 && !original._retry) {
+      if (isRefreshing) {
+        // Queue this request — don't fire another refresh call
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        }).then(token => {
+          original.headers.Authorization = `Bearer ${token}`;
+          return api(original);
+        });
+      }
+ 
+      original._retry = true;
+      isRefreshing = true;
+ 
+      try {
+        // Web: refreshToken comes from cookie (automatic)
+        // Mobile: refreshToken read from SecureStore and sent in body
+        const refreshToken = await storage.getItem('refresh_token');
+        const { data } = await refreshClient.post('/auth/refresh', { refreshToken });
+        
+        const newToken = data.data.accessToken;
+        await storage.setItem('access_token', newToken);
+        
+        processQueue(null, newToken);  // Replay all queued requests
+        original.headers.Authorization = `Bearer ${newToken}`;
+        return api(original);
+      } catch (e) {
+        processQueue(e);
+        // Clear tokens, redirect to login
+        return Promise.reject(e);
+      } finally {
+        isRefreshing = false;
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+```
+ 
+The `isRefreshing` flag and `failedQueue` solve the thundering herd problem: if 10 API calls fire simultaneously and all receive 401, without this pattern each one would attempt its own token refresh — 10 concurrent refresh requests, each one rotating the token. The second request would find the first rotation already complete and its token already invalid — a cascade of logouts. The queue pattern ensures exactly one refresh fires, and the other 9 wait and replay with the new token.
+ 
+The `refreshClient` is a separate Axios instance without the 401 interceptor. This is necessary — if the refresh call itself returns 401, you don't want it triggering another refresh attempt, which would trigger another, infinitely.
+ 
+## What This Architecture Gets Right
+ 
+The single-header branching approach has held up well through development. Adding a new auth endpoint — logout, password change, account deletion — requires thinking about token delivery in one place only. The business logic is completely isolated from the delivery mechanism.
+ 
+The security properties are also consistent with best practices on each platform: HttpOnly cookie on web, Keychain/Keystore on mobile. Neither surface stores the refresh token in a location accessible to arbitrary JavaScript.
+ 
+The thing I'd change: the `X-Mobile-Client` header is a string that I have to remember to include in every Axios instance and every `fetch` call on mobile. It would be cleaner as middleware applied at the Expo Router layout level, injecting the header into every outgoing request automatically — similar to how the `Authorization` header is injected by the Axios interceptor. The header exists and works, but its application is currently manual rather than structural.

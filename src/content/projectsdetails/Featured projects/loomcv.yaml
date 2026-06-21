@@ -84,7 +84,6 @@ challenges:
   - Managing Stripe subscription lifecycle events.
   - Handling Prisma database connections during development.
   - Building AI-assisted resume generation workflows.
-  - Managing file uploads within Server Actions.
   - Designing permission systems for subscription tiers.
   - Understanding App Router and Server Actions architecture.
 
@@ -102,10 +101,8 @@ futureImprovements:
   - ATS resume scoring and analysis.
   - Cover letter generation.
   - Multiple resume templates.
-  - Resume version history.
-  - Collaborative resume sharing.
   - Redis-based rate limiting.
   - Content Security Policy implementation.
-  - Improved AI structured output.
-  - Automated testing coverage.
-  - Upsert-based persistence optimizations.
+
+relatedNotes:
+  - loomcv.mdx

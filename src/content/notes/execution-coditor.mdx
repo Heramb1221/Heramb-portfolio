@@ -1,0 +1,252 @@
+---
+title: When Your Execution Engine Goes Dark — The Piston API Deprecation
+description: Documenting the moment the public Piston API became whitelist-only and what it exposed about building on free public infrastructure.
+date: 2026-02-16
+category: Project Notes
+tags: [Next.js, Convex, Code Execution, Infrastructure, API Design, Lessons Learned]
+relatedProjects: [coditor]
+---
+
+## Overview
+
+Coditor's code execution feature stopped working overnight.
+
+Users clicking **Run Code** now see this instead of their output:
+
+```txt
+Public Piston API is now whitelist only as of 2/15/2026.
+Please contact EngineerMan on Discord with use case justification
+or consider hosting your own Piston instance.
+```
+
+This note documents what broke, why the architecture made this an outsized problem, and the options I am evaluating to restore execution.
+
+## What Happened
+
+Piston is an open-source, polyglot code execution engine. The public instance hosted at `emkc.org` was free and required no API key — you POST code, you get output. Coditor called this endpoint directly from the browser.
+
+As of February 15, 2026, the maintainer closed public access. The endpoint now returns an error message instead of execution results. All Coditor users are affected immediately with no fallback.
+
+## Why This Hit Hard
+
+The deeper issue is architectural.
+
+Coditor calls the Piston API directly from the browser — there is no server-side proxy in between. This was the fastest path to working execution during development, but it created several compounding problems.
+
+### No Abstraction Layer
+
+The Piston endpoint URL is referenced directly inside `useCodeEditorStore.ts`.
+
+Swapping execution providers means touching:
+
+- Store logic
+- Error parsing logic
+- Response shape parsing
+
+The execution provider became tightly coupled to client-side state management.
+
+### No Fallback Mechanism
+
+Because execution is entirely client-side, there is no server component capable of intercepting failures and rerouting requests.
+
+When Piston stopped accepting requests, users received the raw API message directly in the output panel.
+
+### The Wrong Risk Was Documented
+
+I had documented the lack of rate limiting as a known risk.
+
+An outright shutdown was not on the radar.
+
+That assumption turned out to be incorrect.
+
+## Current Execution Flow
+
+The execution pipeline currently looks like this:
+
+```txt
+User clicks Run Code
+    │
+    └─ useCodeEditorStore.runCode()
+          │
+          └─ POST https://emkc.org/api/v2/piston/execute
+                │
+                └─ 200 OK with body:
+                   {
+                     "message": "Public Piston API is now whitelist only..."
+                   }
+                        │
+                        └─ Parsed as API-level error
+                             │
+                             └─ Displayed in Output Panel
+```
+
+The error handling itself behaves correctly.
+
+The response lands inside the `if (data.message)` branch and is surfaced to the user without crashing the UI.
+
+The platform remains stable.
+
+The execution feature does not.
+
+## Options I Am Evaluating
+
+### Option 1 — Self-Host Piston
+
+Piston is open source and can be deployed on infrastructure such as:
+
+- DigitalOcean
+- Railway
+- Fly.io
+- Self-managed VPS instances
+
+Because the API contract remains the same, the frontend would require minimal changes.
+
+#### Pros
+
+- Full control over execution infrastructure
+- No dependency on a third-party public service
+- Minimal client-side migration effort
+- Same API surface
+
+#### Cons
+
+- Infrastructure costs
+- Ongoing maintenance burden
+- Container orchestration for multiple language runtimes
+- Operational complexity
+
+Piston executes code within Docker containers, making production deployment significantly more involved than a simple API service.
+
+This is likely the strongest long-term solution.
+
+### Option 2 — Migrate to Judge0
+
+Judge0 is another code execution platform that can be self-hosted or consumed through managed cloud offerings.
+
+Unlike Piston, Judge0 uses an asynchronous execution model.
+
+Instead of receiving output immediately:
+
+1. Submit code
+2. Receive submission token
+3. Poll for completion
+4. Retrieve result
+
+#### Pros
+
+- Actively maintained ecosystem
+- Good documentation
+- Managed cloud offerings available
+- Self-hosting remains an option
+
+#### Cons
+
+- Different API design
+- Requires frontend execution workflow changes
+- Additional complexity from polling
+- Managed plans introduce usage costs
+
+### Option 3 — Introduce a Server-Side Proxy
+
+Regardless of which execution provider is selected, the most important architectural improvement is introducing a backend layer between the browser and the execution engine.
+
+Potential implementations include:
+
+- Next.js API routes
+- Convex actions
+- Dedicated execution service
+
+This layer would provide:
+
+- Provider abstraction
+- Centralized error handling
+- Request logging
+- Per-user rate limiting
+- Subscription checks for Pro users
+- Provider failover capability
+
+This should have existed from the beginning.
+
+The current architecture bypasses the application's control plane entirely and delegates a critical product feature directly to a third-party service.
+
+## Immediate Status
+
+Code execution is currently unavailable for all users.
+
+The following features continue to operate normally:
+
+- Monaco editor
+- Snippet sharing
+- Stars and engagement features
+- Comments
+- User profiles
+- Execution history viewing
+
+Past execution records remain accessible through the profile page.
+
+A visible banner has been added to the editor interface informing users that execution is temporarily unavailable.
+
+## Lessons Learned
+
+### Free Public APIs Are Operational Liabilities
+
+Free public APIs with no authentication provide convenience but remove communication channels.
+
+There was:
+
+- No API key registration
+- No email notification mechanism
+- No deprecation headers
+- No versioning guarantees
+
+The first signal of change was a broken feature in production.
+
+### Browser-to-Provider Integrations Skip Your Control Plane
+
+Calling third-party infrastructure directly from the browser eliminated opportunities for:
+
+- Logging
+- Rate limiting
+- Fallback routing
+- Feature gating
+- Graceful degradation
+
+A server-side proxy is not premature abstraction when the dependency is central to the product.
+
+It is the minimum viable architecture.
+
+### External Dependencies Need Explicit Risk Audits
+
+Piston was treated as infrastructure rather than a dependency.
+
+A dependency review would have identified:
+
+- Single point of failure
+- No SLA
+- No ownership guarantees
+- No backup provider
+- No migration strategy
+
+Those risks existed long before the shutdown.
+
+### Good Error Handling Still Matters
+
+The execution feature failed, but the application did not.
+
+The multi-layer error handling inside `runCode()` correctly detected the API-level message and surfaced it to the user without generating an unhandled exception.
+
+The incident exposed architectural weaknesses, but it also validated that the error handling path worked exactly as intended.
+
+## Closing Thoughts
+
+The failure was not caused by a bug in Coditor.
+
+It was caused by a hidden assumption: that a free public service would continue operating indefinitely.
+
+The real issue was not losing Piston.
+
+The real issue was designing a critical feature around a dependency with no ownership, no contract, no fallback, and no control layer.
+
+Restoring execution is ultimately straightforward.
+
+The more valuable outcome is the architectural lesson: critical infrastructure should always sit behind an abstraction layer that you control.

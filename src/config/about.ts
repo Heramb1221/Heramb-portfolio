@@ -16,52 +16,68 @@ export interface AboutContent {
 
 export const aboutContent: AboutContent = {
   paragraphs: [
-    "I'm a third-year Computer Engineering student at R.C. Patel Institute of Technology, Shirpur, with an 8.93 CGPA and a hands-on focus on full-stack development. I build real applications — web, mobile, and desktop — across the complete stack using React, Node.js, MongoDB, Next.js, and React Native.",
-    "I approach software engineering as a craft. Each project I take on is an opportunity to explore architecture decisions, solve real problems, and sharpen my technical depth. From real-time chat platforms to SaaS tools and cross-platform apps, I focus on writing clean, maintainable code that scales.",
-    "I'm currently expanding into .NET, Docker, and Azure while actively contributing to open source through Hacktoberfest and leading the ACM chapter at my institution. I'm open to internship roles and collaborative opportunities where I can contribute and continue to grow.",
+    "I'm a third-year Computer Engineering student at R. C. Patel Institute of Technology, Shirpur, with a curiosity for understanding how software works beneath the surface. I enjoy building projects not just to create products, but to explore new ideas, technologies, and engineering challenges.",
+
+    "Over the past few years, I've built applications across web, mobile, and real-time systems — from chat platforms and SaaS products to developer tools and personal experiments. Each project has been an opportunity to learn something new, whether that's system architecture, state management, authentication, databases, or user experience.",
+
+    "I see software engineering as a continuous process of exploration. Recently, I've been focusing on strengthening my engineering fundamentals while exploring areas such as backend development, cloud technologies, system design, DevOps, AI/ML, and game development through hands-on projects and continuous learning.",
+
+    "Outside of academics, I serve as Treasurer of the ACM Student Chapter at my college, contribute to open source, and enjoy experimenting with ideas that sit outside my comfort zone. This portfolio is a collection of those explorations, projects, and lessons learned along the way.",
   ],
+
   highlights: [
     {
-      id: "fullstack",
+      id: "software-engineering",
       icon: Layers,
-      iconLabel: "Full stack development",
-      title: "Full Stack Development",
-      description: "Web, mobile, and desktop — across the entire stack.",
+      iconLabel: "Software engineering",
+      title: "Software Engineering",
+      description:
+        "Building web, mobile, and real-time applications while exploring architecture and systems.",
     },
+
     {
       id: "problem-solving",
       icon: Lightbulb,
       iconLabel: "Problem solving",
       title: "Problem Solving",
-      description: "Competitive programming and real-world engineering challenges.",
+      description:
+        "Strengthening fundamentals through DSA, C++, and engineering challenges.",
     },
+
     {
       id: "learning",
       icon: BookOpen,
       iconLabel: "Continuous learning",
-      title: "Continuous Learning",
-      description: "Expanding into .NET, Docker, Azure, and System Design.",
+      title: "Explorer Mindset",
+      description:
+        "Currently exploring .NET, AWS, DevOps, AI/ML, and System Design.",
     },
+
     {
       id: "open-source",
       icon: GitFork,
       iconLabel: "Open source",
       title: "Open Source",
-      description: "Hacktoberfest contributor. 44+ public GitHub repositories.",
+      description:
+        "Hacktoberfest contributor with 44+ public repositories on GitHub.",
     },
+
     {
       id: "collaboration",
       icon: Users,
-      iconLabel: "Team collaboration",
-      title: "Team Collaboration",
-      description: "ACM Chapter Treasurer. Cross-functional project experience.",
+      iconLabel: "Leadership & Collaboration",
+      title: "Community",
+      description:
+        "Treasurer at ACM Student Chapter and contributor to technical initiatives.",
     },
+
     {
-      id: "fast-learner",
+      id: "builder",
       icon: Zap,
-      iconLabel: "Fast learner",
-      title: "Fast Learner",
-      description: "New stack, new domain — I pick it up and ship it.",
+      iconLabel: "Builder mindset",
+      title: "Build to Learn",
+      description:
+        "Every project is an opportunity to explore a new domain, tool, or idea.",
     },
   ],
 };

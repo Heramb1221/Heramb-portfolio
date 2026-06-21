@@ -1,0 +1,53 @@
+---
+title: Building HeartWave — Real-Time Synchronized Listening Rooms
+description: A technical deep dive into building a real-time collaborative music platform with React, Node.js, Socket.IO, and the YouTube IFrame Player API — including why YouTube replaced Spotify as the playback engine.
+date: 2024-11-15
+category: Project Notes
+tags: [React, Node.js, MongoDB, Socket.IO, YouTube API, WebRTC, Full Stack]
+relatedProjects: [heartwave]
+---
+
+## Overview
+
+HeartWave is a real-time collaborative listening platform where a host and any number of guests hear the exact same audio at the exact same moment, regardless of where they are. This note covers the playback-engine decision, the sync architecture, and the engineering problems that came with keeping dozens of independent browsers in lockstep.
+
+## Why Not Spotify
+
+The original design assumed Spotify Web Playback SDK — it's the obvious choice for a music app. It didn't survive contact with Spotify's actual terms:
+
+* **Premium-only playback.** Spotify's Web Playback SDK only streams audio for users with a paid Premium account. Every listener in a room — not just the host — would need their own Spotify Premium subscription just to hit play. That's a hard wall for a free, anyone-can-join listening room.
+* **No server-side control.** Spotify playback is bound to the authenticated user's own session; there's no way for a server to drive playback on behalf of a room the way this app's host-authoritative model requires.
+* **Licensing/commercial terms.** Spotify's developer terms restrict building features that resemble "social listening" without a commercial agreement — not something viable for a side project.
+
+Given those constraints, building on Spotify wasn't a matter of more engineering effort — it was a hard product/cost wall, not a technical one.
+
+## The YouTube Workaround
+
+YouTube's IFrame Player API became the playback engine instead, via the `react-youtube` wrapper:
+
+* **No subscription required.** Any room participant can play any publicly available YouTube video — no Premium tier, no per-user licensing cost.
+* **Search is free.** YouTube Data API v3's search endpoint provides song lookup (10,000 quota units/day on the free tier), letting users find and queue tracks without a paid catalog API.
+* **Trade-off accepted deliberately:** playback is video-first (a YouTube embed, not a pure audio stream), and availability depends on what's uploaded to YouTube rather than a licensed catalog. For a free, room-based listening experience, that trade-off was worth it.
+
+This shifted the hard engineering problem from "stream licensed audio" to "keep many independent YouTube iframes in sync with each other" — which became the actual core of the project.
+
+## Key Engineering Decisions
+
+### Server-Authoritative Sync Model
+Rather than trusting any single client's playback clock, the Node.js/Socket.IO server holds the canonical room state — `{ videoId, currentTime, isPlaying, serverTime }` — and every client reconciles its local YouTube player against that snapshot. `serverTime` is the server's own clock at the instant the snapshot was captured, which lets each client compute true elapsed time independent of how long the packet took to arrive.
+
+### Latency Compensation
+Each client runs a lightweight NTP-style handshake on connect (and every few seconds after) — pinging the server, measuring round-trip time, and keeping a rolling minimum sample (since network spikes only ever inflate latency, never improve it). That one-way latency estimate is sent alongside play/seek events so the server's broadcast position already accounts for "by the time this reaches the rest of the room, the action source has moved forward."
+
+### Drift Correction
+A heartbeat re-broadcasts the live-estimated position every few seconds to catch clock drift (buffering stalls, tab throttling) before it becomes audible. Clients only force a hard `seekTo()` past a small drift threshold — small enough to feel "in sync," large enough to avoid constant disruptive seeking on every tick.
+
+## Challenges
+
+The most serious bug wasn't in the sync math itself — it was in consistency of when state gets written. Two code paths (advancing the queue automatically, and the host manually pressing play) updated room state through different logic. One of them never stamped the server-time anchor the heartbeat depends on, so after a queue auto-advance, the heartbeat silently stopped correcting drift for the rest of that track. The fix was consolidating every state mutation through one `setRoomState()` function so the anchor is always present — a good reminder that sync bugs are often consistency bugs, not math bugs.
+
+## Lessons Learned
+
+* A licensed-API dead end (Spotify) isn't always a loss — it can force a more interesting architecture problem (multi-client sync) than the "easy" path would have
+* Server-authoritative state plus a shared clock anchor beats trusting any individual client's `getCurrentTime()`
+* Centralizing every state mutation through a single setter prevents an entire class of "it works until this one code path runs" bugs

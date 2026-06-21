@@ -1,0 +1,180 @@
+---
+title: When the AI Is Down — Building a Graceful Degradation System for Gemini
+description: How I designed the AI reflection pipeline in Reverie to never surface a raw API error to the user, including error normalization across inconsistent Gemini SDK failure shapes and structured fallback content generation.
+date: 2025-01-10
+category: Project Notes
+tags: [AI Integration, Node.js, Gemini, Error Handling, System Design, Full Stack]
+relatedProjects: [reverie]
+---
+ 
+## Overview
+ 
+The core feature of Reverie is an AI-generated weekly reflection — the system reads your journal entries from the past week and synthesizes them into a warm, personal summary using Google Gemini 1.5 Flash. It sounds simple until you ask: what happens when Gemini is down? What about when the quota runs out at 11 PM on a Sunday? What if the model returns an empty string?
+ 
+I spent more time on failure handling in this pipeline than on the happy path. This note documents why, and what the degradation system looks like.
+ 
+## The Problem With External AI APIs
+ 
+Most tutorials show you the happy path: call the API, get text back, display it. What they skip is that production AI APIs fail in ways that are:
+ 
+- **Inconsistent** — different error shapes for quota errors vs auth errors vs model errors
+- **Opaque** — error messages are human-readable strings, not typed error codes
+- **Unpredictable** — quota resets at midnight, rate limits kick in mid-batch, models go into maintenance
+- **Silent** — sometimes the API returns 200 but the response body is empty or malformed
+For a cron job that runs once a week for every user, a silent failure means a user opens the app Monday morning expecting their reflection and finds nothing. That's the worst possible outcome.
+ 
+## The Gemini SDK's Inconsistent Error Surface
+ 
+The first thing I discovered was that Gemini's Node.js SDK throws errors with no consistent structure. After hitting several different failure modes during development, I catalogued what the errors actually looked like:
+ 
+```typescript
+// Quota exceeded — buried in a nested message string
+GoogleGenerativeAIError: [GoogleGenerativeAI Error]: Error fetching from
+https://generativelanguage.googleapis.com/...: [429 Too Many Requests] ...
+quota exceeded for quota metric...
+ 
+// Invalid API key — different shape entirely  
+GoogleGenerativeAIFetchError: [GoogleGenerativeAI Error]: Error fetching...
+[400 Bad Request] API key not valid...
+ 
+// Model unavailable — yet another format
+Error: The model is overloaded. Please try again later.
+```
+ 
+There's no `error.code` field. There's no typed enum. The only reliable signal is string content inside `error.message`. This is a classic problem with third-party SDKs — the SDK authors normalized their errors for readability, not programmatic handling.
+ 
+I wrote a normalizer function that extracts semantic flags from these strings:
+ 
+```typescript
+function getGeminiErrorDetails(error: unknown): {
+  possibleQuotaIssue: boolean;
+  possibleInvalidKeyIssue: boolean;
+  possibleModelIssue: boolean;
+  message: string;
+} {
+  const msg = error instanceof Error ? error.message : String(error);
+  const lower = msg.toLowerCase();
+  return {
+    possibleQuotaIssue:
+      lower.includes('quota') ||
+      lower.includes('429') ||
+      lower.includes('rate limit') ||
+      lower.includes('resource exhausted'),
+    possibleInvalidKeyIssue:
+      lower.includes('api key') ||
+      lower.includes('authentication') ||
+      lower.includes('401') ||
+      lower.includes('403'),
+    possibleModelIssue:
+      lower.includes('overloaded') ||
+      lower.includes('unavailable') ||
+      lower.includes('500') ||
+      lower.includes('503'),
+    message: msg,
+  };
+}
+```
+ 
+This is fragile by nature — Gemini could change their error message wording in a future SDK update and break these string matches. The production fix would be versioned adapter classes that isolate the SDK surface from the business logic. For this project, the string matching approach works and lets me classify failures meaningfully.
+ 
+## The Fallback Content System
+ 
+Once I had error classification, I had to decide: what does the user see when Gemini fails?
+ 
+Options I considered:
+ 
+1. **Surface the error** — "AI reflection unavailable this week." Clean, honest, useless.
+2. **Retry later** — Queue a retry job. Complex, and the user still has nothing right now.
+3. **Generate structured fallback content** — Create a reflection without AI, using the data I already have.
+I chose option 3. The reasoning: I already fetched the user's entries, computed their mood distribution, and identified the dominant mood. That data is enough to generate something genuinely useful — not as good as Gemini, but not an error screen either.
+ 
+```typescript
+function buildFallbackReflection(
+  entries: JournalEntry[],
+  moodDist: MoodDistribution,
+  dominantMood: MoodType | null,
+  errorDetails: ReturnType<typeof getGeminiErrorDetails>
+): string {
+  const entryCount = entries.length;
+  const moodLabel = dominantMood ?? 'reflective';
+ 
+  if (entryCount === 0) {
+    return `This week was quiet in your journal. Sometimes the most meaningful 
+reflection is simply noticing that you needed a break from writing. 
+Consider what you'd want to capture if you had written this week.`;
+  }
+ 
+  const moodSummary = Object.entries(moodDist)
+    .filter(([, count]) => count > 0)
+    .sort(([, a], [, b]) => b - a)
+    .map(([mood, count]) => `${count} ${mood} ${count === 1 ? 'entry' : 'entries'}`)
+    .join(', ');
+ 
+  const opening = {
+    calm:        'This was a grounded week for you.',
+    reflective:  'You spent this week turning things over in your mind.',
+    hopeful:     'There was a forward-looking quality to your writing this week.',
+    overwhelmed: 'This was a heavy week. That deserves acknowledgment.',
+  }[moodLabel];
+ 
+  return `${opening} Across ${entryCount} ${entryCount === 1 ? 'entry' : 'entries'}, 
+your mood was: ${moodSummary}. 
+ 
+Your journal is a record of showing up — even in difficult weeks. 
+Take a moment to read back through what you wrote and notice what stands out to you now.
+ 
+(This reflection was generated without AI assistance this week.)`;
+}
+```
+ 
+The last line is deliberate transparency — I considered hiding the fact that this is a fallback, but decided that being honest about it is better product design than pretending everything worked.
+ 
+## The Full Pipeline
+ 
+The complete flow in `reflection.service.ts`:
+ 
+```
+1. Compute week boundaries (Monday 00:00 → Sunday 23:59:59 UTC)
+2. Check for existing reflection — return early if found and !forceRegenerate
+3. Fetch week's journal entries for this user
+4. Compute mood distribution and dominant mood
+5. Build bounded prompt (each entry truncated to 1,500 chars)
+6. Call Gemini 1.5 Flash
+   ├── Success + non-empty text → use AI content
+   ├── Success + empty text → treat as failure, use fallback
+   └── Error → getGeminiErrorDetails() → use fallback with appropriate content
+7. Store reflection with { content, moodDistribution, dominantMood, entriesAnalyzed }
+8. Return reflection to caller
+```
+ 
+The key design decision: the caller — whether that's a direct API request or the Sunday cron job — never receives an error from the reflection service. It receives either AI-generated content or structured fallback content. The distinction is visible in the stored `content` field (the fallback appends a disclosure) but never surfaces as an HTTP error to the user.
+ 
+## The Cron Job Consideration
+ 
+The reflection pipeline runs as a `node-cron` job every Sunday at 9 PM UTC:
+ 
+```typescript
+cron.schedule('0 21 * * 0', async () => {
+  const users = await User.find({}).select('_id').lean();
+  const results = await Promise.allSettled(
+    users.map(u => reflectionService.generateReflection(u._id.toString()))
+  );
+  
+  const failed = results.filter(r => r.status === 'rejected');
+  if (failed.length > 0) {
+    console.error(`${failed.length} reflections failed completely`);
+  }
+});
+```
+ 
+`Promise.allSettled` is intentional here — I want all users processed even if some fail. A regular `Promise.all` would abort the entire batch on the first failure. The tradeoff is that all Gemini calls fire concurrently, which at scale would immediately exhaust the API quota. The correct production architecture is a job queue (BullMQ) with controlled concurrency — say, 5 concurrent Gemini calls at a time with a rate limiter. I've kept the simple version here because the current user scale doesn't require it, and I wanted to understand the problem before introducing queue infrastructure.
+ 
+## What I Learned
+ 
+The most useful mental model shift was treating external AI APIs like any other unreliable external dependency — the same way you'd treat a payment gateway or a third-party email service. You design for failure first, not as an afterthought.
+ 
+The fallback content approach felt over-engineered when I first considered it. In practice, it's what separates the feature from being "fragile" to being "robust." A user who gets structured fallback content on a week when Gemini is rate-limited still got value from the feature. A user who sees an error screen might not come back.
+ 
+The string-matching error normalizer is the thing I'd replace first if I were productionizing this. A proper adapter pattern — `interface AIReflectionProvider` with a `GeminiProvider` implementation — would let me swap providers, add failover to a second AI service, and write unit tests against the interface without touching real API credentials.
+ 
+---

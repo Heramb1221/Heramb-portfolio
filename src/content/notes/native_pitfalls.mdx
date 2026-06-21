@@ -1,0 +1,82 @@
+---
+title: React Native Performance Pitfalls — Lessons from a Full App Audit
+description: Notes from a performance and QA pass on a React Native/Expo app — hooks-in-loops violations, animation memory leaks, and layout overlap bugs that don't show up until real devices.
+date: 2025-06-12
+category: Learning Notes
+tags: [React Native, Expo, Performance, Mobile, Debugging]
+---
+
+## Why a Dedicated Performance Pass Matters
+
+Features work fine individually during development on a fast simulator. Problems show up once a full app is assembled, navigated through repeatedly, and run on an actual mid-range device — janky animations, memory creeping up over a session, layout shifting under specific screen sizes. None of these show up from reading a single component in isolation.
+
+## Hooks-in-a-Map Violations
+
+The Rules of Hooks require hooks to be called in the same order on every render. A common but easy-to-miss violation is calling a hook inside `.map()` over a dynamic list:
+
+```jsx
+// Wrong — hook called conditionally per item, count changes with list length
+data.map(item => {
+  const [expanded, setExpanded] = useState(false); // ❌
+  return <Card item={item} expanded={expanded} />;
+});
+```
+
+React doesn't always throw an obvious error for this — sometimes it just silently produces state confusion, where toggling one card's state appears to affect a different card after the list re-orders or changes length. The fix is to push the hook down into a child component, so each list item owns its own state:
+
+```jsx
+function Card({ item }) {
+  const [expanded, setExpanded] = useState(false); // ✅ one hook per component instance
+  return ( /* ... */ );
+}
+
+data.map(item => <Card key={item.id} item={item} />);
+```
+
+## Animation Memory Leaks
+
+`Animated` (and `Reanimated`) values that are created but never cleaned up on unmount keep references alive and accumulate across screen navigations — especially noticeable in a stack navigator where screens mount/unmount frequently. Two common sources:
+
+1. **Listeners not removed** — `animatedValue.addListener()` without a matching `removeListener()` in a cleanup function
+2. **Loop animations not stopped** — `Animated.loop()` left running after the component using it unmounts, since the loop keeps a reference to the animated value alive indefinitely
+
+```jsx
+useEffect(() => {
+  const id = animatedValue.addListener(({ value }) => { /* ... */ });
+  const loop = Animated.loop(Animated.timing(animatedValue, { /* ... */ }));
+  loop.start();
+
+  return () => {
+    animatedValue.removeListener(id);
+    loop.stop(); // easy to forget — leaves the loop running and the value referenced
+  };
+}, []);
+```
+
+This was the source of a gradual memory increase that only showed up after navigating between animated screens repeatedly during a manual QA pass — not visible from a single screen load.
+
+## Bottom Navigation Bar Overlap
+
+A recurring layout bug: content (especially scrollable lists or floating action buttons) rendering underneath the bottom tab bar on devices with different safe-area insets — particularly notches and gesture-nav Android devices where the safe area isn't a fixed pixel value.
+
+Fix pattern: never hardcode bottom padding for tab-bar clearance. Use `useSafeAreaInsets()` from `react-native-safe-area-context` and apply it dynamically:
+
+```jsx
+const insets = useSafeAreaInsets();
+
+<ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + TAB_BAR_HEIGHT }}>
+```
+
+Hardcoded values (`paddingBottom: 80`) work on the one device tested during development and break on anything with a different inset.
+
+## Other Patterns Worth Watching
+
+- **Unnecessary re-renders from inline functions/objects** passed as props — wrapping handlers in `useCallback` and derived objects in `useMemo` where a child is wrapped in `React.memo` and re-rendering visibly
+- **Large lists with `ScrollView` instead of `FlatList`/`FlashList`** — `ScrollView` renders everything up front; long lists need virtualization to avoid both slow initial render and high memory use
+- **Images without explicit dimensions** causing layout shift as they load, especially on slower connections
+
+## Current Progress
+
+- Completed a full performance/QA pass across all screens of an Expo app, fixing hooks-in-map violations, animation memory leaks, and the bottom nav overlap issue
+- Replaced hardcoded safe-area padding with `useSafeAreaInsets()` across affected screens
+- Next: profiling re-render counts with React DevTools Profiler to catch remaining unnecessary re-renders before they become visible jank

@@ -4,7 +4,7 @@ description: >
   A desktop audio player built with Java Swing and the Java Sound API that
   supports playback of WAV, AIFF, and AU audio files while exploring
   thread-safe UI updates, native audio resource management, and Java Platform
-  Module System (JPMS) architecture. :contentReference[oaicite:0]{index=0}
+  Module System (JPMS) architecture.
 
 category: Desktop Application
 
@@ -98,3 +98,6 @@ futureImprovements:
   - Volume controls.
   - Playlist management.
   - JavaFX migration exploration.
+
+relatedNotes:
+  - music

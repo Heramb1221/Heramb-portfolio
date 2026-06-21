@@ -1,5 +1,6 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 import { 
   getPendingRecommendations, 
@@ -196,7 +197,7 @@ export function RecommendationModerator() {
 
                 {/* Message body */}
                 <p className="text-xs text-muted-foreground leading-relaxed italic bg-background/30 rounded-lg p-3 border border-border/50">
-                  "{item.message}"
+                  &quot;{item.message}&quot;
                 </p>
 
                 {/* Moderate Action Buttons */}

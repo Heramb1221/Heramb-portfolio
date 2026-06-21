@@ -2,7 +2,6 @@
 
 import { useState, useRef } from "react";
 import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
 
 interface Node {
@@ -344,9 +343,6 @@ export function SkillGraph({
               const isDimmed = currentFocus && !isHighlighted;
 
               const isSystems = node.category === "data" || node.category === "platform";
-              const accentColorClass = isSystems 
-                ? "text-accent-systems" 
-                : "text-accent-creative";
 
               const glowFilter = isSelected
                 ? isSystems

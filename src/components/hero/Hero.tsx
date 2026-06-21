@@ -95,7 +95,7 @@ export function Hero() {
                 <span className="text-accent">Atlas.</span>
               </h1>
               <p className="font-mono text-sm uppercase tracking-widest text-muted-foreground mt-2">
-                Heramb Chaudhari // Full Stack Engineer
+                Heramb Chaudhari // Software Engineer
               </p>
             </motion.div>
 
@@ -104,9 +104,7 @@ export function Hero() {
               variants={staggerItem}
               className="max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg mt-2"
             >
-              I build scalable full-stack applications — from real-time platforms
-              and mobile apps to SaaS products. Focused on clean architecture,
-              engineering depth, and software that solves real problems.
+              A computer engineering student exploring ideas through code. From real-time platforms and mobile apps to developer tools and experiments, I build projects to understand how great software works.
             </motion.p>
 
             {/* CTA buttons */}

@@ -1,0 +1,62 @@
+---
+title: Real-Time Sync Is Harder Than It Looks — Clock Drift, RTT, and Server Authority
+description: Notes on building real-time collaborative features with Socket.IO and WebRTC, and why naive timestamp-based sync falls apart under real network conditions.
+date: 2025-05-30
+category: Learning Notes
+tags: [Socket.IO, WebRTC, Real-Time Systems, Backend, Networking]
+---
+
+## The Naive Approach (and Why It Breaks)
+
+The first instinct when syncing playback position (or any shared real-time state) across clients is: client sends its current timestamp, server broadcasts it to everyone else, done. This works in a demo on localhost and falls apart immediately on real networks, for one core reason — **every client's clock and network latency are different**, so a raw timestamp means something different to each recipient.
+
+## Why Client Timestamps Lie
+
+Two problems compound here:
+
+1. **Clock skew** — client device clocks aren't synchronized with each other or the server. A timestamp from client A means nothing meaningful compared to a timestamp from client B.
+2. **Network latency (RTT)** — the time for a message to travel client → server → client isn't zero, and it isn't constant. A message that took 40ms to arrive vs one that took 200ms needs to be interpreted differently if precise sync matters.
+
+## Server-Authoritative Position Estimation
+
+The fix is to stop trusting client-reported timestamps as ground truth and instead make the **server the single source of truth** for "what time is it, really, in this shared session." Clients report events (play, pause, seek) and the server timestamps them on arrival, then broadcasts a server-relative position that every client reconciles against its own estimated offset from server time — rather than broadcasting a client's raw self-reported timestamp.
+
+## NTP-Style Clock Sync
+
+Borrowed directly from how NTP (Network Time Protocol) solves this same problem:
+
+1. Client sends a request to the server with its local timestamp `t0`
+2. Server receives it at `t1`, processes, and responds at `t2`, attaching both `t1` and `t2`
+3. Client receives the response at `t3`
+
+From these four timestamps:
+
+```
+round_trip_time = (t3 - t0) - (t2 - t1)
+clock_offset = ((t1 - t0) + (t2 - t3)) / 2
+```
+
+The clock offset gives an estimate of how far off the client's clock is from the server's, and the round-trip time gives a confidence measure — a noisy/high RTT sample should be weighted less or discarded. Running this exchange a handful of times on connection (and periodically afterward) and taking a filtered average produces a much more stable offset than a single sample.
+
+## Drift Compensation
+
+Even with a good initial offset, clocks drift over time — they don't tick at exactly the same rate. Periodically re-running the sync exchange and smoothing the offset (rather than snapping to the new value instantly) avoids visible jumps in playback position. A simple exponential moving average on the offset works well enough for this without needing a full Kalman filter.
+
+## Where WebRTC Fits In
+
+Socket.IO (over WebSockets, relayed through the server) is the right tool for state sync — small, ordered, server-mediated messages like play/pause/seek events. It's the wrong tool for actual media transport (video/audio) because every frame would have to be relayed through the server, adding latency and server bandwidth cost for no benefit.
+
+WebRTC's peer-to-peer data channels solve that specific problem — once two clients have exchanged connection info (via the existing Socket.IO server acting as a signaling channel), media flows directly between them. The split that's made the most sense: **Socket.IO for signaling and authoritative state, WebRTC for the actual media stream.**
+
+## Open Questions / Still Scoping
+
+- NAT traversal reliability across different network types (STUN works for most cases, but symmetric NATs need TURN as fallback)
+- Whether to mesh peer connections (fine for small rooms) or move to an SFU once room sizes grow past a handful of participants
+- Reconciling WebRTC's own internal media sync with the existing server-authoritative position state, so video doesn't drift independently of the audio/playback sync already in place
+
+## Current Progress
+
+- Implemented server-authoritative position estimation, replacing naive client-timestamp broadcasting
+- Added NTP-style RTT measurement and clock offset calculation on connect
+- Tightened drift compensation using a smoothed offset instead of instant snapping
+- Next: scoping WebRTC video rooms on top of the existing signaling infrastructure

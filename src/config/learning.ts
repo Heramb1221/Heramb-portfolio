@@ -27,7 +27,7 @@ export const learningItems: LearningItem[] = [
     name: ".NET / ASP.NET Core",
     category: "Backend",
     description:
-      "Building REST APIs and web applications using ASP.NET Core, exploring the C# ecosystem and Entity Framework.",
+      "Learning the Microsoft ecosystem through ASP.NET Core, Entity Framework, dependency injection, and modern backend architecture.",
     status: "Learning",
   },
   {
@@ -35,39 +35,39 @@ export const learningItems: LearningItem[] = [
     name: "Docker",
     category: "DevOps",
     description:
-      "Containerising applications, writing Dockerfiles, and managing multi-container apps with Docker Compose.",
+      "Learning containerisation, Dockerfiles, Docker Compose, and reproducible development environments for modern applications.",
     status: "Exploring",
   },
   {
-    id: "azure",
-    name: "Microsoft Azure",
+    id: "kubernetes",
+    name: "Kubernetes",
+    category: "DevOps",
+    description:
+      "Exploring container orchestration, scaling strategies, service discovery, and production deployment workflows.",
+    status: "Exploring",
+  },
+  {
+    id: "aws",
+    name: "AWS",
     category: "Cloud",
     description:
-      "Learning cloud fundamentals — compute, storage, and deployment pipelines — through the Azure Fundamentals path.",
-    status: "Exploring",
+      "Learning cloud fundamentals, deployment workflows, and managed services to understand how applications operate in production.",
+    status: "Learning",
   },
   {
     id: "system-design",
     name: "System Design",
     category: "System Design",
     description:
-      "Studying scalable system architecture — load balancing, caching, databases at scale, and distributed systems.",
+      "Studying scalable architectures, caching, load balancing, distributed systems, and database design trade-offs.",
     status: "Practicing",
-  },
-  {
-    id: "csharp",
-    name: "C#",
-    category: "Language",
-    description:
-      "Learning C# as the primary language for .NET development — OOP patterns, LINQ, and async programming.",
-    status: "Learning",
   },
   {
     id: "postgres",
     name: "PostgreSQL",
     category: "Backend",
     description:
-      "Expanding beyond MongoDB to understand relational database design, SQL optimisation, and Prisma ORM.",
+      "Expanding beyond MongoDB to understand relational modeling, query optimisation, indexing strategies, and advanced SQL concepts.",
     status: "Practicing",
   },
 ];

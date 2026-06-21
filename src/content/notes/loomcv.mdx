@@ -1,0 +1,133 @@
+---
+title: Integrating Stripe Webhooks into a Next.js SaaS — What Actually Goes Wrong
+description: A practical account of the real problems I hit while wiring up Stripe subscriptions and webhooks in LoomCV — from event ordering surprises to local testing quirks.
+date: 2024-12-10
+category: Project Notes
+tags: [Next.js, Stripe, Webhooks, SaaS, TypeScript, PostgreSQL, Full Stack]
+relatedProjects: [loomcv]
+---
+
+## Overview
+
+LoomCV is an AI-powered resume builder with a freemium subscription model. Users pay for Pro or Pro Plus tiers to unlock AI content generation and design customizations. Wiring up Stripe felt straightforward on paper — create a checkout session, user pays, grant access. In practice, getting the webhook lifecycle right took considerably more debugging than I expected. This note documents the specific problems I hit and how I reasoned through them.
+
+## Architecture
+
+Stripe integration in LoomCV has two sides. The client-facing side is a Next.js Server Action that creates a Stripe Checkout session and redirects the user to Stripe's hosted payment page. The backend side is a single API route at `/api/stripe-webhook` that receives POST requests from Stripe and updates the local `UserSubscription` table in PostgreSQL. A `getUserSubscriptionLevel` function reads that table on every request to determine what each user can access.
+User clicks Upgrade
+
+→ createCheckoutSession() Server Action
+
+→ stripe.checkout.sessions.create()
+
+→ Redirect to Stripe-hosted checkout page
+
+→ User pays
+
+→ Stripe sends POST to /api/stripe-webhook (async, independent)
+
+→ Webhook handler verifies signature
+
+→ Upserts UserSubscription row in PostgreSQL
+
+→ User now has Pro access
+
+The critical thing I had to internalize early: the checkout success redirect and the webhook are completely independent. The redirect happens immediately after payment. The webhook arrives separately, on Stripe's schedule.
+
+## Key Engineering Decisions
+
+### Treating Webhooks as the Source of Truth
+
+My first instinct was to grant subscription access on the `success_url` redirect — the user paid, they're landing on a success page, so upgrade them. This is wrong.
+
+The redirect is a UX signal, not a payment confirmation. It fires as soon as the user completes the Stripe form, before Stripe has fully processed the payment. The webhook is the authoritative signal that money actually moved and a subscription was created.
+
+I restructured the flow so the `success_url` shows a "payment processing" message, and actual access is granted only after the `checkout.session.completed` webhook is received and processed. In practice the webhook arrives within a second or two, so users barely notice.
+
+### Signature Verification Before Anything Else
+
+The webhook route is a public POST endpoint — anyone can hit it. Stripe provides a `STRIPE_WEBHOOK_SECRET` that lets you verify requests are genuinely from Stripe using HMAC-SHA256.
+
+```typescript
+const signature = req.headers["stripe-signature"]
+const event = stripe.webhooks.constructEvent(
+  rawBody,
+  signature,
+  env.STRIPE_WEBHOOK_SECRET
+)
+```
+
+The `constructEvent` call throws if the signature is invalid. I wrapped the entire route handler in try/catch so invalid requests return a 400 immediately. One non-obvious requirement: this function needs the **raw request body as a Buffer**, not the parsed JSON. Next.js parses the body by default, which invalidates the signature. I had to opt out of body parsing for this specific route.
+
+### Handling the Full Subscription Lifecycle
+
+Stripe doesn't just send one event — it sends events throughout the subscription's life. I needed to handle four:
+
+| Event | What it means | What I do |
+|---|---|---|
+| `checkout.session.completed` | Payment succeeded | Store `stripeCustomerId` in Clerk user metadata |
+| `customer.subscription.created` | Subscription object created | Upsert `UserSubscription` row with plan and period end |
+| `customer.subscription.updated` | Plan changed, renewal processed, cancellation scheduled | Update plan, period end, and cancellation flag |
+| `customer.subscription.deleted` | Subscription ended | Delete `UserSubscription` row — user reverts to free |
+
+The `subscription.updated` event does most of the work. Every renewal — Stripe charges the card and fires `subscription.updated` with a new `current_period_end`. My permission check compares `stripeCurrentPeriodEnd` against `new Date()`, so subscriptions automatically expire if the renewal fails and Stripe eventually cancels.
+
+## Challenges
+
+### Events Arrive Out of Order
+
+This was the most surprising problem. I assumed events would arrive in chronological order: `checkout.session.completed` first, then `customer.subscription.created`. In testing, I consistently saw them arrive in the opposite order.
+
+This matters because `checkout.session.completed` is where I store `stripeCustomerId` in Clerk user metadata, and `customer.subscription.created` is where I create the local subscription record. If the subscription record is created before the customer ID is stored, users could temporarily find the billing portal broken — it reads `stripeCustomerId` from Clerk metadata to create a Customer Portal session.
+
+My solution: the subscription record itself stores everything needed for access checks (`userId`, `stripePriceId`, `stripeCurrentPeriodEnd`). The `stripeCustomerId` in Clerk metadata is only used for the Customer Portal, which users don't visit immediately after subscribing. By the time they navigate to billing, both events have processed. A more robust fix would store `stripeCustomerId` in the `UserSubscription` table itself, removing the Clerk dependency entirely — that's on the roadmap.
+
+### Local Webhook Testing
+
+In development, `localhost` is not accessible to Stripe's servers. Stripe provides a CLI that tunnels webhook events to a local port:
+
+```bash
+stripe listen --forward-to localhost:3000/api/stripe-webhook
+```
+
+This command outputs a temporary webhook signing secret that's different from the production one in the Stripe Dashboard. I spent an embarrassing amount of time with signature verification failures before realizing I had the production `STRIPE_WEBHOOK_SECRET` in my `.env.local` instead of the CLI-provided temporary secret. The fix is to always copy the secret from the `stripe listen` output when testing locally.
+
+The CLI also has a `stripe trigger` command that fires test events without going through the checkout flow:
+
+```bash
+stripe trigger customer.subscription.created
+```
+
+This was invaluable for testing the `subscription.deleted` path — I didn't have to set up a real subscription and wait for a payment cycle to cancel.
+
+### The Raw Body Problem in Next.js
+
+Next.js App Router parses request bodies automatically. Stripe's `constructEvent` requires the raw unparsed Buffer to verify the signature — a parsed JSON object won't produce the correct HMAC hash.
+
+The fix is to disable body parsing for the webhook route specifically and read the raw buffer directly:
+
+```typescript
+export const config = {
+  api: { bodyParser: false },
+}
+
+const rawBody = await req.arrayBuffer()
+const body = Buffer.from(rawBody)
+```
+
+Without this, every webhook request fails signature verification with a cryptic error that doesn't mention body parsing at all. This took me longer to diagnose than I'd like to admit.
+
+### Idempotency
+
+Stripe guarantees at-least-once delivery — if your server returns anything other than a 2xx, Stripe retries the event. I needed to make sure processing the same event twice didn't cause problems.
+
+For `subscription.created` and `subscription.updated`, I use Prisma's `upsert` — idempotent by definition. For `subscription.deleted`, `deleteMany` with a `where` clause is safe to call multiple times. The one non-idempotent operation is the Clerk `updateUserMetadata` call in `handleSessionCompleted` — if that event fires twice, it writes the same `stripeCustomerId` twice, which is harmless but wasteful. A proper fix would store processed event IDs in a `ProcessedWebhookEvent` table and skip already-seen events.
+
+## Lessons Learned
+
+- The `success_url` redirect is UX, not payment confirmation — never grant access based on it
+- Webhooks arrive out of order; design your data model so each event can be processed independently without depending on another event having run first
+- The Stripe CLI's temporary signing secret is different from the Dashboard secret — use the CLI output when testing locally
+- Raw body preservation for signature verification is not optional; Next.js body parsing silently breaks it
+- `upsert` makes subscription event handlers naturally idempotent — prefer it over separate create/update logic
+- Test every event type explicitly with `stripe trigger` before shipping — the happy path is easy; the cancellation and renewal paths have subtle edge cases

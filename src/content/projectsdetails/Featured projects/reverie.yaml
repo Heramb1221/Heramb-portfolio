@@ -118,3 +118,7 @@ futureImprovements:
   - Automated testing suite.
   - CI/CD pipelines.
   - Docker containerization.
+
+relatedNotes:
+  - backend_strategy-reverie
+  - gemini_problem

@@ -11,7 +11,6 @@ export function CustomCursor() {
   const labelRef = useRef<HTMLDivElement>(null);
   
   const [label, setLabel] = useState("");
-  const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
 
   useEffect(() => {
@@ -53,7 +52,6 @@ export function CustomCursor() {
       const interactiveEl = target.closest("[data-cursor], a, button, [role='button']");
 
       if (interactiveEl) {
-        setIsHovered(true);
         const cursorType = interactiveEl.getAttribute("data-cursor");
         
         if (cursorType) {
@@ -107,7 +105,6 @@ export function CustomCursor() {
       const interactiveEl = target.closest("[data-cursor], a, button, [role='button']");
 
       if (interactiveEl) {
-        setIsHovered(false);
         setLabel("");
         // Reset cursor to default
         gsap.to(ringRef.current, {

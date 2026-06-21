@@ -29,7 +29,6 @@ export const skillCategories: SkillCategory[] = [
       "Expo",
       "TypeScript",
       "Tailwind CSS",
-      "Framer Motion",
       "Electron",
     ],
   },
@@ -59,7 +58,6 @@ export const skillCategories: SkillCategory[] = [
       "PostgreSQL",
       "Prisma ORM",
       "Convex",
-      "Firebase",
     ],
   },
   {
@@ -97,6 +95,6 @@ export const skillCategories: SkillCategory[] = [
     title: "Currently Learning",
     icon: BookOpen,
     iconLabel: "Technologies currently being learned",
-    skills: [".NET", "Docker", "Azure", "System Design", "C#"],
+    skills: [".NET", "Docker", "AWS", "System Design"],
   },
 ];

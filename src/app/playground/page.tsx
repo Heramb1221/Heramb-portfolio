@@ -3,7 +3,6 @@ import Link from "next/link";
 import { FlaskConical, ArrowLeft } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { siteUrl } from "@/lib/url";
 
 export const metadata: Metadata = {
   title: "Playground",

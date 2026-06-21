@@ -99,10 +99,7 @@ futureImprovements:
   - API rate limiting.
   - Error boundaries.
   - Full-text search.
-  - Snippet forking.
-  - Server-side execution proxy.
-  - Visibility and privacy controls.
   - Collaborative editing.
-  - CRDT/OT synchronization.
-  - GitHub Gist integration.
-  - Organization workspaces.
+
+relatedNotes:
+  - execution-coditor
