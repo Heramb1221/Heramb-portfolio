@@ -46,17 +46,17 @@ export function HeroVisual() {
           {/* Subtle gradient overlay to blend photo with theme & improve text contrast */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-background/10 z-10" />
 
-          {/* Floating tech chips */}
+          {/* Floating tech chips
           <TechChip className="absolute left-5 top-5 z-20">TypeScript</TechChip>
           <TechChip className="absolute right-5 top-5 z-20">React</TechChip>
           <TechChip className="absolute bottom-5 left-5 z-20">Node.js</TechChip>
-          <TechChip className="absolute bottom-5 right-5 z-20">Next.js</TechChip>
+          <TechChip className="absolute bottom-5 right-5 z-20">Next.js</TechChip> */}
         </div>
 
         {/* Status indicator */}
         <div
           className={cn(
-            "absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap",
+            "absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap",
             "flex items-center gap-2 rounded-full border border-border",
             "bg-background px-4 py-1.5 shadow-sm",
           )}
