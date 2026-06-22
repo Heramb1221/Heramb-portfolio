@@ -6,7 +6,7 @@ export const siteConfig = {
   description:
     "Computer Engineering student passionate about full-stack development and building scalable applications. Open to internships and software development opportunities.",
   tagline: "Software Engineering Through Continuous Learning",
-  url: "https://heramb-portfolio.vercel.app",
+  url: "https://www.herambchaudhari.xyz",
   ogImage: "/og.png",
   keywords: [
     "Heramb Chaudhari",
