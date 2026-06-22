@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { Suspense } from "react";
 import { getProjectCount, getFeaturedProjects } from "@/lib/projects";
 import { getAchievements, getCertifications } from "@/lib/content";

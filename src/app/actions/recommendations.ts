@@ -3,6 +3,7 @@
 import clientPromise from "@/lib/db";
 import { ObjectId } from "mongodb";
 import { getRecommendations as getStaticRecommendations } from "@/lib/content";
+import { revalidatePath } from "next/cache";
 
 export interface RecommendationPayload {
   name: string;
@@ -55,6 +56,7 @@ export async function submitRecommendation(payload: RecommendationPayload) {
 }
 
 export async function getApprovedRecommendations(): Promise<RecommendationDoc[]> {
+  let dbRecs: RecommendationDoc[] = [];
   try {
     const client = await clientPromise;
     const db = client.db();
@@ -65,24 +67,22 @@ export async function getApprovedRecommendations(): Promise<RecommendationDoc[]>
       .sort({ createdAt: -1 })
       .toArray();
 
-    if (docs.length > 0) {
-      return docs.map((d) => ({
-        id: d._id.toString(),
-        name: d.name,
-        role: d.role,
-        organization: d.organization,
-        message: d.message,
-        avatar: d.avatar || null,
-        approved: true,
-        createdAt: d.createdAt ? new Date(d.createdAt).toISOString() : new Date().toISOString(),
-      }));
-    }
+    dbRecs = docs.map((d) => ({
+      id: d._id.toString(),
+      name: d.name,
+      role: d.role,
+      organization: d.organization,
+      message: d.message,
+      avatar: d.avatar || null,
+      approved: true,
+      createdAt: d.createdAt ? new Date(d.createdAt).toISOString() : new Date().toISOString(),
+    }));
   } catch (error) {
-    console.warn("[recommendations] DB query failed, falling back to static content:", error);
+    console.warn("[recommendations] DB query failed, using static content only:", error);
   }
 
   const staticRecs = getStaticRecommendations();
-  return staticRecs.map((r, index) => ({
+  const staticRecsMapped: RecommendationDoc[] = staticRecs.map((r, index) => ({
     id: `static-${index}`,
     name: r.name,
     role: r.role,
@@ -90,8 +90,10 @@ export async function getApprovedRecommendations(): Promise<RecommendationDoc[]>
     message: r.message,
     avatar: r.avatar,
     approved: true,
-    createdAt: new Date().toISOString(),
+    createdAt: new Date(0).toISOString(),
   }));
+
+  return [...dbRecs, ...staticRecsMapped];
 }
 
 export async function getPendingRecommendations(moderatorKey: string) {
@@ -148,6 +150,9 @@ export async function approveRecommendation(id: string, moderatorKey: string) {
       return { success: false, message: "Recommendation not found." };
     }
 
+    revalidatePath("/");
+    revalidatePath("/recommendations");
+
     return { success: true, message: "Recommendation approved and live!" };
   } catch (error) {
     console.error("[recommendations] Approve error:", error);
@@ -171,6 +176,9 @@ export async function deleteRecommendation(id: string, moderatorKey: string) {
     if (result.deletedCount === 0) {
       return { success: false, message: "Recommendation not found." };
     }
+
+    revalidatePath("/");
+    revalidatePath("/recommendations");
 
     return { success: true, message: "Recommendation deleted successfully." };
   } catch (error) {
