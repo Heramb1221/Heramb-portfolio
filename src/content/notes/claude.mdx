@@ -1,0 +1,338 @@
+---
+title: Building Websites with Claude — A Developer's Workflow
+description: Notes on using Claude effectively for web development — why structured planning files, phased builds, and a strong PRD make all the difference.
+date: 2026-06-24
+category: Learning Notes
+tags: [Claude, AI, Workflow, Web Development, Planning]
+---
+
+## Why Structured Prompting Matters
+
+Using Claude to vibe-code a quick script is easy. Using Claude to build a real, maintainable web application — with consistent design, clean architecture, and features that don't regress each other — is a different discipline entirely.
+
+The core insight: **Claude has no persistent memory across sessions.** Every conversation starts fresh. Without structure, you end up re-explaining your app, re-describing your color palette, and watching Claude make decisions that contradict what it decided three sessions ago.
+
+The solution is to treat your planning documents as Claude's long-term memory. Write things down, keep them updated, and paste the relevant files at the start of every session.
+
+---
+
+## Start with a PRD
+
+Before writing a single line of code, write a Product Requirements Document. This is not overhead — it is the most valuable artifact you will produce.
+
+A PRD forces you to answer the questions Claude cannot answer for you:
+
+- What problem does this product solve?
+- Who are the users and what are their goals?
+- What are the core features, and what is explicitly out of scope?
+- What does success look like?
+
+Without a PRD, Claude will make assumptions to fill the gaps — and those assumptions will be inconsistent across sessions. With a PRD, every session starts from the same ground truth.
+
+**Minimal PRD structure:**
+
+```markdown
+## Product Overview
+One paragraph. What is this, who is it for, what does it do.
+
+## Goals
+- Primary goal
+- Secondary goals
+
+## Users & Use Cases
+Who uses this, and what are they trying to accomplish.
+
+## Core Features
+- Feature A — brief description
+- Feature B — brief description
+
+## Out of Scope
+Explicitly list what you are NOT building.
+
+## Success Criteria
+How do you know when this is done?
+```
+
+Keep it short. A PRD that is never read is useless. One page is better than five.
+
+---
+
+## Write an Implementation Plan
+
+Once the PRD is solid, write an implementation plan. This breaks the build into **phases** — ordered chunks of work where each phase produces something functional before moving to the next.
+
+Phases matter because:
+
+1. Claude works best on focused, bounded tasks. "Build my entire app" is a bad prompt. "Build the auth flow as described in Phase 2" is a great one.
+2. Phases give you natural checkpoints to review, test, and course-correct before complexity compounds.
+3. When a session goes sideways, you know exactly where you are and what comes next.
+
+**Example phase structure for a SaaS app:**
+
+```markdown
+## Phase 1 — Foundation
+- Project scaffold, folder structure, environment setup
+- Design system: tokens, typography, spacing, component primitives
+- Routing skeleton with placeholder pages
+
+## Phase 2 — Authentication
+- Sign up, log in, log out flows
+- Protected routes
+- Session management
+
+## Phase 3 — Core Feature (MVP)
+- Primary user flow end-to-end
+- API integration
+- Basic error handling
+
+## Phase 4 — Supporting Features
+- Secondary flows
+- Edge cases and validation
+
+## Phase 5 — Polish
+- Empty states, loading states, error states
+- Responsiveness
+- Accessibility pass
+- Performance
+
+## Phase 6 — Launch Prep
+- Environment variables
+- Deployment config
+- Final QA
+```
+
+Never start Phase N+1 until Phase N is working. This sounds obvious but is easy to skip when Claude makes the next phase look trivially easy to start.
+
+---
+
+## The Planning Files System
+
+This is the core habit. Before touching code, create a `/docs` folder (or `/_planning`) in your project root. Populate it with dedicated markdown files — one concern per file.
+
+Each file serves two purposes: it documents decisions, and it's the context you paste into Claude at the start of a session.
+
+### `PRD.md`
+The product requirements document. Living document — update it when scope changes.
+
+### `architecture.md`
+The high-level technical structure of your app.
+
+```markdown
+## Stack
+- Frontend: React 19 + Vite
+- Backend: Node.js / Express 5
+- Database: MongoDB (Mongoose)
+- Auth: JWT + httpOnly cookies
+- Hosting: Vercel (frontend), Railway (backend)
+
+## Folder Structure
+frontend/
+  src/
+    components/    # Reusable UI
+    pages/         # Route-level components
+    hooks/         # Custom hooks
+    lib/           # API client, utils
+    context/       # Global state
+
+backend/
+  routes/          # Express routers
+  controllers/     # Request handlers
+  services/        # Business logic
+  models/          # Mongoose schemas
+  middleware/      # Auth, error handling
+
+## Key Conventions
+- All API calls go through src/lib/api.js
+- Components never call fetch directly
+- Services own all business logic; controllers are thin
+```
+
+When Claude knows this structure, it generates files in the right places and names things consistently.
+
+### `design.md`
+Your visual design system. This file prevents Claude from inventing a new color palette every session.
+
+```markdown
+## Color Palette
+- Background: #0F0F0F
+- Surface: #1A1A1A
+- Border: #2A2A2A
+- Primary: #6366F1 (indigo)
+- Primary Hover: #4F46E5
+- Text Primary: #F5F5F5
+- Text Secondary: #A1A1AA
+- Destructive: #EF4444
+- Success: #22C55E
+
+## Typography
+- Font Family: Inter (system fallback: -apple-system, sans-serif)
+- Scale: 12 / 14 / 16 / 18 / 24 / 32 / 48px
+- Weight: 400 (body), 500 (medium), 600 (semibold)
+
+## Border Radius
+- Small: 4px (inputs, badges)
+- Medium: 8px (cards, modals)
+- Large: 12px (panels)
+- Full: 9999px (pills, avatars)
+
+## Shadows
+- Card: 0 1px 3px rgba(0,0,0,0.3)
+- Modal: 0 8px 32px rgba(0,0,0,0.5)
+
+## Component Style Notes
+- Buttons: solid fill for primary, ghost for secondary, always 36px height
+- Inputs: 1px border, focus ring uses Primary at 30% opacity
+- Cards: Surface background, Border color border, Medium radius
+```
+
+The more precise this file, the more consistent Claude's output will be.
+
+### `spacing.md`
+Spacing deserves its own file because it is the most common source of visual inconsistency.
+
+```markdown
+## Spacing Scale
+Base unit: 4px
+
+4px   — xs: tight label gaps, icon padding
+8px   — sm: inline spacing, compact list items
+12px  — md-sm: between related elements
+16px  — md: standard padding, card gap
+24px  — lg: section gaps, card padding
+32px  — xl: between major sections
+48px  — 2xl: hero padding, page-level gaps
+64px  — 3xl: large section breaks
+96px  — 4xl: full-section vertical rhythm
+
+## Layout
+- Page max-width: 1200px, centered
+- Page horizontal padding: 24px (mobile), 48px (desktop)
+- Grid: 12-column, 24px gap
+
+## Component Spacing Rules
+- Form fields: 16px gap between fields, 8px between label and input
+- Card content: 24px padding
+- Button padding: 12px vertical, 20px horizontal
+- Nav height: 64px
+- Sidebar width: 240px
+```
+
+### `components.md`
+A catalogue of components you've built and their intended usage. Prevents Claude from recreating components that already exist.
+
+```markdown
+## Available Components
+
+### Button
+Props: variant (primary | secondary | ghost | destructive), size (sm | md | lg), loading, disabled
+Usage: All interactive actions. Never use raw <button> tags in pages.
+
+### Card
+Props: padding (default 24px), hoverable (adds cursor + shadow transition)
+Usage: Content grouping. Don't nest cards.
+
+### Modal
+Props: open, onClose, title, size (sm | md | lg)
+Usage: Confirmations, forms that don't warrant a new page.
+
+### Input / TextArea / Select
+Props: label, error, hint, required
+Usage: Always use these, never raw HTML form elements.
+
+### Badge
+Props: variant (default | success | warning | destructive)
+Usage: Status indicators only.
+
+### Spinner
+Props: size (sm | md | lg)
+Usage: Loading states inside buttons or content areas.
+```
+
+### `api.md`
+Documents your backend API contracts. Keeps Claude from inventing endpoints.
+
+```markdown
+## Base URL
+Development: http://localhost:5000/api
+Production: https://api.yourapp.com/api
+
+## Auth
+All protected routes require: Authorization: Bearer <token>
+
+## Endpoints
+
+### POST /auth/register
+Body: { name, email, password }
+Response: { user, token }
+
+### POST /auth/login
+Body: { email, password }
+Response: { user, token }
+
+### GET /users/me
+Response: { user }
+
+### GET /items
+Query: page, limit, search
+Response: { items: [], total, page }
+
+### POST /items
+Body: { title, description }
+Response: { item }
+
+### PATCH /items/:id
+Body: partial item fields
+Response: { item }
+
+### DELETE /items/:id
+Response: { success: true }
+```
+
+### `decisions.md`
+A running log of non-obvious choices and why you made them. Invaluable when you return after weeks away, or when Claude starts second-guessing an earlier decision.
+
+```markdown
+## Decision Log
+
+### 2025-01-10 — JWT over sessions
+Chose stateless JWT auth because this API will also serve a mobile app.
+Tokens stored in httpOnly cookies on web, SecureStore on mobile.
+
+### 2025-01-12 — No Redux, using Context + useReducer
+State is simple enough that Redux adds overhead without value.
+Revisit if we add collaborative features.
+
+### 2025-01-15 — Optimistic updates on item mutations
+UX feels significantly faster. Risk of inconsistency is low given
+the data model. Using React Query's onMutate for rollback.
+```
+
+---
+
+## How to Use These Files with Claude
+
+At the start of every session, paste the relevant files. Not all of them — the ones that matter for today's work.
+
+**Starting a design session:**
+> "Here is my design system: [paste design.md] and spacing guide: [paste spacing.md]. Build the Dashboard page as described in Phase 3 of my implementation plan: [paste that section]."
+
+**Starting a backend session:**
+> "Here is my architecture: [paste architecture.md] and API contracts: [paste api.md]. Implement the /items endpoints."
+
+**Fixing a bug:**
+> "Here is my architecture: [paste architecture.md]. The item deletion is not removing the item from the UI immediately. Here's the component: [paste code]."
+
+The pattern is: give Claude the context it needs, nothing more, nothing less, and ask for one clearly scoped thing.
+
+---
+
+## Workflow Summary
+
+1. **Write the PRD** — define the product before any code
+2. **Write the implementation plan** — break it into phases
+3. **Create your planning files** — `architecture.md`, `design.md`, `spacing.md`, `components.md`, `api.md`, `decisions.md`
+4. **Build phase by phase** — finish and test each phase before starting the next
+5. **Paste context at session start** — treat your docs as Claude's working memory
+6. **Update docs as you go** — when you make a decision, write it down
+
+The overhead of this system pays for itself by the third session. Without it, you will spend more time re-orienting Claude than you spend building. With it, Claude becomes genuinely fast to work with — because it is never guessing about context that you have already figured out.
